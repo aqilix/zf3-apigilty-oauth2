@@ -1,14 +1,32 @@
 <?php
-/**
- * Local Configuration Override
- *
- * This configuration override file is for overriding environment-specific and
- * security-sensitive configuration information. Copy this file without the
- * .dist extension at the end and populate values as needed.
- *
- * @NOTE: This file is ignored from Git by default with the .gitignore included
- * in ZendSkeletonApplication. This is a good practice, as it prevents sensitive
- * credentials from accidentally being committed into version control.
- */
-
-return [];
+return [
+    'db' => [
+        'adapters' => [
+            'zf3_mysql' => [
+                'database' => '',
+                'driver' => 'PDO_Mysql',
+                'hostname' => 'localhost',
+                'username' => '',
+                'password' => '',
+                'port' => '3306',
+                'dsn' => 'mysql:dbname=;host=',
+            ],
+        ],
+    ],
+    'zf-mvc-auth' => [
+        'authentication' => [
+            'adapters' => [
+                'oauth2 pdo' => [
+                    'adapter' => \ZF\MvcAuth\Authentication\OAuth2Adapter::class,
+                    'storage' => [
+                        'adapter' => \pdo::class,
+                        'dsn' => 'mysql:dbname=;host=',
+                        'route' => '/oauth',
+                        'username' => '',
+                        'password' => '',
+                    ],
+                ],
+            ],
+        ],
+    ],
+];
