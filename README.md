@@ -1,5 +1,5 @@
-Apigility Skeleton Application
-==============================
+ZF3, Apigility, OAuth2  Skeleton Application
+=================================
 
 Requirements
 ------------
@@ -9,28 +9,6 @@ Please see the [composer.json](composer.json) file.
 Installation
 ------------
 
-### Via release tarball
-
-Grab the latest release via the [Apigility website](http://apigility.org/)
-and/or the [releases page](https://github.com/zfcampus/zf-apigility-skeleton/releases); each release
-has distribution tarballs and zipballs available.
-
-Untar it:
-
-```bash
-$ tar xzf zf-apigility-skeleton-{version}.tgz
-```
-
-(Where `{version}` is the version you downloaded.)
-
-Or unzip, if you chose the zipball:
-
-```bash
-$ unzip zf-apigility-skeleton-{version}.zip
-```
-
-(Where `{version}` is the version you downloaded.)
-
 ### Via Composer (create-project)
 
 You can use the `create-project` command from [Composer](http://getcomposer.org/)
@@ -38,7 +16,7 @@ to create the project in one go (you need to install [composer](https://getcompo
 
 ```bash
 $ curl -s https://getcomposer.org/installer | php -- --filename=composer
-$ composer create-project -sdev zfcampus/zf-apigility-skeleton path/to/install
+$ ./composer create-project -sdev aqilix/zf3-apigilty-oauth2 path/to/install
 ```
 
 ### Via Git (clone)
@@ -46,7 +24,7 @@ $ composer create-project -sdev zfcampus/zf-apigility-skeleton path/to/install
 First, clone the repository:
 
 ```bash
-# git clone https://github.com/zfcampus/zf-apigility-skeleton.git # optionally, specify the directory in which to clone
+# git clone https://github.com/aqilix/zf3-apigilty-oauth2.git # optionally, specify the directory in which to clone
 $ cd path/to/install
 ```
 
@@ -54,10 +32,145 @@ At this point, you need to use [Composer](https://getcomposer.org/) to install
 dependencies. Assuming you already have Composer:
 
 ```bash
-$ composer install
+$ ./composer install
 ```
 
-### All methods
+### Database Configuration
+After all dependencies installed, need to prepare database for **Authentication & Authorization** using **OAuth2**.
+
+Assuming you have create database `(eg: api_project)`. Please import these tables into database
+
+```
+$ mysql -h <dbhost> -u <dbuser> -p<password> api_project < vendor/zfcampus/zf-oauth2/data/db_oauth2.sql
+```
+
+Then, adjust database configuration by completing configuration file
+
+```
+$ cp config/autoload/local.php.dist config/autoload/local.php
+```
+
+Open `config/autoload/local.php` file and adjust `adapters` section (`database`, `username`, `password` and `DSN` also). It used **PDO_Mysql** by default
+
+```
+'adapters' => [
+    'zf3_mysql' => [
+         'database' => 'api_project',
+         'driver' => 'PDO_Mysql',
+         'hostname' => 'localhost',
+         'username' => 'api',
+         'password' => 'api',
+         'port' => '3306',
+         'dsn' => 'mysql:dbname=api;host=localhost',
+    ],
+],
+```
+
+And don't forget `authentication` section too
+
+```
+'authentication' => [
+     'adapters' => [
+         'oauth2 pdo' => [
+         'adapter' => \ZF\MvcAuth\Authentication\OAuth2Adapter::class,
+               'storage' => [
+                    'adapter' => \pdo::class,
+                    'dsn' => 'mysql:dbname=api;host=localhost',
+                    'route' => '/oauth',
+                    'username' => 'api',
+                    'password' => 'api',
+               ],
+          ],
+     ],
+],
+```
+
+### Testing The API Authentication
+We have created database for **Authentication**, and now we need to create a `client_id` and `client_secret` for testing the *API Authentication*
+
+* Encrypt `client_secret` for value in database 
+   ```
+   vendor/bin/bcrypt.php  123456
+   ```
+
+  It will give result like this
+```
+$2y$10$iTyeoZyu/dvDC2QQSTdWee/WpG0L/QPaVaJDTf4B/BvxjHRM4TQ2q
+```
+
+* After encrypt the `client_secret`, add a new `client_id` with encrypted `client_secret` in the database using the following SQL statement:
+
+```SQL
+INSERT INTO oauth_clients (
+    client_id,
+    client_secret,
+    redirect_uri)
+VALUES (
+    "testclient",
+    "$2y$10$iTyeoZyu/dvDC2QQSTdWee/WpG0L/QPaVaJDTf4B/BvxjHRM4TQ2q",
+    "/oauth/receivecode"
+);
+```
+
+* Run application (just use **PHP Web Server** for testing). This app will use port **8080**
+
+```
+$ ./composer serve
+```
+
+* Send `client_id` & `client_secret` for requesting token
+
+```
+curl -X POST -d "client_id=testclient&client_secret=123456&grant_type=client_credentials" http://localhost:8080/oauth
+```
+
+It will give token on it's response
+
+```
+{
+    "access_token": "8bfebd0c55212e2efc91b367ff428acdebb89a62",
+    "expires_in": 3600,
+    "scope": null,
+    "token_type": "Bearer"
+}
+```
+
+* Use this token for requesting a resource
+
+```
+curl -X GET http://188.166.179.150:8080/oauth/resource --header "Authorization:Bearer 8bfebd0c55212e2efc91b367ff428acdebb89a62" 
+```
+
+It will give success response
+
+```
+{
+    "message": "You accessed my APIs!",
+    "success": true
+}
+```
+
+And please try to request same resource without using token
+
+```
+curl -X GET http://188.166.179.150:8080/oauth/resource
+```
+
+It will give **Unauthorized** error response
+
+```
+{
+    "detail": null,
+    "status": 401,
+    "title": "Unauthorized",
+    "type": "http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html"
+}
+```
+
+If you get same result from your installation, it mean this repository set up correctly.
+
+
+### Development Mode
 
 Once you have the basic installation, you need to put it in development mode:
 
@@ -139,98 +252,6 @@ the console itself; otherwise, ensure you have an error log file specified in yo
 
 `display_errors` should *never* be enabled in production, regardless.
 
-### Vagrant
-
-If you prefer to develop with Vagrant, there is a basic vagrant recipe included with this project.
-
-This recipe assumes that you already have Vagrant installed. The virtual machine will try to use localhost:8080 by
-default, so if you already have a server on this port of your host machine, you need to shut down the conflicting
-server first, or if you know how, you can reconfigure the ports in Vagrantfile.
-
-Assuming you have Vagrant installed and assuming you have no port conflicts, you can bring up the Vagrant machine
-with the standard `up` command:
-
-```bash
-$ vagrant up
-```
-
-When the machine comes up, you can ssh to it with the standard ssh forward agent:
-
-```bash
-$ vagrant ssh
-```
-
-The web root is inside the shared directory, which is at `/var/www`; this is
-also the home directory for the vagrant issue, which will be the initial
-directory you land in once you connect via SSH.
-
-The image installs composer during provisioning, meaning you can use it to
-install and update dependencies:
-
-```bash
-# Install dependencies:
-$ vagrant ssh -c 'composer install'
-# Update dependencies:
-$ vagrant ssh -c 'composer update'
-```
-
-You can also manipulate development mode:
-
-```bash
-$ vagrant ssh -c 'composer development-enable'
-$ vagrant ssh -c 'composer development-disable'
-$ vagrant ssh -c 'composer development-status'
-```
-
-> #### Vagrant and VirtualBox
->
-> The vagrant image is based on ubuntu/xenial64. If you are using VirtualBox as
-> a provider, you will need:
->
-> - Vagrant 1.8.5 or later
-> - VirtualBox 5.0.26 or later
-
-For vagrant documentation, please refer to [vagrantup.com](https://www.vagrantup.com/)
-
-### Docker
-
-If you develop or deploy using Docker, we provide configuration for you.
-
-Prepare your development environment using [docker compose](https://docs.docker.com/compose/install/):
-
-```bash
-$ git clone https://github.com/zfcampus/zf-apigility-skeleton
-$ cd zf-apigility-skeleton
-$ docker-compose build
-# Install dependencies via composer, if you haven't already:
-$ docker-compose run apigility composer install
-# Enable development mode:
-$ docker-compose run apigility composer development-enable
-```
-
-Start the container:
-
-```bash
-$ docker-compose up
-```
-
-Access Apigility from `http://localhost:8080/` or `http://<boot2docker ip>:8080/` if on Windows or Mac.
-
-You may also use the provided `Dockerfile` directly if desired.
-
-Once installed, you can use the container to update dependencies:
-
-```bash
-$ docker-compose run apigility composer update
-```
-
-Or to manipulate development mode:
-
-```bash
-$ docker-compose run apigility composer development-enable
-$ docker-compose run apigility composer development-disable
-$ docker-compose run apigility composer development-status
-```
 
 QA Tools
 --------
