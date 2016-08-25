@@ -1,28 +1,30 @@
 {
-    "name": "zfcampus/zf-apigility-skeleton",
-    "description": "Skeleton Application for Apigility",
+    "name": "aqilix/zf3-apigilty-oauth2",
+    "description": "Start API Development using ZF3, Apigility with OAuth2 support",
     "type": "library",
     "license": "BSD-3-Clause",
     "keywords": [
         "api",
         "apigility",
         "framework",
-        "zf2"
+        "zf3",
+        "oauth2",
+        "php5.6",
+        "php7.0"
     ],
-    "homepage": "http://apigility.org/",
+    "homepage": "https://aqilix.com/",
     "support": {
-        "email": "apigility-users@zend.com",
-        "irc": "irc://irc.freenode.net/apigility",
-        "source": "https://github.com/zfcampus/zf-apigility-skeleton",
-        "issues": "https://github.com/zfcampus/zf-apigility-skeleton/issues"
+        "email": "contact@aqilix.com",
+        "source": "https://github.com/aqilix/zf3-apigilty-oauth2",
+        "issues": "https://github.com/aqilix/zf3-apigilty-oauth2/issues"
     },
     "config": {
         "process-timeout": 5000
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.4-dev",
-            "dev-develop": "1.5-dev"
+            "dev-master": "0.01-dev",
+            "dev-develop": "0.02-dev"
         }
     },
     "require": {
