@@ -3,4 +3,6 @@ vendor/
 config/development.config.php
 data/cache/*
 !data/cache/.gitkeep
+docker/mysql/db/*
+!docker/mysql/db/.gitkeep
 composer.phar

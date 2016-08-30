@@ -1,0 +1,19 @@
+api:
+  build: .
+  dockerfile: Dockerfile
+  ports:
+   - "8080:80"
+  volumes:
+   - .:/var/www
+  links:
+   - db
+db:
+  image: mysql:5.7
+  volumes:
+    - ./docker/mysql/db:/var/lib/mysql
+  restart: always
+  environment:
+    MYSQL_ROOT_PASSWORD: zf3
+    MYSQL_DATABASE: zf3_apigility
+    MYSQL_USER: zf3
+    MYSQL_PASSWORD: zf3
