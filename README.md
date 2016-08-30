@@ -38,15 +38,26 @@ $ ./composer install
 ### Database Configuration
 After all dependencies installed, need to prepare database for **Authentication & Authorization** using **OAuth2**.
 
-Assuming you have create database `(eg: api_project)`. Please import these tables into database
+Assuming you have create database `(eg: zf3_apigility )`. Please import these tables into database
 
 ```
-$ mysql -h <dbhost> -u <dbuser> -p<password> api_project < vendor/zfcampus/zf-oauth2/data/db_oauth2.sql
+$ mysql -h <dbhost> -u <dbuser> -p<password> zf3_apigility < vendor/zfcampus/zf-oauth2/data/db_oauth2.sql
 ```
 
-Then, adjust database configuration by completing configuration file
+### Importing Database Using Docker
+If you using docker based on [docker-compose.yml](docker-compose.yml) on this repository you can use this command
 
+```bash
+$ docker exec -i zf3apigilityoauth2_db_1 mysql -h localhost -u zf3 -pzf3 zf3_apigility < vendor/zfcampus/zf-oauth2/data/db_oauth2.sql
 ```
+
+* `zf3apigilityoauth2_db_1` is container name
+* database credential like `zf3` and `zf3_apigility` based on configuration on [docker-compose.yml](docker-compose.yml) 
+
+
+### Adjust database configuration by completing configuration file
+
+```bash
 $ cp config/autoload/local.php.dist config/autoload/local.php
 ```
 
@@ -55,13 +66,13 @@ Open `config/autoload/local.php` file and adjust `adapters` section (`database`,
 ```
 'adapters' => [
     'zf3_mysql' => [
-         'database' => 'api_project',
+         'database' => 'zf3_apigility',
          'driver' => 'PDO_Mysql',
          'hostname' => 'localhost',
-         'username' => 'api',
-         'password' => 'api',
+         'username' => 'zf3',
+         'password' => 'zf3',
          'port' => '3306',
-         'dsn' => 'mysql:dbname=api;host=localhost',
+         'dsn' => 'mysql:dbname=zf3_apigility;host=localhost',
     ],
 ],
 ```
@@ -75,10 +86,10 @@ And don't forget `authentication` section too
          'adapter' => \ZF\MvcAuth\Authentication\OAuth2Adapter::class,
                'storage' => [
                     'adapter' => \pdo::class,
-                    'dsn' => 'mysql:dbname=api;host=localhost',
+                    'dsn' => 'mysql:dbname=zf3_apigility;host=localhost',
                     'route' => '/oauth',
-                    'username' => 'api',
-                    'password' => 'api',
+                    'username' => 'zf3',
+                    'password' => 'zf3',
                ],
           ],
      ],
@@ -112,11 +123,20 @@ VALUES (
 );
 ```
 
-* Run application (just use **PHP Web Server** for testing). This app will use port **8080**
+If you are using **Docker**, you need to use MySQL Client on docker container, then run sql code above 
+
+```
+docker exec -it zf3apigilityoauth2_db_1 mysql -h localhost -u zf3 -pzf3 zf3_apigility
+
+```
+
+### Run Application
+* Run application (just use **PHP Web Server** for testing). This app will use port **8080**. But if you are using **Docker** don't need to run composer, because apache serve it.
 
 ```
 $ ./composer serve
 ```
+
 
 * Send `client_id` & `client_secret` for requesting token
 
@@ -138,7 +158,7 @@ It will give token on it's response
 * Use this token for requesting a resource
 
 ```
-curl -X GET http://188.166.179.150:8080/oauth/resource --header "Authorization:Bearer 8bfebd0c55212e2efc91b367ff428acdebb89a62" 
+curl -X GET http://localhost:8080/oauth/resource --header "Authorization:Bearer 8bfebd0c55212e2efc91b367ff428acdebb89a62" 
 ```
 
 It will give success response
@@ -153,7 +173,7 @@ It will give success response
 And please try to request same resource without using token
 
 ```
-curl -X GET http://188.166.179.150:8080/oauth/resource
+curl -X GET http://localhost:8080/oauth/resource
 ```
 
 It will give **Unauthorized** error response

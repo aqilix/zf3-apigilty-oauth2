@@ -3,13 +3,13 @@ return [
     'db' => [
         'adapters' => [
             'zf3_mysql' => [
-                'database' => '',
+                'database' => 'zf3_apigility',
                 'driver' => 'PDO_Mysql',
                 'hostname' => 'localhost',
-                'username' => '',
-                'password' => '',
+                'username' => 'zf3',
+                'password' => 'zf3',
                 'port' => '3306',
-                'dsn' => 'mysql:dbname=;host=',
+                'dsn' => 'mysql:dbname=zf3_apigility;host=db',
             ],
         ],
     ],
@@ -20,10 +20,10 @@ return [
                     'adapter' => \ZF\MvcAuth\Authentication\OAuth2Adapter::class,
                     'storage' => [
                         'adapter' => \pdo::class,
-                        'dsn' => 'mysql:dbname=;host=',
+                        'dsn' => 'mysql:dbname=zf3_apigility;host=db',
                         'route' => '/oauth',
-                        'username' => '',
-                        'password' => '',
+                        'username' => 'zf3',
+                        'password' => 'zf3',
                     ],
                 ],
             ],
