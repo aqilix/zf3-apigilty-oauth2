@@ -14,7 +14,7 @@
     ],
     "homepage": "https://aqilix.com/",
     "support": {
-        "email": "contact@aqilix.com",
+        "email": "dolly.aswin@aqilix.com",
         "source": "https://github.com/aqilix/zf3-apigilty-oauth2",
         "issues": "https://github.com/aqilix/zf3-apigilty-oauth2/issues"
     },
@@ -23,10 +23,20 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.01-dev",
-            "dev-develop": "0.02-dev"
+            "dev-master": "0.02-dev",
+            "dev-develop": "0.03-dev"
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/webimpress/DoctrineModule.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/webimpress/DoctrineORMModule.git"
+        }
+    ],
     "require": {
         "php": "^5.6 || ^7.0",
         "zendframework/zend-component-installer": "^1.0 || ^0.3 || ^1.0.0-dev@dev",
@@ -37,7 +47,9 @@
         "zfr/zfr-cors": "^1.2",
         "zendframework/zend-cache": "^2.7.1",
         "zendframework/zend-mvc-i18n": "^1.0",
-        "zendframework/zend-log": "^2.9"
+        "zendframework/zend-log": "^2.9",
+        "doctrine/doctrine-module": "dev-feature/zf3-support",
+        "doctrine/doctrine-orm-module": "dev-feature/zf3-support"
     },
     "require-dev": {
         "zendframework/zend-developer-tools": "^1.1",
