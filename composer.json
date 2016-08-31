@@ -23,8 +23,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.02-dev",
-            "dev-develop": "0.03-dev"
+            "dev-master": "0.01-dev",
+            "dev-develop": "0.02-dev"
         }
     },
     "require": {
@@ -34,12 +34,15 @@
         "zfcampus/zf-apigility-documentation": "^1.2.2",
         "zfcampus/zf-development-mode": "^3.0",
         "zfcampus/zf-http-cache": "^1.3",
-        "zfr/zfr-cors": "^1.2"
+        "zfr/zfr-cors": "^1.2",
+        "zendframework/zend-cache": "^2.7.1",
+        "zendframework/zend-mvc-i18n": "^1.0",
+        "zendframework/zend-log": "^2.9"
     },
     "require-dev": {
         "zendframework/zend-developer-tools": "^1.1",
         "zfcampus/zf-apigility-admin": "^1.5.6",
-        "zfcampus/zf-asset-manager": "^1.1.1",
+        "zfcampus/zf-asset-manager": "^1.0",
         "zfcampus/zf-composer-autoloading": "^1.0",
         "zfcampus/zf-deploy": "^1.2",
         "phpunit/phpunit": "^5.5",
