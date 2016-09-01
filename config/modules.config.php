@@ -30,6 +30,6 @@ return [
     'ZF\\Rpc',
     'ZF\\Versioning',
     'Application',
-    'DoctrineORMModule',
-    'DoctrineModule'
+    'DoctrineModule',
+    'DoctrineORMModule'
 ];
