@@ -68,12 +68,14 @@
     },
     "autoload": {
         "psr-4": {
-            "Application\\": "module/Application/src/"
+            "Application\\": "module/Application/src/",
+            "Aqilix\\": "module/Aqilix/src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "ApplicationTest\\": "module/Application/test/"
+            "ApplicationTest\\": "module/Application/test/",
+            "AqilixTest\\": "module/Aqilix/test/"
         },
         "files": [
             "src/Apigility/constants.php"
