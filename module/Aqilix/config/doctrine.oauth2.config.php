@@ -5,7 +5,7 @@ return [
             'aqilix_oauth2_entity' => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\XmlDriver',
                 'cache' => 'array',
-                'paths' => [__DIR__ . '/../src/OAuth2/Entity']
+                'paths' => [__DIR__ . '/orm/oauth2']
             ],
             'orm_default' => [
                 'drivers' => [

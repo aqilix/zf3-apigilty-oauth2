@@ -31,5 +31,6 @@ return [
     'ZF\\Versioning',
     'Application',
     'DoctrineModule',
-    'DoctrineORMModule'
+    'DoctrineORMModule',
+    'Aqilix'
 ];
