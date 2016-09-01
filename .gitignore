@@ -6,3 +6,6 @@ data/cache/*
 docker/mysql/db/*
 !docker/mysql/db/.gitkeep
 composer.phar
+.buildpath
+.project
+.settings
