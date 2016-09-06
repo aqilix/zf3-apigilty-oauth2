@@ -5,6 +5,7 @@ class SignupControllerFactory
 {
     public function __invoke($controllers)
     {
-        return new SignupController();
+        $signupValidator = $controllers->get('InputFilterManager')->get('User\\V1\\Rpc\\Signup\\Validator');
+        return new SignupController($signupValidator);
     }
 }
