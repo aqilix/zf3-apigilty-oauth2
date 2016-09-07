@@ -2,10 +2,12 @@
 
 namespace Aqilix\OAuth2\Entity;
 
+use Aqilix\ORM\Entity\EntityInterface;
+
 /**
  * OauthUsers
  */
-class OauthUsers
+class OauthUsers implements EntityInterface
 {
     /**
      * @var string
@@ -108,5 +110,15 @@ class OauthUsers
     public function getUsername()
     {
         return $this->username;
+    }
+
+    /**
+     *
+     * @return \Aqilix\OAuth2\Entity
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+        return $this;
     }
 }
