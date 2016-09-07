@@ -11,9 +11,12 @@ class SignupController extends AbstractActionController
 {
     protected $signupValidator;
 
-    public function __construct($signupValidator)
+    protected $signupService;
+
+    public function __construct($signupService, $signupValidator)
     {
         $this->signupValidator = $signupValidator;
+        $this->signupService   = $signupService;
     }
 
     /**
@@ -32,7 +35,8 @@ class SignupController extends AbstractActionController
             return new ApiProblemResponse(new ApiProblem(422, $errors));
         }
 
-        if (true) {
+        try {
+            $this->signupService->register($this->signupValidator->getValues());
             $this->getResponse()->setStatusCode(201);
             return new HalJsonModel([
                 'access_token' => '',
@@ -41,8 +45,8 @@ class SignupController extends AbstractActionController
                 'scope' => null,
                 'refresh_token' => ''
             ]);
-        } else {
-            return new ApiProblemResponse(new ApiProblem(500, "Tests"));
+        } catch (\Exception $e) {
+            return new ApiProblemResponse(new ApiProblem(500, $e->getMessage()));
         }
     }
 }
