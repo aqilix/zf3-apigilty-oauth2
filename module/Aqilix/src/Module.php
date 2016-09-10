@@ -14,7 +14,6 @@ class Module
     {
         $serviceManager = $mvcEvent->getApplication()->getServiceManager();
         $eventManager   = $mvcEvent->getApplication()->getEventManager();
-        $sharedEventManager = $eventManager->getSharedManager();
     }
 
     public function getConfig()

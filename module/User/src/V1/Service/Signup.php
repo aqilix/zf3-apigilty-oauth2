@@ -68,19 +68,7 @@ class Signup
     public function register(array $signupData)
     {
         $this->getSignupEvent()->setSignupData($signupData);
-        try {
-            $user = new \Aqilix\OAuth2\Entity\OauthUsers;
-            $password = $this->getUserMapper()->getPasswordHash($signupData['password']);
-            $user->setUsername($signupData['email']);
-            $user->setPassword($password);
-            $userEntity = $this->getUserMapper()->save($user);
-            $this->getSignupEvent()->setUserEntity($userEntity);
-            $this->getEventManager()->trigger(SignupEvent::EVENT_INSERT_USER, $this, $this->getSignupEvent());
-        } catch (\Exception $e) {
-            $this->getEventManager()->trigger(SignupEvent::EVENT_INSERT_USER_ERROR, $this, $this->getSignupEvent());
-            throw $e;
-        }
-
+        $this->getEventManager()->trigger(SignupEvent::EVENT_INSERT_USER, $this, $this->getSignupEvent());
         $this->getEventManager()->trigger(SignupEvent::EVENT_NOTIFY, $this, $this->getSignupEvent());
     }
 }

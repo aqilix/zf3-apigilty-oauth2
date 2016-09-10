@@ -6,6 +6,7 @@ use ZF\Hal\View\HalJsonModel;
 use ZF\ApiProblem\ApiProblemResponse;
 use ZF\ApiProblem\ApiProblem;
 use Zend\Json\Json;
+use Aqilix\OAuth2\ResponseType\AccessToken;
 
 class SignupController extends AbstractActionController
 {
@@ -35,18 +36,8 @@ class SignupController extends AbstractActionController
             return new ApiProblemResponse(new ApiProblem(422, $errors));
         }
 
-        try {
-            $this->signupService->register($this->signupValidator->getValues());
-            $this->getResponse()->setStatusCode(201);
-            return new HalJsonModel([
-                'access_token' => '',
-                'expires_in' => 3600,
-                'token_type' => 'Bearer',
-                'scope' => null,
-                'refresh_token' => ''
-            ]);
-        } catch (\Exception $e) {
-            return new ApiProblemResponse(new ApiProblem(500, $e->getMessage()));
-        }
+        $this->signupService->register($this->signupValidator->getValues());
+        $this->getResponse()->setStatusCode(201);
+        return new HalJsonModel($this->signupService->getSignupEvent()->getAccessTokenResponse());
     }
 }

@@ -41,6 +41,11 @@ class SignupEvent extends Event
     protected $userActivationMessage;
 
     /**
+     * @var array
+     */
+    protected $accessTokenResponse;
+
+    /**
      * @return the $user
      */
     public function getUserEntity()
@@ -118,5 +123,21 @@ class SignupEvent extends Event
     public function setUserActivationMessage($userActivationMessage)
     {
         $this->userActivationMessage = $userActivationMessage;
+    }
+
+    /**
+     * @return the $accessTokenResponse
+     */
+    public function getAccessTokenResponse()
+    {
+        return $this->accessTokenResponse;
+    }
+
+    /**
+     * @param array $accessTokenResponse
+     */
+    public function setAccessTokenResponse(array $accessTokenResponse)
+    {
+        $this->accessTokenResponse = $accessTokenResponse;
     }
 }

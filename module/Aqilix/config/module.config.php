@@ -1,8 +1,8 @@
 <?php
 return [
     'service_manager' => [
-        'factories' => [
-            'signup' => 'User\V1\Service\SignupFactory'
+        'invokables' => [
+            'oauth2.accessToken' => 'Aqilix\OAuth2\ResponseType\AccessToken'
         ],
         'abstract_factories' => [
             'Aqilix\OAuth2\Mapper\AbstractMapperFactory'

@@ -5,6 +5,12 @@ return [
             'User\\V1\\Rpc\\Signup\\Controller' => \User\V1\Rpc\Signup\SignupControllerFactory::class,
         ],
     ],
+    'service_manager' => [
+        'factories'  => [
+            'user.signup' => 'User\V1\Service\SignupFactory',
+            'user.signup.listener' => 'User\V1\Service\Listener\SignupEventListenerFactory'
+        ],
+    ],
     'router' => [
         'routes' => [
             'user.rpc.signup' => [
