@@ -2,10 +2,12 @@
 
 namespace Aqilix\OAuth2\Entity;
 
+use Aqilix\ORM\Entity\EntityInterface;
+
 /**
  * OauthRefreshTokens
  */
-class OauthRefreshTokens
+class OauthRefreshTokens implements EntityInterface
 {
     /**
      * @var string
@@ -127,6 +129,20 @@ class OauthRefreshTokens
     public function getScope()
     {
         return $this->scope;
+    }
+
+    /**
+     * Set refreshToken
+     *
+     * @param string $refreshToken
+     *
+     * @return OauthRefreshTokens
+     */
+    public function setRefreshToken($refreshToken)
+    {
+        $this->refreshToken = $refreshToken;
+
+        return $this;
     }
 
     /**

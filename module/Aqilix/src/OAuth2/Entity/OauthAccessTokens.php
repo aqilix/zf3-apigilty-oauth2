@@ -2,10 +2,12 @@
 
 namespace Aqilix\OAuth2\Entity;
 
+use Aqilix\ORM\Entity\EntityInterface;
+
 /**
  * OauthAccessTokens
  */
-class OauthAccessTokens
+class OauthAccessTokens implements EntityInterface
 {
     /**
      * @var string
@@ -127,6 +129,19 @@ class OauthAccessTokens
     public function getScope()
     {
         return $this->scope;
+    }
+
+    /**
+     * Set accessToken
+     *
+     * @param string $accessToken
+     *
+     * @return OauthAccessTokens
+     */
+    public function setAccessToken($accessToken)
+    {
+        $this->accessToken = $accessToken;
+        return $this;
     }
 
     /**

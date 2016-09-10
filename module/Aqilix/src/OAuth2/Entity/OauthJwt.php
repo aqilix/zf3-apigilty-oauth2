@@ -2,10 +2,12 @@
 
 namespace Aqilix\OAuth2\Entity;
 
+use Aqilix\ORM\Entity\EntityInterface;
+
 /**
  * OauthJwt
  */
-class OauthJwt
+class OauthJwt implements EntityInterface
 {
     /**
      * @var string

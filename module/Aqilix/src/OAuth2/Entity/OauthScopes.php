@@ -2,10 +2,12 @@
 
 namespace Aqilix\OAuth2\Entity;
 
+use Aqilix\ORM\Entity\EntityInterface;
+
 /**
  * OauthScopes
  */
-class OauthScopes
+class OauthScopes implements EntityInterface
 {
     /**
      * @var string
