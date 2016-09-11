@@ -77,8 +77,8 @@ class SignupEventListener implements ListenerAggregateInterface
             $this->getUserMapper()->save($user);
             $event->getParams()->setUserEntity($user);
         } catch (\Exception $e) {
-//             echo $e->getMessage();
             $event->stopPropagation(true);
+            return $e;
         }
     }
 
@@ -109,8 +109,8 @@ class SignupEventListener implements ListenerAggregateInterface
                 ->setUserId($userId);
             $this->getRefreshTokenMapper()->save($refreshTokens);
         } catch (\Exception $e) {
-//             echo $e->getMessage();
             $event->stopPropagation(true);
+            return $e;
         }
 
         // set accessToken response

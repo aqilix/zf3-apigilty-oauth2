@@ -4,6 +4,7 @@ namespace User\V1;
 
 use Zend\EventManager\Event;
 use Aqilix\ORM\Entity\EntityInterface;
+use \Exception;
 
 class SignupEvent extends Event
 {
@@ -24,6 +25,11 @@ class SignupEvent extends Event
      * @var array
      */
     protected $signupData;
+
+    /**
+     * @var \Exception
+     */
+    protected $exception;
 
     /**
      * @var string
@@ -75,6 +81,22 @@ class SignupEvent extends Event
     public function setSignupData(array $signupData)
     {
         $this->signupData = $signupData;
+    }
+
+    /**
+     * @return the $exception
+     */
+    public function getException()
+    {
+        return $this->exception;
+    }
+
+    /**
+     * @param Exception $exception
+     */
+    public function setException(Exception $exception)
+    {
+        $this->exception = $exception;
     }
 
     /**
