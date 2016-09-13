@@ -76,6 +76,7 @@ class Signup
                 $this,
                 $this->getSignupEvent()
             );
+            throw $this->getSignupEvent()->getException();
         } else {
             $this->getEventManager()->trigger(SignupEvent::EVENT_NOTIFY, $this, $this->getSignupEvent());
         }

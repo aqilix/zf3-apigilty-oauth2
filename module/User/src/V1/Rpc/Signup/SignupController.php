@@ -36,8 +36,18 @@ class SignupController extends AbstractActionController
             return new ApiProblemResponse(new ApiProblem(422, $errors));
         }
 
-        $this->signupService->register($this->signupValidator->getValues());
-        $this->getResponse()->setStatusCode(201);
-        return new HalJsonModel($this->signupService->getSignupEvent()->getAccessTokenResponse());
+        try {
+            $this->signupService->register($this->signupValidator->getValues());
+            $this->getResponse()->setStatusCode(201);
+            return new HalJsonModel($this->signupService->getSignupEvent()->getAccessTokenResponse());
+        } catch (\Exception $e) {
+            return new ApiProblemResponse(new ApiProblem(
+                422,
+                "Failed Validation",
+                null,
+                null,
+                ['validation_messages' => ['email' => ['Email Address has been used']]]
+            ));
+        }
     }
 }
