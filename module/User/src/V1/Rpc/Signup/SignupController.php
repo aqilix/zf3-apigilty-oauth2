@@ -28,17 +28,8 @@ class SignupController extends AbstractActionController
     public function signupAction()
     {
         $this->signupValidator->setData(Json::decode($this->getRequest()->getContent(), true));
-        if ($this->signupValidator->isValid() === false) {
-            foreach ($this->signupValidator->getInvalidInput() as $input) {
-                $errors[$input->getName()] = $input->getMessages();
-            }
-
-            return new ApiProblemResponse(new ApiProblem(422, $errors));
-        }
-
         try {
             $this->signupService->register($this->signupValidator->getValues());
-            $this->getResponse()->setStatusCode(201);
             return new HalJsonModel($this->signupService->getSignupEvent()->getAccessTokenResponse());
         } catch (\Exception $e) {
             return new ApiProblemResponse(new ApiProblem(
