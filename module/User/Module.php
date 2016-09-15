@@ -12,13 +12,23 @@ class Module implements ApigilityProviderInterface
         $serviceManager = $mvcEvent->getApplication()->getServiceManager();
         $signupEventListener = $serviceManager->get('user.signup.listener');
         $signupService  = $serviceManager->get('user.signup');
-//         var_dump($signupService->getEventManager() instanceof \Zend\EventManager\EventManagerInterface);
         $signupEventListener->attach($signupService->getEventManager());
     }
 
     public function getConfig()
     {
-        return include __DIR__ . '/config/module.config.php';
+        $config = [];
+        $configFiles = [
+            __DIR__ . '/config/module.config.php',
+            __DIR__ . '/config/doctrine.config.php',  // configuration for doctrine
+        ];
+
+        // merge all module config options
+        foreach ($configFiles as $configFile) {
+            $config = \Zend\Stdlib\ArrayUtils::merge($config, include $configFile, true);
+        }
+
+        return $config;
     }
 
     public function getAutoloaderConfig()
