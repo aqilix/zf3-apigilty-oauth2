@@ -3,9 +3,18 @@ namespace User\V1\Rest\Profile;
 
 use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
+use ZF\ApiProblem\ApiProblemResponse;
+use User\Mapper\UserProfile as UserProfileMapper;
 
 class ProfileResource extends AbstractResourceListener
 {
+    protected $userProfileMapper;
+
+    public function __construct(UserProfileMapper $userProfileMapper)
+    {
+        $this->setUserProfileMapper($userProfileMapper);
+    }
+
     /**
      * Create a resource
      *
@@ -47,7 +56,12 @@ class ProfileResource extends AbstractResourceListener
      */
     public function fetch($id)
     {
-        return new ApiProblem(405, 'The GET method has not been defined for individual resources');
+        $userProfile = $this->getUserProfileMapper()->fetchOneBy(['uuid' => $id]);
+        if (is_null($userProfile)) {
+            return new ApiProblemResponse(new ApiProblem(404, "User Profile not found"));
+        }
+
+        return $userProfile;
     }
 
     /**
@@ -105,5 +119,21 @@ class ProfileResource extends AbstractResourceListener
     public function update($id, $data)
     {
         return new ApiProblem(405, 'The PUT method has not been defined for individual resources');
+    }
+
+    /**
+     * @return the $userProfileMapper
+     */
+    public function getUserProfileMapper()
+    {
+        return $this->userProfileMapper;
+    }
+
+    /**
+     * @param UserProfileMapper $userProfileMapper
+     */
+    public function setUserProfileMapper(UserProfileMapper $userProfileMapper)
+    {
+        $this->userProfileMapper = $userProfileMapper;
     }
 }
