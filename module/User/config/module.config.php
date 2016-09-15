@@ -3,6 +3,7 @@ return [
     'controllers' => [
         'factories' => [
             'User\\V1\\Rpc\\Signup\\Controller' => \User\V1\Rpc\Signup\SignupControllerFactory::class,
+            'User\\V1\\Rpc\\Me\\Controller' => \User\V1\Rpc\Me\MeControllerFactory::class,
         ],
     ],
     'service_manager' => [
@@ -12,8 +13,8 @@ return [
             \User\V1\Rest\Profile\ProfileResource::class => \User\V1\Rest\Profile\ProfileResourceFactory::class,
         ],
         'abstract_factories' => [
-            User\Mapper\AbstractMapperFactory::class
-        ]
+            0 => \User\Mapper\AbstractMapperFactory::class,
+        ],
     ],
     'router' => [
         'routes' => [
@@ -36,12 +37,23 @@ return [
                     ],
                 ],
             ],
+            'user.rpc.me' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/api/me',
+                    'defaults' => [
+                        'controller' => 'User\\V1\\Rpc\\Me\\Controller',
+                        'action' => 'me',
+                    ],
+                ],
+            ],
         ],
     ],
     'zf-versioning' => [
         'uri' => [
             0 => 'user.rpc.signup',
             1 => 'user.rest.profile',
+            2 => 'user.rpc.me',
         ],
     ],
     'zf-rpc' => [
@@ -52,11 +64,19 @@ return [
             ],
             'route_name' => 'user.rpc.signup',
         ],
+        'User\\V1\\Rpc\\Me\\Controller' => [
+            'service_name' => 'Me',
+            'http_methods' => [
+                0 => 'GET',
+            ],
+            'route_name' => 'user.rpc.me',
+        ],
     ],
     'zf-content-negotiation' => [
         'controllers' => [
             'User\\V1\\Rpc\\Signup\\Controller' => 'Json',
             'User\\V1\\Rest\\Profile\\Controller' => 'HalJson',
+            'User\\V1\\Rpc\\Me\\Controller' => 'Json',
         ],
         'accept_whitelist' => [
             'User\\V1\\Rpc\\Signup\\Controller' => [
@@ -68,6 +88,9 @@ return [
                 1 => 'application/json',
                 2 => 'application/vnd.aqilix.bootstrap.v1+json',
             ],
+            'User\\V1\\Rpc\\Me\\Controller' => [
+                0 => 'application/json',
+            ],
         ],
         'content_type_whitelist' => [
             'User\\V1\\Rpc\\Signup\\Controller' => [
@@ -78,6 +101,10 @@ return [
                 0 => 'application/json',
                 1 => 'application/vnd.aqilix.bootstrap.v1+json',
                 2 => 'application/hal+json',
+            ],
+            'User\\V1\\Rpc\\Me\\Controller' => [
+                0 => 'application/json',
+                1 => 'application/vnd.aqilix.bootstrap.v1+json',
             ],
         ],
     ],
@@ -342,6 +369,17 @@ return [
                     'PUT' => false,
                     'PATCH' => true,
                     'DELETE' => true,
+                ],
+            ],
+            'User\\V1\\Rpc\\Me\\Controller' => [
+                'actions' => [
+                    'Me' => [
+                        'GET' => true,
+                        'POST' => false,
+                        'PUT' => false,
+                        'PATCH' => false,
+                        'DELETE' => false,
+                    ],
                 ],
             ],
         ],

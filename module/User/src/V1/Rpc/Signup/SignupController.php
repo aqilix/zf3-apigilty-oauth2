@@ -6,7 +6,6 @@ use ZF\Hal\View\HalJsonModel;
 use ZF\ApiProblem\ApiProblemResponse;
 use ZF\ApiProblem\ApiProblem;
 use Zend\Json\Json;
-use Aqilix\OAuth2\ResponseType\AccessToken;
 
 class SignupController extends AbstractActionController
 {
