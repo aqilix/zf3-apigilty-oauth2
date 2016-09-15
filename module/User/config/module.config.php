@@ -11,6 +11,9 @@ return [
             'user.signup.listener' => \User\V1\Service\Listener\SignupEventListenerFactory::class,
             \User\V1\Rest\Profile\ProfileResource::class => \User\V1\Rest\Profile\ProfileResourceFactory::class,
         ],
+        'abstract_factories' => [
+            User\Mapper\AbstractMapperFactory::class
+        ]
     ],
     'router' => [
         'routes' => [
@@ -290,12 +293,14 @@ return [
             'route_identifier_name' => 'profile_id',
             'collection_name' => 'profile',
             'entity_http_methods' => [
-                0 => 'PATCH',
-                1 => 'DELETE',
-                2 => 'GET',
+                0 => 'GET',
+                1 => 'PATCH',
+                2 => 'PUT',
+                3 => 'DELETE',
             ],
             'collection_http_methods' => [
                 0 => 'GET',
+                1 => 'POST',
             ],
             'collection_query_whitelist' => [],
             'page_size' => 25,
