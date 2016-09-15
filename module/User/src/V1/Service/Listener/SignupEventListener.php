@@ -5,6 +5,7 @@ use Zend\EventManager\ListenerAggregateInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateTrait;
 use Aqilix\OAuth2\Mapper\OauthUsers as UserMapper;
+use User\Mapper\UserProfile as UserProfileMapper;
 use Aqilix\OAuth2\Mapper\OauthAccessTokens as AccessTokenMapper;
 use Aqilix\OAuth2\Mapper\OauthRefreshTokens as RefreshTokenMapper;
 use Aqilix\OAuth2\ResponseType\AccessToken as OAuth2AccessToken;
@@ -18,6 +19,8 @@ class SignupEventListener implements ListenerAggregateInterface
 
     protected $userMapper;
 
+    protected $userProfileMapper;
+
     protected $oauth2AccessToken;
 
     protected $accessTokenMapper;
@@ -29,12 +32,14 @@ class SignupEventListener implements ListenerAggregateInterface
      *
      * @param OAuth2AccessToken $oauth2AccessToken
      * @param UserMapper $userMapper
+     * @param UserProfileMapper $userProfileMapper
      * @param AccessTokenMapper $accessTokenMapper
      * @param RefreshTokenMapper $refreshTokenMapper
      */
     public function __construct(
         OAuth2AccessToken $oauth2AccessToken,
         UserMapper $userMapper,
+        UserProfileMapper $userProfileMapper,
         AccessTokenMapper $accessTokenMapper,
         RefreshTokenMapper $refreshTokenMapper,
         array $config = []
@@ -42,6 +47,7 @@ class SignupEventListener implements ListenerAggregateInterface
         $this->userMapper   = $userMapper;
         $this->oauth2AccessToken  = $oauth2AccessToken;
         $this->accessTokenMapper  = $accessTokenMapper;
+        $this->userProfileMapper  = $userProfileMapper;
         $this->refreshTokenMapper = $refreshTokenMapper;
         $this->config = $config;
     }
@@ -57,6 +63,11 @@ class SignupEventListener implements ListenerAggregateInterface
             SignupEvent::EVENT_INSERT_USER,
             [$this, 'createAccessToken'],
             498
+        );
+        $this->listeners[] = $events->attach(
+            SignupEvent::EVENT_INSERT_USER,
+            [$this, 'createUserProfile'],
+            497
         );
     }
 
@@ -76,6 +87,24 @@ class SignupEventListener implements ListenerAggregateInterface
             $user->setPassword($password);
             $this->getUserMapper()->save($user);
             $event->getParams()->setUserEntity($user);
+        } catch (\Exception $e) {
+            $event->stopPropagation(true);
+            return $e;
+        }
+    }
+
+    /**
+     * Create New User
+     *
+     * @param  $event
+     */
+    public function createUserProfile($event)
+    {
+        try {
+            $user = $event->getParams()->getUserEntity();
+            $userProfile = new \User\Entity\UserProfile;
+            $userProfile->setUser($user);
+            $this->getUserMapper()->save($userProfile);
         } catch (\Exception $e) {
             $event->stopPropagation(true);
             return $e;
@@ -157,6 +186,22 @@ class SignupEventListener implements ListenerAggregateInterface
     public function setUserMapper(UserMapper $userMapper)
     {
         $this->userMapper = $userMapper;
+    }
+
+    /**
+     * @return the $userProfileMapper
+     */
+    public function getUserProfileMapper()
+    {
+        return $this->userProfileMapper;
+    }
+
+    /**
+     * @param UserProfileMapper $userProfileMapper
+     */
+    public function setUserProfileMapper(UserProfileMapper $userProfileMapper)
+    {
+        $this->userProfileMapper = $userProfileMapper;
     }
 
     /**

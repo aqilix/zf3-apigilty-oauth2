@@ -8,7 +8,8 @@ class SignupEventListenerFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $userMapper   = $container->get('Aqilix\OAuth2\Mapper\OauthUsers');
+        $userMapper = $container->get('Aqilix\OAuth2\Mapper\OauthUsers');
+        $userProfileMapper   = $container->get('User\Mapper\UserProfile');
         $accessTokensMapper  = $container->get('Aqilix\OAuth2\Mapper\OauthAccessTokens');
         $refreshTokensMapper = $container->get('Aqilix\OAuth2\Mapper\OauthRefreshTokens');
         $oauth2AccessToken   = $container->get('oauth2.accessToken');
@@ -22,6 +23,7 @@ class SignupEventListenerFactory implements FactoryInterface
         return new SignupEventListener(
             $oauth2AccessToken,
             $userMapper,
+            $userProfileMapper,
             $accessTokensMapper,
             $refreshTokensMapper,
             $signupEventConfig
