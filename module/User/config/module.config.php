@@ -16,6 +16,12 @@ return [
             0 => \User\Mapper\AbstractMapperFactory::class,
         ],
     ],
+    'hydrators' => [
+        'factories' => [
+            'User\Hydrator\UserProfile' => \User\V1\Hydrator\UserProfileHydratorFactory::class,
+        ],
+    ],
+
     'router' => [
         'routes' => [
             'user.rpc.signup' => [
@@ -90,6 +96,7 @@ return [
             ],
             'User\\V1\\Rpc\\Me\\Controller' => [
                 0 => 'application/json',
+                1 => 'application/vnd.aqilix.bootstrap.v1+json',
             ],
         ],
         'content_type_whitelist' => [
@@ -332,21 +339,21 @@ return [
             'collection_query_whitelist' => [],
             'page_size' => 25,
             'page_size_param' => null,
-            'entity_class' => \User\V1\Rest\Profile\ProfileEntity::class,
+            'entity_class' => \User\Entity\UserProfile::class,
             'collection_class' => \User\V1\Rest\Profile\ProfileCollection::class,
             'service_name' => 'Profile',
         ],
     ],
     'zf-hal' => [
         'metadata_map' => [
-            \User\V1\Rest\Profile\ProfileEntity::class => [
-                'entity_identifier_name' => 'id',
+            \User\Entity\UserProfile::class => [
+                'entity_identifier_name' => 'uuid',
                 'route_name' => 'user.rest.profile',
                 'route_identifier_name' => 'profile_id',
-                'hydrator' => \Zend\Hydrator\ArraySerializable::class,
+                'hydrator' => 'User\Hydrator\UserProfile',
             ],
             \User\V1\Rest\Profile\ProfileCollection::class => [
-                'entity_identifier_name' => 'id',
+                'entity_identifier_name' => 'uuid',
                 'route_name' => 'user.rest.profile',
                 'route_identifier_name' => 'profile_id',
                 'is_collection' => true,
