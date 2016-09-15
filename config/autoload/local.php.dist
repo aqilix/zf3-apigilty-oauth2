@@ -16,7 +16,7 @@ return [
     'zf-mvc-auth' => [
         'authentication' => [
             'adapters' => [
-                'oauth2 pdo' => [
+                'oauth2_pdo' => [
                     'adapter' => \ZF\MvcAuth\Authentication\OAuth2Adapter::class,
                     'storage' => [
                         'adapter' => \pdo::class,

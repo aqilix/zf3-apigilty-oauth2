@@ -11,10 +11,13 @@ return [
     'zf-mvc-auth' => [
         'authentication' => [
             'adapters' => [
-                'oauth2 pdo' => [
+                'oauth2_pdo' => [
                     'adapter' => '',
                     'storage' => [],
                 ],
+            ],
+            'map' => [
+                'User\\V1' => 'oauth2_pdo',
             ],
         ],
     ],
