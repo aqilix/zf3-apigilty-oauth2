@@ -6,6 +6,7 @@ class ProfileResourceFactory
     public function __invoke($services)
     {
         $userProfileMapper = $services->get('User\Mapper\UserProfile');
-        return new ProfileResource($userProfileMapper);
+        $userProfile = $services->get('user.profile');
+        return new ProfileResource($userProfileMapper, $userProfile);
     }
 }

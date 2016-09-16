@@ -8,8 +8,10 @@ return [
     ],
     'service_manager' => [
         'factories' => [
-            'user.signup' => \User\V1\Service\SignupFactory::class,
-            'user.signup.listener' => \User\V1\Service\Listener\SignupEventListenerFactory::class,
+            'user.signup'  => \User\V1\Service\SignupFactory::class,
+            'user.profile' => \User\V1\Service\ProfileFactory::class,
+            'user.signup.listener'  => \User\V1\Service\Listener\SignupEventListenerFactory::class,
+            'user.profile.listener' => \User\V1\Service\Listener\ProfileEventListenerFactory::class,
             \User\V1\Rest\Profile\ProfileResource::class => \User\V1\Rest\Profile\ProfileResourceFactory::class,
         ],
         'abstract_factories' => [

@@ -5,14 +5,18 @@ use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
 use ZF\ApiProblem\ApiProblemResponse;
 use User\Mapper\UserProfile as UserProfileMapper;
+use User\V1\Service\Profile as UserProfileService;
 
 class ProfileResource extends AbstractResourceListener
 {
     protected $userProfileMapper;
 
-    public function __construct(UserProfileMapper $userProfileMapper)
+    protected $userProfileService;
+
+    public function __construct(UserProfileMapper $userProfileMapper, UserProfileService $userProfileService)
     {
         $this->setUserProfileMapper($userProfileMapper);
+        $this->setUserProfileService($userProfileService);
     }
 
     /**
@@ -84,7 +88,13 @@ class ProfileResource extends AbstractResourceListener
      */
     public function patch($id, $data)
     {
-        return new ApiProblem(405, 'The PATCH method has not been defined for individual resources');
+        $userProfile = $this->getUserProfileMapper()->fetchOneBy(['uuid' => $id]);
+        if (is_null($userProfile)) {
+            return new ApiProblemResponse(new ApiProblem(404, "User Profile not found"));
+        }
+
+        $this->getUserProfileService()->update($userProfile, $data);
+        return $userProfile;
     }
 
     /**
@@ -135,5 +145,21 @@ class ProfileResource extends AbstractResourceListener
     public function setUserProfileMapper(UserProfileMapper $userProfileMapper)
     {
         $this->userProfileMapper = $userProfileMapper;
+    }
+
+    /**
+     * @return the $userProfileService
+     */
+    public function getUserProfileService()
+    {
+        return $this->userProfileService;
+    }
+
+    /**
+     * @param UserProfileService $userProfileService
+     */
+    public function setUserProfileService(UserProfileService $userProfileService)
+    {
+        $this->userProfileService = $userProfileService;
     }
 }

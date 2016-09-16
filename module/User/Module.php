@@ -13,6 +13,9 @@ class Module implements ApigilityProviderInterface
         $signupEventListener = $serviceManager->get('user.signup.listener');
         $signupService  = $serviceManager->get('user.signup');
         $signupEventListener->attach($signupService->getEventManager());
+        $profileEventListener = $serviceManager->get('user.profile.listener');
+        $profileService = $serviceManager->get('user.profile');
+        $profileEventListener->attach($profileService->getEventManager());
     }
 
     public function getConfig()
