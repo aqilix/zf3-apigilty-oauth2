@@ -215,7 +215,7 @@ return [
                     0 => [
                         'name' => \Zend\Validator\Date::class,
                         'options' => [
-                            'format' => 'yyyy-mm-dd',
+                            'format' => 'Y-m-d',
                         ],
                     ],
                 ],
@@ -223,7 +223,7 @@ return [
                 'name' => 'dateOfBirth',
                 'description' => 'Date Of Birth',
                 'field_type' => 'String',
-                'error_message' => 'Date of Birth Required',
+                'error_message' => 'Date not valid',
             ],
             3 => [
                 'required' => true,
@@ -303,7 +303,7 @@ return [
                 'error_message' => 'Postal Code Required',
             ],
             7 => [
-                'required' => true,
+                'required' => false,
                 'validators' => [],
                 'filters' => [
                     0 => [
