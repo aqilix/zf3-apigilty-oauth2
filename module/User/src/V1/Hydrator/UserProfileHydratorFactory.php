@@ -22,8 +22,9 @@ class UserProfileHydratorFactory implements FactoryInterface
     {
         $entityManager = $container->get('doctrine.entitymanager.orm_default');
         $hydrator = new DoctrineObject($entityManager);
-        $hydrator->addStrategy('user', new \User\Hydrator\Strategy\UsernameStrategy);
+        $hydrator->addStrategy('user', new \User\V1\Hydrator\Strategy\UsernameStrategy);
         $hydrator->addStrategy('dateOfBirth', new DateTimeFormatterStrategy('Y-m-d'));
+        $hydrator->addStrategy('photo', new \User\V1\Hydrator\Strategy\PhotoStrategy);
         return $hydrator;
     }
 }

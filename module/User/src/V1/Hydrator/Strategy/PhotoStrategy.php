@@ -1,6 +1,6 @@
 <?php
 
-namespace User\Hydrator\Strategy;
+namespace User\V1\Hydrator\Strategy;
 
 use Zend\Hydrator\Strategy\StrategyInterface;
 use Aqilix\OAuth2\Entity\OauthUsers;
@@ -10,7 +10,7 @@ use Aqilix\OAuth2\Entity\OauthUsers;
  *
  * @package User\Stdlib\Hydrator\Strategy
  */
-class UsernameStrategy implements StrategyInterface
+class PhotoStrategy implements StrategyInterface
 {
     /**
      * Converts the given value so that it can be extracted by the hydrator.
@@ -24,11 +24,12 @@ class UsernameStrategy implements StrategyInterface
      */
     public function extract($value, $object = null)
     {
-        if ($value instanceof OauthUsers) {
-            return $value->getUsername();
+        $photo = null;
+        if (file_exists($value)) {
+            $photo = "http://apitest.aqilix.com/profile/photo/" . basename($value);
         }
 
-        return null;
+        return $photo;
     }
 
     /**
@@ -43,6 +44,11 @@ class UsernameStrategy implements StrategyInterface
      */
     public function hydrate($value, array $data = null)
     {
-        return $value;
+        $photo = null;
+        if (is_array($value) || isset($value['tmp_name'])) {
+            $photo = $value['tmp_name'];
+        }
+
+        return $photo;
     }
 }

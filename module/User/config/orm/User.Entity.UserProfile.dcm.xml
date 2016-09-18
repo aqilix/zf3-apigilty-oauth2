@@ -47,5 +47,10 @@
         <option name="fixed"/>
       </options>
     </field>
+    <field name="photo" type="string" column="photo" length="128" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
   </entity>
 </doctrine-mapping>

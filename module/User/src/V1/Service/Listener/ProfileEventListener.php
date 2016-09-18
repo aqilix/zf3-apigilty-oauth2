@@ -52,7 +52,7 @@ class ProfileEventListener implements ListenerAggregateInterface
     public function updateProfile($event)
     {
         try {
-            $updateData  = get_object_vars($event->getParams()->getUpdateData());
+            $updateData  = $event->getParams()->getUpdateData();
             $userProfileEntity = $event->getParams()->getUserProfileEntity();
             $userProfile = $this->getUserProfileHydrator()->hydrate($updateData, $userProfileEntity);
             $this->getUserProfileMapper()->save($userProfile);

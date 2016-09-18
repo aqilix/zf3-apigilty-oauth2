@@ -61,6 +61,11 @@ class UserProfile implements EntityInterface
     private $country;
 
     /**
+     * @var string
+     */
+    private $photo;
+
+    /**
      * @return the $uuid
      */
     public function getUuid()
@@ -222,5 +227,21 @@ class UserProfile implements EntityInterface
     public function setCountry($country)
     {
         $this->country = $country;
+    }
+
+    /**
+     * @return the $photo
+     */
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
+    /**
+     * @param string $photo
+     */
+    public function setPhoto($photo)
+    {
+        $this->photo = $photo;
     }
 }

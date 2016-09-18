@@ -8,9 +8,9 @@ return [
     ],
     'service_manager' => [
         'factories' => [
-            'user.signup'  => \User\V1\Service\SignupFactory::class,
+            'user.signup' => \User\V1\Service\SignupFactory::class,
             'user.profile' => \User\V1\Service\ProfileFactory::class,
-            'user.signup.listener'  => \User\V1\Service\Listener\SignupEventListenerFactory::class,
+            'user.signup.listener' => \User\V1\Service\Listener\SignupEventListenerFactory::class,
             'user.profile.listener' => \User\V1\Service\Listener\ProfileEventListenerFactory::class,
             \User\V1\Rest\Profile\ProfileResource::class => \User\V1\Rest\Profile\ProfileResourceFactory::class,
         ],
@@ -20,10 +20,9 @@ return [
     ],
     'hydrators' => [
         'factories' => [
-            'User\Hydrator\UserProfile' => \User\V1\Hydrator\UserProfileHydratorFactory::class,
+            'User\\Hydrator\\UserProfile' => \User\V1\Hydrator\UserProfileHydratorFactory::class,
         ],
     ],
-
     'router' => [
         'routes' => [
             'user.rpc.signup' => [
@@ -110,6 +109,7 @@ return [
                 0 => 'application/json',
                 1 => 'application/vnd.aqilix.bootstrap.v1+json',
                 2 => 'application/hal+json',
+                3 => 'multipart/form-data',
             ],
             'User\\V1\\Rpc\\Me\\Controller' => [
                 0 => 'application/json',
@@ -320,6 +320,39 @@ return [
                 'name' => 'country',
                 'description' => 'Country',
             ],
+            8 => [
+                'required' => false,
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\File\Extension::class,
+                        'options' => [
+                            'extension' => 'png, jpg, jpeg',
+                            'message' => 'File extension not match',
+                        ],
+                    ],
+                    1 => [
+                        'name' => \Zend\Validator\File\MimeType::class,
+                        'options' => [
+                            'mimeType' => 'image/png, image/jpeg',
+                            'message' => 'File type extension not match',
+                        ],
+                    ],
+                ],
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\File\RenameUpload::class,
+                        'options' => [
+                            'use_upload_extension' => true,
+                            'target' => 'data/photo',
+                        ],
+                    ],
+                ],
+                'name' => 'photo',
+                'description' => 'Photo',
+                'field_type' => 'File',
+                'type' => \Zend\InputFilter\FileInput::class,
+                'error_message' => 'Photo is not valid',
+            ],
         ],
     ],
     'zf-rest' => [
@@ -352,7 +385,7 @@ return [
                 'entity_identifier_name' => 'uuid',
                 'route_name' => 'user.rest.profile',
                 'route_identifier_name' => 'profile_id',
-                'hydrator' => 'User\Hydrator\UserProfile',
+                'hydrator' => 'User\\Hydrator\\UserProfile',
             ],
             \User\V1\Rest\Profile\ProfileCollection::class => [
                 'entity_identifier_name' => 'uuid',
