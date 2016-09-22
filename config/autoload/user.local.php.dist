@@ -19,7 +19,8 @@
 return [
     'user' => [
         'photo' => [
-            'backup_dir' => 'data/cache/'
+            'base_url' => 'http://s3.amazonaws.xyz',
+            'bucket'   => 'photo',
         ]
     ]
 ];
