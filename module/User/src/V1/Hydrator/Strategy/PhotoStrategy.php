@@ -13,6 +13,16 @@ use Aqilix\OAuth2\Entity\OauthUsers;
 class PhotoStrategy implements StrategyInterface
 {
     /**
+     * @var array
+     */
+    protected $config;
+
+    public function __construct(array $config)
+    {
+        $this->setConfig($config);
+    }
+
+    /**
      * Converts the given value so that it can be extracted by the hydrator.
      *
      * @param  mixed $value The original value.
@@ -24,10 +34,7 @@ class PhotoStrategy implements StrategyInterface
      */
     public function extract($value, $object = null)
     {
-        $photo = null;
-        if (file_exists($value)) {
-            $photo = "http://apitest.aqilix.com/profile/photo/" . basename($value);
-        }
+        $photo = $this->getConfig()['base_url'] . '/' . $this->getConfig()['bucket'] . '/' . basename($value);
 
         return $photo;
     }
@@ -45,10 +52,28 @@ class PhotoStrategy implements StrategyInterface
     public function hydrate($value, array $data = null)
     {
         $photo = null;
-        if (is_array($value) || isset($value['tmp_name'])) {
-            $photo = $value['tmp_name'];
+        if (is_array($value) && isset($value['tmp_name'])) {
+            $photo = basename($value['tmp_name']);
+        } else {
+            $photo = basename($value);
         }
 
         return $photo;
+    }
+
+    /**
+     * @return the $config
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * @param field_type $config
+     */
+    public function setConfig($config)
+    {
+        $this->config = $config;
     }
 }
