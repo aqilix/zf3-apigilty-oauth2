@@ -34,7 +34,10 @@ class PhotoStrategy implements StrategyInterface
      */
     public function extract($value, $object = null)
     {
-        $photo = $this->getConfig()['base_url'] . '/' . $this->getConfig()['bucket'] . '/' . basename($value);
+        $photo = null;
+        if (! empty($value)) {
+            $photo = $this->getConfig()['base_url'] . '/' . $this->getConfig()['bucket'] . '/' . basename($value);
+        }
 
         return $photo;
     }
