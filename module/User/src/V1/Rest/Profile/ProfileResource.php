@@ -88,15 +88,7 @@ class ProfileResource extends AbstractResourceListener
      */
     public function patch($id, $data)
     {
-        $userProfile = $this->getUserProfileMapper()->fetchOneBy(['uuid' => $id]);
-        if (is_null($userProfile)) {
-            return new ApiProblemResponse(new ApiProblem(404, "User Profile not found"));
-        }
-
-        $inputFilter = $this->getInputFilter();
-//         $data = $inputFilter->getValues();
-        $this->getUserProfileService()->update($userProfile, $inputFilter);
-        return $userProfile;
+        return new ApiProblem(405, 'The PATCH method has not been defined for individual resource');
     }
 
     /**
@@ -130,7 +122,14 @@ class ProfileResource extends AbstractResourceListener
      */
     public function update($id, $data)
     {
-        return new ApiProblem(405, 'The PUT method has not been defined for individual resources');
+        $userProfile = $this->getUserProfileMapper()->fetchOneBy(['uuid' => $id]);
+        if (is_null($userProfile)) {
+            return new ApiProblemResponse(new ApiProblem(404, "User Profile not found"));
+        }
+
+        $inputFilter = $this->getInputFilter();
+        $this->getUserProfileService()->update($userProfile, $inputFilter);
+        return $userProfile;
     }
 
     /**

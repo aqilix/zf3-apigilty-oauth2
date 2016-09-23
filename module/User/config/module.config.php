@@ -365,7 +365,6 @@ return [
             'collection_name' => 'profile',
             'entity_http_methods' => [
                 0 => 'GET',
-                1 => 'PATCH',
                 2 => 'PUT',
                 3 => 'DELETE',
             ],
