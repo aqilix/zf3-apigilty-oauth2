@@ -11,8 +11,8 @@ class SignupEvent extends Event
     /**#@+
      * Signup events triggered by eventmanager
      */
-    const EVENT_NOTIFY = 'notify';
-    const EVENT_INSERT_USER  = 'insert.user';
+    const EVENT_INSERT_SUCCESS = 'insert.user.success';
+    const EVENT_INSERT_USER    = 'insert.user';
     const EVENT_INSERT_USER_ERROR = 'insert.user.error';
     /**#@-*/
 
