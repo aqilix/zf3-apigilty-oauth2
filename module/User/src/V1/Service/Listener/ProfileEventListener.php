@@ -4,6 +4,8 @@ namespace User\V1\Service\Listener;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateTrait;
+use Zend\InputFilter\InputFilterInterface;
+use Zend\InputFilter\Exception\InvalidArgumentException;
 use User\Mapper\UserProfile as UserProfileMapper;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use User\V1\ProfileEvent;
@@ -32,7 +34,7 @@ class ProfileEventListener implements ListenerAggregateInterface
     ) {
         $this->setUserProfileMapper($userProfileMapper);
         $this->setUserProfileHydrator($userProfileHydrator);
-        $this->config = $config;
+        $this->setConfig($config);
     }
 
     public function attach(EventManagerInterface $events, $priority = 1)
@@ -54,6 +56,19 @@ class ProfileEventListener implements ListenerAggregateInterface
         try {
             $userProfileEntity = $event->getParams()->getUserProfileEntity();
             $updateData  = $event->getParams()->getUpdateData();
+            // add file input filter here
+            if (! $event->getParams()->getInputFilter() instanceof InputFilterInterface) {
+                throw new InvalidArgumentException('Input Filter not set');
+            }
+
+            // adding filter for photo
+            $inputPhoto  = $event->getParams()->getInputFilter()->get('photo');
+            $inputPhoto->getFilterChain()
+                    ->attach(new \Zend\Filter\File\RenameUpload([
+                        'target' => $this->getConfig()['backup_dir'],
+                        'randomize' => true,
+                        'use_upload_extension' => true
+                    ]));
             $userProfile = $this->getUserProfileHydrator()->hydrate($updateData, $userProfileEntity);
             $this->getUserProfileMapper()->save($userProfile);
             $event->getParams()->setUserProfileEntity($userProfile);

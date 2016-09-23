@@ -93,9 +93,9 @@ class ProfileResource extends AbstractResourceListener
             return new ApiProblemResponse(new ApiProblem(404, "User Profile not found"));
         }
 
-        $inputFilter = $this->getInputFilter('User\\V1\\Rest\\Profile\\Validator');
-        $data = $inputFilter->getValues();
-        $this->getUserProfileService()->update($userProfile, $data);
+        $inputFilter = $this->getInputFilter();
+//         $data = $inputFilter->getValues();
+        $this->getUserProfileService()->update($userProfile, $inputFilter);
         return $userProfile;
     }
 

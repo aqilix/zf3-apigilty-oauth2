@@ -66,10 +66,11 @@ class Profile
      * @param \User\Entity\UserProfile  $userProfile
      * @param array                     $updateData
      */
-    public function update($userProfile, $updateData)
+    public function update($userProfile, $inputFilter)
     {
         $this->getProfileEvent()->setUserProfileEntity($userProfile);
-        $this->getProfileEvent()->setUpdateData($updateData);
+        $this->getProfileEvent()->setUpdateData($inputFilter->getValues());
+        $this->getProfileEvent()->setInputFilter($inputFilter);
         $update = $this->getEventManager()->trigger(
             ProfileEvent::EVENT_UPDATE_PROFILE,
             $this,

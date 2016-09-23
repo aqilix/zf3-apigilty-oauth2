@@ -344,6 +344,7 @@ return [
                         'name' => \Zend\Filter\File\RenameUpload::class,
                         'options' => [
                             'use_upload_extension' => true,
+                            'randomize' => true,
                             'target' => 'data/photo',
                         ],
                     ],

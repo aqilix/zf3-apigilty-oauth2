@@ -4,6 +4,7 @@ namespace User\V1;
 
 use Zend\EventManager\Event;
 use Aqilix\ORM\Entity\EntityInterface;
+use Zend\InputFilter\InputFilterInterface;
 use \Exception;
 
 class ProfileEvent extends Event
@@ -20,6 +21,11 @@ class ProfileEvent extends Event
      * @var User\Entity\UserProfile
      */
     protected $userProfileEntity;
+
+    /**
+     * @var Zend\InputFilter\InputFilterInterface
+     */
+    protected $inputFilter;
 
     /**
      * @var array
@@ -61,6 +67,22 @@ class ProfileEvent extends Event
     public function setUpdateData($updateData)
     {
         $this->updateData = $updateData;
+    }
+
+    /**
+     * @return the $inputFilter
+     */
+    public function getInputFilter()
+    {
+        return $this->inputFilter;
+    }
+
+    /**
+     * @param Zend\InputFilter\InputFilterInterface $inputFilter
+     */
+    public function setInputFilter(InputFilterInterface $inputFilter)
+    {
+        $this->inputFilter = $inputFilter;
     }
 
     /**

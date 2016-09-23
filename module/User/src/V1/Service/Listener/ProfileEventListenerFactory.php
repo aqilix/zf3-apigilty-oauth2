@@ -10,8 +10,7 @@ class ProfileEventListenerFactory implements FactoryInterface
     {
         $userProfileMapper   = $container->get('User\Mapper\UserProfile');
         $userProfileHydrator = $container->get('HydratorManager')->get('User\Hydrator\UserProfile');
-        $config = $container->get('Config');
-        $profileEventConfig = [];
+        $profileEventConfig  = $container->get('Config')['user']['photo'];
         return new ProfileEventListener(
             $userProfileMapper,
             $userProfileHydrator,

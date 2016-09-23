@@ -19,7 +19,7 @@
 return [
     'user' => [
         'photo' => [
-            'backup_dir' => 'data/cache/'
+            'backup_dir' => 'data/photo'
         ]
     ]
 ];
