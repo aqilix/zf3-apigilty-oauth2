@@ -78,7 +78,7 @@ class Signup
             );
             throw $this->getSignupEvent()->getException();
         } else {
-            $this->getEventManager()->trigger(SignupEvent::EVENT_INSERT_SUCCESS, $this, $this->getSignupEvent());
+            $this->getEventManager()->trigger(SignupEvent::EVENT_INSERT_USER_SUCCESS, $this, $this->getSignupEvent());
         }
     }
 }

@@ -21,6 +21,13 @@ return [
         'photo' => [
             'base_url' => 'http://s3.amazonaws.xyz',
             'bucket'   => 'photo',
+        ],
+        'email'  => [
+            'welcome' => [
+                'from' => 'no-reply@',
+                'name' => '',
+                'subject' => ''
+            ]
         ]
     ]
 ];

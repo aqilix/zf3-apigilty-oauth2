@@ -20,6 +20,13 @@ return [
     'user' => [
         'photo' => [
             'backup_dir' => 'data/photo'
+        ],
+        'email'  => [
+            'welcome' => [
+                'from' => '',
+                'name' => '',
+                'subject' => ''
+            ]
         ]
     ]
 ];

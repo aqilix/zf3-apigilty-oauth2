@@ -12,6 +12,8 @@ return [
             'user.profile' => \User\V1\Service\ProfileFactory::class,
             'user.signup.listener' => \User\V1\Service\Listener\SignupEventListenerFactory::class,
             'user.profile.listener' => \User\V1\Service\Listener\ProfileEventListenerFactory::class,
+            'user.notification.email.signup.listener' => \User\V1\Notification\Email\Listener\SignupEventListenerFactory::class,
+            'user.notification.email.service.welcome' => \User\V1\Notification\Email\Service\WelcomeFactory::class,
             \User\V1\Rest\Profile\ProfileResource::class => \User\V1\Rest\Profile\ProfileResourceFactory::class,
             \User\V1\Hydrator\Strategy\PhotoStrategy::class => \User\V1\Hydrator\Strategy\PhotoStrategyFactory::class
         ],
@@ -22,6 +24,11 @@ return [
     'hydrators' => [
         'factories' => [
             'User\\Hydrator\\UserProfile' => \User\V1\Hydrator\UserProfileHydratorFactory::class,
+        ],
+    ],
+    'view_manager' => [
+        'template_path_stack' => [
+            __DIR__ . '/../view',
         ],
     ],
     'router' => [

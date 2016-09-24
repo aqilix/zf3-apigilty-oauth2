@@ -10,9 +10,11 @@ class Module implements ApigilityProviderInterface
     public function onBootstrap(MvcEvent $mvcEvent)
     {
         $serviceManager = $mvcEvent->getApplication()->getServiceManager();
-        $signupEventListener = $serviceManager->get('user.signup.listener');
         $signupService  = $serviceManager->get('user.signup');
+        $signupEventListener = $serviceManager->get('user.signup.listener');
         $signupEventListener->attach($signupService->getEventManager());
+        $signupNotificationEmailListener = $serviceManager->get('user.notification.email.signup.listener');
+        $signupNotificationEmailListener->attach($signupService->getEventManager());
         $profileEventListener = $serviceManager->get('user.profile.listener');
         $profileService = $serviceManager->get('user.profile');
         $profileEventListener->attach($profileService->getEventManager());

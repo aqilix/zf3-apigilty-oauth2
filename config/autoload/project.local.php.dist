@@ -1,0 +1,8 @@
+<?php
+return [
+    'project' => [
+        'sites' => [
+           'activation_url' => 'http://aqilix.xyz/user/activation/:id',
+        ],
+    ],
+];
