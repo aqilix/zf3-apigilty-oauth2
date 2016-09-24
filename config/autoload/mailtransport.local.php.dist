@@ -1,0 +1,19 @@
+<?php
+return [
+    'mail' => [
+        'transport' => [
+            'mailgunapp' => [
+                'options' => [
+                    'host' => '',
+                    'connection_class'  => 'login',
+                    'connection_config' => [
+                        'ssl'       => 'tls',
+                        'username' => '',
+                        'password' => ''
+                    ],
+                    'port' => 587,
+                ]
+            ]
+        ]
+    ]
+];
