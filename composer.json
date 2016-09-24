@@ -46,6 +46,8 @@
         "zfcampus/zf-http-cache": "^1.3",
         "zfr/zfr-cors": "^1.2",
         "zendframework/zend-cache": "^2.7.1",
+        "zendframework/zend-mime": "^2.6.0",
+        "zendframework/zend-mail": "^2.7.1",
         "zendframework/zend-mvc-i18n": "^1.0",
         "zendframework/zend-log": "^2.9",
         "doctrine/doctrine-module": "dev-feature/zf3-support",
