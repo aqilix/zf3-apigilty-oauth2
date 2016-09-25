@@ -23,8 +23,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.08-dev",
-            "dev-develop": "0.09-dev"
+            "dev-master": "0.09-dev",
+            "dev-develop": "0.10-dev"
         }
     },
     "repositories": [
