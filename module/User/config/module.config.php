@@ -441,7 +441,7 @@ return [
                 // Console routes go here
                 'v1-send-welcome-email' => [
                     'options' => [
-                        'route'    => 'v1 user send-welcome-email <emailAddress> <activationUrl>',
+                        'route'    => 'v1 user send-welcome-email <emailAddress> <activationCode>',
                         'defaults' => [
                             'controller' => \User\V1\Console\Controller\EmailController::class,
                             'action'     => 'sendWelcomeEmail',

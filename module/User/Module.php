@@ -59,11 +59,11 @@ class Module implements
     {
         return [
             // available command
-            'v1 user send-welcome-email emailAddress activationUrl' => 'Send Welcome Email to New User',
+            'v1 user send-welcome-email <emailAddress> <activationCode>' => 'Send Welcome Email to New User',
 
             // describe expected parameters
-            [ 'emailAddress' , 'Email Address of New User'],
-            [ 'activationUrl', 'Activation Url for new user'],
+            [ 'emailAddress',   'Email Address of New User'],
+            [ 'activationCode', 'Activation Code for New user'],
         ];
     }
 }
