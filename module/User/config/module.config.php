@@ -4,6 +4,7 @@ return [
         'factories' => [
             'User\\V1\\Rpc\\Signup\\Controller' => \User\V1\Rpc\Signup\SignupControllerFactory::class,
             'User\\V1\\Rpc\\Me\\Controller' => \User\V1\Rpc\Me\MeControllerFactory::class,
+            \User\V1\Console\Controller\EmailController::class => \User\V1\Console\Controller\EmailControllerFactory::class
         ],
     ],
     'service_manager' => [
@@ -429,6 +430,22 @@ return [
                         'PUT' => false,
                         'PATCH' => false,
                         'DELETE' => false,
+                    ],
+                ],
+            ],
+        ],
+    ],
+    'console' => [
+        'router' => [
+            'routes' => [
+                // Console routes go here
+                'v1-send-welcome-email' => [
+                    'options' => [
+                        'route'    => 'v1 user send-welcome-email <emailAddress> <activationUrl>',
+                        'defaults' => [
+                            'controller' => \User\V1\Console\Controller\EmailController::class,
+                            'action'     => 'sendWelcomeEmail',
+                        ],
                     ],
                 ],
             ],

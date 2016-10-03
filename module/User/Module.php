@@ -2,10 +2,18 @@
 namespace User;
 
 use ZF\Apigility\Provider\ApigilityProviderInterface;
+use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
+use Zend\ModuleManager\Feature\ConfigProviderInterface;
+use Zend\ModuleManager\Feature\ConsoleUsageProviderInterface;
+use Zend\Console\Adapter\AdapterInterface as Console;
 
 use Zend\Mvc\MvcEvent;
 
-class Module implements ApigilityProviderInterface
+class Module implements
+    ApigilityProviderInterface,
+    AutoloaderProviderInterface,
+    ConfigProviderInterface,
+    ConsoleUsageProviderInterface
 {
     public function onBootstrap(MvcEvent $mvcEvent)
     {
@@ -44,6 +52,18 @@ class Module implements ApigilityProviderInterface
                     __NAMESPACE__ => __DIR__ . '/src',
                 ],
             ],
+        ];
+    }
+
+    public function getConsoleUsage(Console $console)
+    {
+        return [
+            // available command
+            'v1 user send-welcome-email emailAddress activationUrl' => 'Send Welcome Email to New User',
+
+            // describe expected parameters
+            [ 'emailAddress' , 'Email Address of New User'],
+            [ 'activationUrl', 'Activation Url for new user'],
         ];
     }
 }
