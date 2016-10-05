@@ -1,0 +1,18 @@
+<?php
+return [
+    'doctrine' => [
+        'connection' => [
+            // default connection name
+            'orm_default' => [
+                'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
+                'params' => [
+                    'host'     => 'db',
+                    'port'     => '3306',
+                    'user'     => 'zf3',
+                    'password' => 'zf3',
+                    'dbname'   => 'zf3_apigility',
+                ],
+            ],
+        ],
+    ],
+];
