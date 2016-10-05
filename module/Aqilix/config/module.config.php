@@ -6,7 +6,7 @@ return [
         ],
         'factories'  => [
             'Aqilix\Service\Mail' => \Aqilix\Service\Mail\MailgunAppFactory::class,
-            'Aqilix\Service\PhpProcess' => \Aqilix\Service\PhpProcessFactory::class
+            'Aqilix\Service\PhpProcessBuilder' => \Aqilix\Service\PhpProcessFactory::class
         ],
         'abstract_factories' => [
             'Aqilix\OAuth2\Mapper\AbstractMapperFactory'

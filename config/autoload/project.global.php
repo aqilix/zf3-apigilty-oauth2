@@ -6,8 +6,8 @@ return [
            'contact_us' => 'https://aqilix.com'
         ],
         'php_process' => [
-            'php_binary' => '',
-            'script' => __DIR__ . '/../../public/index.php'
+           'php_binary' => '/usr/bin/php',
+           'script' => 'public/index.php'
         ]
     ],
 ];

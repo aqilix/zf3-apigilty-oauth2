@@ -4,25 +4,29 @@ namespace User\V1\Notification\Email\Listener;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateTrait;
-use Zend\View\Model\ViewModel;
-use Zend\Mime\Message as MimeMessage;
-use Zend\Mime\Part as MimePart;
-use Zend\Mail\Message as MailMessage;
+use Symfony\Component\Process\ProcessBuilder;
 use User\V1\SignupEvent;
 
 class SignupEventListener extends AbstractListener implements ListenerAggregateInterface
 {
     use ListenerAggregateTrait;
 
-    protected $welcomeMailMessage;
-
     protected $phpProcessBuilder;
 
-    public function __construct($phpProcessBuilder)
+    /**
+     * Construct Event
+     *
+     * @param ProcessBuilder $phpProcessBuilder
+     */
+    public function __construct(ProcessBuilder $phpProcessBuilder)
     {
-        $this->phpProcessBuilder = $phpProcessBuilder;
+        $this->setPhpProcessBuilder($phpProcessBuilder);
     }
 
+    /**
+     * (non-PHPdoc)
+     * @see \Zend\EventManager\ListenerAggregateInterface::attach()
+     */
     public function attach(EventManagerInterface $events, $priority = 1)
     {
         $this->listeners[] = $events->attach(
@@ -32,47 +36,37 @@ class SignupEventListener extends AbstractListener implements ListenerAggregateI
         );
     }
 
-    public function getWelcomeMessage($event)
-    {
-        $view = new ViewModel([
-            'contactUsUrl'  => '',
-            'activationUrl' => $this->getConfig()['activation_url']
-        ]);
-        $view->setTemplate('user/email/welcome.phtml');
-        $html = $this->getViewRenderer()->render($view);
-        return $html;
-    }
-
     /**
-     * Send Activation Email
+     * Rund Console to Send Activation Email
      *
      * @param EventInterface $event
      */
     public function sendWelcomeEmail($event)
     {
         $emailAddress = $event->getParams()->getUserEntity()->getUsername();
-        file_put_contents('/tmp/cli.txt', get_class($this->phpProcessBuilder));
+        // command: v1 user send-welcome-email <emailAddress> <activationCode>
         $cli = $this->phpProcessBuilder
-                ->setArguments(['v1 user send-welcome-email ' . $emailAddress . ' ABCDEFG'])
+                ->setArguments(['v1', 'user', 'send-welcome-email', $emailAddress, 'ABCDEFG'])
                 ->getProcess();
-        file_put_contents('/tmp/cli.txt', $cli->getCommandline());
-        $output = $cli->run();
-        file_put_contents('/tmp/output.txt', $output);
+        $cli->start();
+        $pid = $cli->getPid();
     }
 
     /**
-     * @return the $welcomeMailMessage
+     * Get ProcessBuilder
+     *
+     * @return ProcessBuilder $phpProcessBuilder
      */
-    public function getWelcomeMailMessage()
+    public function getPhpProcessBuilder()
     {
-        return $this->welcomeMailMessage;
+        return $this->phpProcessBuilder;
     }
 
     /**
-     * @param Zend\Mail\Message $welcomeMailMessage
+     * @param ProcessBuilder $phpProcessBuilder
      */
-    public function setWelcomeMailMessage(MailMessage $welcomeMailMessage)
+    public function setPhpProcessBuilder(ProcessBuilder $phpProcessBuilder)
     {
-        $this->welcomeMailMessage = $welcomeMailMessage;
+        $this->phpProcessBuilder = $phpProcessBuilder;
     }
 }

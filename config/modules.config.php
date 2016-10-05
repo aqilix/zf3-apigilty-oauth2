@@ -6,6 +6,7 @@
  */
 return [
     'ZF\\HttpCache',
+    'Zend\\Mvc\\Console',
     'Zend\\Cache',
     'Zend\\Filter',
     'Zend\\Hydrator',
@@ -29,6 +30,7 @@ return [
     'ZF\\Rest',
     'ZF\\Rpc',
     'ZF\\Versioning',
+    'ZfrCors',
     'Application',
     'DoctrineModule',
     'DoctrineORMModule',
