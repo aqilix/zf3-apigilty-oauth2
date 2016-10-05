@@ -16,11 +16,11 @@ class SignupEventListener extends AbstractListener implements ListenerAggregateI
 
     protected $welcomeMailMessage;
 
-    public function __construct($viewRenderer, $mailTransport, array $config = [])
+    protected $phpProcessBuilder;
+
+    public function __construct($phpProcessBuilder)
     {
-        $this->setViewRenderer($viewRenderer);
-        $this->setMailTransport($mailTransport);
-        $this->setConfig($config);
+        $this->phpProcessBuilder = $phpProcessBuilder;
     }
 
     public function attach(EventManagerInterface $events, $priority = 1)
@@ -50,19 +50,14 @@ class SignupEventListener extends AbstractListener implements ListenerAggregateI
      */
     public function sendWelcomeEmail($event)
     {
-        $html = $this->getWelcomeMessage($event);
         $emailAddress = $event->getParams()->getUserEntity()->getUsername();
-        $htmlMimePart = new MimePart($html);
-        $htmlMimePart->setType('text/html');
-        $mimeMessage  = new MimeMessage();
-        $mimeMessage->addPart($htmlMimePart);
-
-        $mailMessage = $this->getWelcomeMailMessage();
-        $mailMessage->addTo($emailAddress);
-        $mailMessage->setBody($mimeMessage);
-
-        $mail = $this->getMailTransport();
-        $mail->send($mailMessage);
+        file_put_contents('/tmp/cli.txt', get_class($this->phpProcessBuilder));
+        $cli = $this->phpProcessBuilder
+                ->setArguments(['v1 user send-welcome-email ' . $emailAddress . ' ABCDEFG'])
+                ->getProcess();
+        file_put_contents('/tmp/cli.txt', $cli->getCommandline());
+        $output = $cli->run();
+        file_put_contents('/tmp/output.txt', $output);
     }
 
     /**

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c673e1f035d36879f308e34ec58e9107",
-    "content-hash": "a88105f1e23a81858fa7e39a57ec039f",
+    "hash": "d657cdeb44b189b3cd03fb92971c236c",
+    "content-hash": "08ad10c5d35c5c559f151be656ca80ab",
     "packages": [
         {
             "name": "bshaffer/oauth2-server-php",
@@ -1170,6 +1170,55 @@
                 "shim"
             ],
             "time": "2016-05-18 14:26:46"
+        },
+        {
+            "name": "symfony/process",
+            "version": "v3.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/process.git",
+                "reference": "e64e93041c80e77197ace5ab9385dedb5a143697"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/process/zipball/e64e93041c80e77197ace5ab9385dedb5a143697",
+                "reference": "e64e93041c80e77197ace5ab9385dedb5a143697",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Process\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Process Component",
+            "homepage": "https://symfony.com",
+            "time": "2016-08-16 14:58:24"
         },
         {
             "name": "zendframework/zend-authentication",
@@ -3769,16 +3818,16 @@
         },
         {
             "name": "zfcampus/zf-mvc-auth",
-            "version": "1.4.2",
+            "version": "1.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zfcampus/zf-mvc-auth.git",
-                "reference": "3c15ae465ae75d594c939043e44e3ba079ab0fa7"
+                "reference": "cb5ffdd5be60b6e59abf2fb94cf9339b642c66f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zfcampus/zf-mvc-auth/zipball/3c15ae465ae75d594c939043e44e3ba079ab0fa7",
-                "reference": "3c15ae465ae75d594c939043e44e3ba079ab0fa7",
+                "url": "https://api.github.com/repos/zfcampus/zf-mvc-auth/zipball/cb5ffdd5be60b6e59abf2fb94cf9339b642c66f3",
+                "reference": "cb5ffdd5be60b6e59abf2fb94cf9339b642c66f3",
                 "shasum": ""
             },
             "require": {
@@ -3825,7 +3874,7 @@
                 "zend",
                 "zf2"
             ],
-            "time": "2016-08-03 20:34:18"
+            "time": "2016-09-30 15:49:02"
         },
         {
             "name": "zfcampus/zf-oauth2",
@@ -4467,16 +4516,16 @@
         },
         {
             "name": "phpdocumentor/reflection-docblock",
-            "version": "3.1.0",
+            "version": "3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "9270140b940ff02e58ec577c237274e92cd40cdd"
+                "reference": "8331b5efe816ae05461b7ca1e721c01b46bafb3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/9270140b940ff02e58ec577c237274e92cd40cdd",
-                "reference": "9270140b940ff02e58ec577c237274e92cd40cdd",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/8331b5efe816ae05461b7ca1e721c01b46bafb3e",
+                "reference": "8331b5efe816ae05461b7ca1e721c01b46bafb3e",
                 "shasum": ""
             },
             "require": {
@@ -4508,7 +4557,7 @@
                 }
             ],
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
-            "time": "2016-06-10 09:48:41"
+            "time": "2016-09-30 07:12:33"
         },
         {
             "name": "phpdocumentor/type-resolver",

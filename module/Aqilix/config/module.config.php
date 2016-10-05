@@ -5,7 +5,8 @@ return [
             'oauth2.accessToken' => 'Aqilix\OAuth2\ResponseType\AccessToken'
         ],
         'factories'  => [
-            'Aqilix\Service\Mail' => Aqilix\Service\Mail\MailgunAppFactory::class
+            'Aqilix\Service\Mail' => \Aqilix\Service\Mail\MailgunAppFactory::class,
+            'Aqilix\Service\PhpProcess' => \Aqilix\Service\PhpProcessFactory::class
         ],
         'abstract_factories' => [
             'Aqilix\OAuth2\Mapper\AbstractMapperFactory'
