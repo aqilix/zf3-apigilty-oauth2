@@ -169,4 +169,14 @@ class OauthClients implements EntityInterface
     {
         return $this->clientId;
     }
+
+    /**
+     * Set clientId
+     *
+     * @return string
+     */
+    public function setClientId($clientId)
+    {
+        return $this->clientId = $clientId;
+    }
 }

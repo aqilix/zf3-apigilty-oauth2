@@ -15,14 +15,24 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
         return 0;
     }
 
+    public function setServiceLocator($sl)
+    {
+        $this->serviceLocator = $sl;
+    }
+
+    public function getServiceLocator()
+    {
+        return $this->serviceLocator;
+    }
+
     public function load(ObjectManager $manager)
     {
         $bcrypt   = new Bcrypt();
-        $password = $bcrypt->create('2015');
+        $password = $bcrypt->create('12345678');
 
         $userData = [
             [
-                'username' => 'dolly.aswin@gmail.com',
+                'username' => 'dolly.aswin@aqilix.com',
                 'password' => $password,
             ]
         ];
