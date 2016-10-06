@@ -15,5 +15,8 @@ return [
                 ]
             ]
         ],
-    ]
+    ],
+    'data-fixture' => [
+        'fixtures' => __DIR__ . '/../src/V1/Fixture'
+    ],
 ];

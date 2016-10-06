@@ -34,6 +34,7 @@ return [
     'Application',
     'DoctrineModule',
     'DoctrineORMModule',
+    'DoctrineDataFixtureModule',
     'Aqilix',
     'User'
 ];
