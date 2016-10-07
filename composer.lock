@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1e897bc8af6171c0a652e4102575c9e0",
-    "content-hash": "4971c6886f2f10535f0aaa55b5e5c660",
+    "hash": "ba571e8113b55bc097aa6d5fc6b25498",
+    "content-hash": "bc1899b8df47294167b39d3e51e8a58a",
     "packages": [
         {
             "name": "aqilix/doctrine-data-fixture-module",
-            "version": "dev-master",
+            "version": "0.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aqilix/DoctrineDataFixtureModule.git",
-                "reference": "159c387e6338586b4381ec1535b0666dea7219e8"
+                "reference": "2495dc545ecf2d8a283da80cf5faded6a6223555"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aqilix/DoctrineDataFixtureModule/zipball/159c387e6338586b4381ec1535b0666dea7219e8",
-                "reference": "159c387e6338586b4381ec1535b0666dea7219e8",
+                "url": "https://api.github.com/repos/aqilix/DoctrineDataFixtureModule/zipball/2495dc545ecf2d8a283da80cf5faded6a6223555",
+                "reference": "2495dc545ecf2d8a283da80cf5faded6a6223555",
                 "shasum": ""
             },
             "require": {
@@ -31,16 +31,23 @@
                 "zendframework/zend-servicemanager": "^2.7.6 || ^3.1.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "3.7.*",
+                "phpunit/phpunit": "^5.5",
                 "satooshi/php-coveralls": ">=0.6.0",
-                "squizlabs/php_codesniffer": "1.4.*"
+                "squizlabs/php_codesniffer": "^2.6"
             },
             "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "DoctrineDataFixtureModule": "src/"
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.0.5-dev",
+                    "dev-develop": "0.0.6-dev"
                 }
             },
+            "autoload": {
+                "psr-4": {
+                    "DoctrineDataFixtureModule\\": "src/DoctrineDataFixtureModule/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -57,15 +64,14 @@
             "description": "Zend Framework 2 Module that provides Doctrine Data-Fixture functionality",
             "homepage": "http://www.doctrine-project.org/",
             "keywords": [
+                "PHP7",
                 "data-fixture",
                 "doctrine",
                 "module",
-                "zf2"
+                "zf2",
+                "zf3"
             ],
-            "support": {
-                "source": "https://github.com/aqilix/DoctrineDataFixtureModule/tree/master"
-            },
-            "time": "2016-10-06 06:04:05"
+            "time": "2016-10-07 07:53:01"
         },
         {
             "name": "bshaffer/oauth2-server-php",
@@ -5091,16 +5097,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.5.7",
+            "version": "5.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "3f67cee782c9abfaee5e32fd2f57cdd54bc257ba"
+                "reference": "a7f2db56518e50ab92f28f739810dfad2f223b6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3f67cee782c9abfaee5e32fd2f57cdd54bc257ba",
-                "reference": "3f67cee782c9abfaee5e32fd2f57cdd54bc257ba",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a7f2db56518e50ab92f28f739810dfad2f223b6b",
+                "reference": "a7f2db56518e50ab92f28f739810dfad2f223b6b",
                 "shasum": ""
             },
             "require": {
@@ -5134,7 +5140,6 @@
                 "ext-pdo": "*"
             },
             "suggest": {
-                "ext-tidy": "*",
                 "ext-xdebug": "*",
                 "phpunit/php-invoker": "~1.1"
             },
@@ -5144,7 +5149,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.5.x-dev"
+                    "dev-master": "5.6.x-dev"
                 }
             },
             "autoload": {
@@ -5170,7 +5175,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-10-03 13:04:15"
+            "time": "2016-10-06 15:20:39"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -6592,8 +6597,7 @@
     "stability-flags": {
         "zendframework/zend-component-installer": 20,
         "doctrine/doctrine-module": 20,
-        "doctrine/doctrine-orm-module": 20,
-        "aqilix/doctrine-data-fixture-module": 20
+        "doctrine/doctrine-orm-module": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
