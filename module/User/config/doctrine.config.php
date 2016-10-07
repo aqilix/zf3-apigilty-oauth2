@@ -23,6 +23,13 @@ return [
                 ]
             ]
         ],
+        'configuration' => [
+            'orm_default' => [
+                'filters' => [
+                    'soft-deleteable' => 'Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter'
+                ]
+            ]
+        ]
     ],
     'data-fixture' => [
         'fixtures' => __DIR__ . '/../src/V1/Fixture'
