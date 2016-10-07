@@ -32,8 +32,10 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
 
         $userData = [
             [
-                'username' => 'dolly.aswin@aqilix.com',
-                'password' => $password,
+                'username'  => 'dolly.aswin@aqilix.com',
+                'password'  => $password,
+                'firstName' => 'Dolly Aswin',
+                'lastName'  => 'Harahap'
             ]
         ];
 
@@ -41,6 +43,8 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
             $user[$key] = new OauthUsers();
             $user[$key]->setUsername($data['username']);
             $user[$key]->setPassword($data['password']);
+            $user[$key]->setFirstName($data['firstName']);
+            $user[$key]->setLastName($data['lastName']);
             $manager->persist($user[$key]);
         }
 
