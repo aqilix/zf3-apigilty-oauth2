@@ -10,7 +10,7 @@
         "zf3",
         "oauth2",
         "php5.6",
-        "php7.0"
+        "php7"
     ],
     "homepage": "https://aqilix.com/",
     "support": {
@@ -35,10 +35,6 @@
         {
             "type": "vcs",
             "url": "https://github.com/webimpress/DoctrineORMModule.git"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/aqilix/DoctrineDataFixtureModule.git"
         }
     ],
     "require": {
@@ -57,7 +53,7 @@
         "doctrine/doctrine-module": "dev-feature/zf3-support",
         "doctrine/doctrine-orm-module": "dev-feature/zf3-support",
         "symfony/process": "^3.1",
-        "aqilix/doctrine-data-fixture-module": "dev-master"
+        "aqilix/doctrine-data-fixture-module": "0.0.*"
     },
     "require-dev": {
         "zendframework/zend-developer-tools": "^1.1",
