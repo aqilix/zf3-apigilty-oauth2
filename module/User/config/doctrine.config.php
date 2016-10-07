@@ -1,6 +1,14 @@
 <?php
 return [
     'doctrine' => [
+        'eventmanager' => [
+            'orm_default' => [
+                'subscribers' => [
+                    // pick any listeners you need
+                    'Gedmo\Timestampable\TimestampableListener',
+                ],
+            ],
+        ],
         'driver' => [
             'user_entity' => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\XmlDriver',

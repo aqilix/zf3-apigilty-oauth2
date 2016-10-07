@@ -66,6 +66,20 @@ class UserProfile implements EntityInterface
     private $photo;
 
     /**
+     * @var date $created
+     *
+     * @ODM\Date
+     */
+    private $created;
+
+    /**
+     * @var date $updated
+     *
+     * @ODM\Date
+     */
+    private $updated;
+
+    /**
      * @return the $uuid
      */
     public function getUuid()
@@ -243,5 +257,37 @@ class UserProfile implements EntityInterface
     public function setPhoto($photo)
     {
         $this->photo = $photo;
+    }
+
+    /**
+     * @return the $created
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * @param \DateTime $created
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+    }
+
+    /**
+     * @return the $updated
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+ /**
+     * @param \DateTime $updated
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
     }
 }

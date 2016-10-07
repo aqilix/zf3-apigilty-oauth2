@@ -53,7 +53,8 @@
         "doctrine/doctrine-module": "dev-feature/zf3-support",
         "doctrine/doctrine-orm-module": "dev-feature/zf3-support",
         "symfony/process": "^3.1",
-        "aqilix/doctrine-data-fixture-module": "0.0.*"
+        "aqilix/doctrine-data-fixture-module": "0.0.*",
+        "gedmo/doctrine-extensions": "^2.4.23"
     },
     "require-dev": {
         "zendframework/zend-developer-tools": "^1.1",

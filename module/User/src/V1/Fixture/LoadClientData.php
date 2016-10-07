@@ -59,7 +59,7 @@ class LoadClientData extends AbstractFixture implements OrderedFixtureInterface
             $client[$key]->setClientSecret($data['secret']);
             $client[$key]->setClientId($data['client_id']);
             $client[$key]->setRedirectUri($redirectUri);
-            $client[$key]->setGrantTypes(serialize($data['grant_type']));
+            $client[$key]->setGrantTypes(null);
             $manager->persist($client[$key]);
         }
 
