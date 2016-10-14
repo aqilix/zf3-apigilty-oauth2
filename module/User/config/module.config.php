@@ -3,8 +3,8 @@ return [
     'controllers' => [
         'factories' => [
             'User\\V1\\Rpc\\Signup\\Controller' => \User\V1\Rpc\Signup\SignupControllerFactory::class,
+            \User\V1\Console\Controller\EmailController::class => \User\V1\Console\Controller\EmailControllerFactory::class,
             'User\\V1\\Rpc\\Me\\Controller' => \User\V1\Rpc\Me\MeControllerFactory::class,
-            \User\V1\Console\Controller\EmailController::class => \User\V1\Console\Controller\EmailControllerFactory::class
         ],
     ],
     'service_manager' => [
@@ -16,7 +16,7 @@ return [
             'user.notification.email.signup.listener' => \User\V1\Notification\Email\Listener\SignupEventListenerFactory::class,
             'user.notification.email.service.welcome' => \User\V1\Notification\Email\Service\WelcomeFactory::class,
             \User\V1\Rest\Profile\ProfileResource::class => \User\V1\Rest\Profile\ProfileResourceFactory::class,
-            \User\V1\Hydrator\Strategy\PhotoStrategy::class => \User\V1\Hydrator\Strategy\PhotoStrategyFactory::class
+            \User\V1\Hydrator\Strategy\PhotoStrategy::class => \User\V1\Hydrator\Strategy\PhotoStrategyFactory::class,
         ],
         'abstract_factories' => [
             0 => \User\Mapper\AbstractMapperFactory::class,
@@ -29,7 +29,7 @@ return [
     ],
     'view_manager' => [
         'template_path_stack' => [
-            __DIR__ . '/../view',
+            0 => __DIR__ . '/../view',
         ],
     ],
     'router' => [
@@ -70,6 +70,7 @@ return [
             0 => 'user.rpc.signup',
             1 => 'user.rest.profile',
             2 => 'user.rpc.me',
+            3 => 'user.rpc.me',
         ],
     ],
     'zf-rpc' => [
@@ -438,13 +439,12 @@ return [
     'console' => [
         'router' => [
             'routes' => [
-                // Console routes go here
                 'v1-send-welcome-email' => [
                     'options' => [
-                        'route'    => 'v1 user send-welcome-email <emailAddress> <activationCode>',
+                        'route' => 'v1 user send-welcome-email <emailAddress> <activationCode>',
                         'defaults' => [
                             'controller' => \User\V1\Console\Controller\EmailController::class,
-                            'action'     => 'sendWelcomeEmail',
+                            'action' => 'sendWelcomeEmail',
                         ],
                     ],
                 ],
