@@ -6,6 +6,7 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateTrait;
 use Aqilix\OAuth2\Mapper\OauthUsers as UserMapper;
 use User\Mapper\UserProfile as UserProfileMapper;
+use User\Mapper\UserActivation as UserActivationMapper;
 use Aqilix\OAuth2\Mapper\OauthAccessTokens as AccessTokenMapper;
 use Aqilix\OAuth2\Mapper\OauthRefreshTokens as RefreshTokenMapper;
 use Aqilix\OAuth2\ResponseType\AccessToken as OAuth2AccessToken;
@@ -21,6 +22,8 @@ class SignupEventListener implements ListenerAggregateInterface
 
     protected $userProfileMapper;
 
+    protected $userActivationMapper;
+
     protected $oauth2AccessToken;
 
     protected $accessTokenMapper;
@@ -33,6 +36,7 @@ class SignupEventListener implements ListenerAggregateInterface
      * @param OAuth2AccessToken $oauth2AccessToken
      * @param UserMapper $userMapper
      * @param UserProfileMapper $userProfileMapper
+     * @param UserActivationMapper $userActivationMapper
      * @param AccessTokenMapper $accessTokenMapper
      * @param RefreshTokenMapper $refreshTokenMapper
      */
@@ -40,6 +44,7 @@ class SignupEventListener implements ListenerAggregateInterface
         OAuth2AccessToken $oauth2AccessToken,
         UserMapper $userMapper,
         UserProfileMapper $userProfileMapper,
+        UserActivationMapper $userActivationMapper,
         AccessTokenMapper $accessTokenMapper,
         RefreshTokenMapper $refreshTokenMapper,
         array $config = []
@@ -48,7 +53,8 @@ class SignupEventListener implements ListenerAggregateInterface
         $this->oauth2AccessToken  = $oauth2AccessToken;
         $this->accessTokenMapper  = $accessTokenMapper;
         $this->userProfileMapper  = $userProfileMapper;
-        $this->refreshTokenMapper = $refreshTokenMapper;
+        $this->userActivationMapper = $userActivationMapper;
+        $this->refreshTokenMapper   = $refreshTokenMapper;
         $this->config = $config;
     }
 
@@ -68,6 +74,11 @@ class SignupEventListener implements ListenerAggregateInterface
             SignupEvent::EVENT_INSERT_USER,
             [$this, 'createUserProfile'],
             497
+        );
+        $this->listeners[] = $events->attach(
+            SignupEvent::EVENT_INSERT_USER,
+            [$this, 'createActivation'],
+            496
         );
     }
 
@@ -154,6 +165,24 @@ class SignupEventListener implements ListenerAggregateInterface
         $event->getParams()->setAccessTokenResponse($accessTokensResponse);
     }
 
+    public function createActivation($event)
+    {
+        try {
+            $expiration = new \DateTime();
+            // 14 day expiration
+            $expiration->add('P14D');
+            $user = $event->getParams()->getUserEntity();
+            $userActivation = new \User\Entity\UserActivation;
+            $userActivation->setUser($user);
+            $userActivation->setExpiration($expiration);
+            $this->getUserActivationMapper()->save($userActivation);
+            $event->getParams()->setUserActivationKey($userActivation->getUuid());
+        } catch (\Exception $e) {
+            $event->stopPropagation(true);
+            return $e;
+        }
+    }
+
     /**
      * @return the $config
      */
@@ -206,6 +235,27 @@ class SignupEventListener implements ListenerAggregateInterface
 
     /**
      * @return the $accessTokenMapper
+     */
+    /**
+     * @return the $userActivationMapper
+     */
+    public function getUserActivationMapper()
+    {
+        return $this->userActivationMapper;
+    }
+
+    /**
+     * @param UserActivationMapper $userActivationMapper
+     */
+    public function setUserActivationMapper($userActivationMapper)
+    {
+        $this->userActivationMapper = $userActivationMapper;
+    }
+
+    /**
+     * Get AccessTokenMapper
+     *
+     * @return AccessTokenMapper
      */
     public function getAccessTokenMapper()
     {
