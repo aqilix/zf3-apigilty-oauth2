@@ -7,11 +7,10 @@
 
 return [
     'modules' => [
-        'Zend\Mvc\Console',
-        'ZfrCors',
         'ZF\\HttpCache',
         'ZendDeveloperTools',
         'ZF\\Apigility\\Admin',
+        'DoctrineDataFixtureModule',
     ],
     'module_listener_options' => [
         'config_glob_paths' => [
