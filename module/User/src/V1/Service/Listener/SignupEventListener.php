@@ -170,7 +170,7 @@ class SignupEventListener implements ListenerAggregateInterface
         try {
             $expiration = new \DateTime();
             // 14 day expiration
-            $expiration->add('P14D');
+            $expiration->add(new \DateInterval('P14D'));
             $user = $event->getParams()->getUserEntity();
             $userActivation = new \User\Entity\UserActivation;
             $userActivation->setUser($user);
