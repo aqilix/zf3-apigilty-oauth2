@@ -5,12 +5,14 @@ return [
             'User\\V1\\Rpc\\Signup\\Controller' => \User\V1\Rpc\Signup\SignupControllerFactory::class,
             \User\V1\Console\Controller\EmailController::class => \User\V1\Console\Controller\EmailControllerFactory::class,
             'User\\V1\\Rpc\\Me\\Controller' => \User\V1\Rpc\Me\MeControllerFactory::class,
+            'User\\V1\\Rpc\\UserActivation\\Controller' => \User\V1\Rpc\UserActivation\UserActivationControllerFactory::class,
         ],
     ],
     'service_manager' => [
         'factories' => [
             'user.signup' => \User\V1\Service\SignupFactory::class,
-            'user.profile' => \User\V1\Service\ProfileFactory::class,
+            'user.activation' => \User\V1\Service\UserActivationFactory::class,
+            'user.profile'    => \User\V1\Service\ProfileFactory::class,
             'user.signup.listener' => \User\V1\Service\Listener\SignupEventListenerFactory::class,
             'user.profile.listener' => \User\V1\Service\Listener\ProfileEventListenerFactory::class,
             'user.notification.email.signup.listener' => \User\V1\Notification\Email\Listener\SignupEventListenerFactory::class,
@@ -63,6 +65,16 @@ return [
                     ],
                 ],
             ],
+            'user.rpc.user-activation' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/api/user/activation',
+                    'defaults' => [
+                        'controller' => 'User\\V1\\Rpc\\UserActivation\\Controller',
+                        'action' => 'activation',
+                    ],
+                ],
+            ],
         ],
     ],
     'zf-versioning' => [
@@ -71,6 +83,7 @@ return [
             1 => 'user.rest.profile',
             2 => 'user.rpc.me',
             3 => 'user.rpc.me',
+            4 => 'user.rpc.user-activation',
         ],
     ],
     'zf-rpc' => [
@@ -88,12 +101,20 @@ return [
             ],
             'route_name' => 'user.rpc.me',
         ],
+        'User\\V1\\Rpc\\UserActivation\\Controller' => [
+            'service_name' => 'UserActivation',
+            'http_methods' => [
+                0 => 'POST',
+            ],
+            'route_name' => 'user.rpc.user-activation',
+        ],
     ],
     'zf-content-negotiation' => [
         'controllers' => [
             'User\\V1\\Rpc\\Signup\\Controller' => 'Json',
             'User\\V1\\Rest\\Profile\\Controller' => 'HalJson',
             'User\\V1\\Rpc\\Me\\Controller' => 'Json',
+            'User\\V1\\Rpc\\UserActivation\\Controller' => 'Json',
         ],
         'accept_whitelist' => [
             'User\\V1\\Rpc\\Signup\\Controller' => [
@@ -106,6 +127,10 @@ return [
                 2 => 'application/vnd.aqilix.bootstrap.v1+json',
             ],
             'User\\V1\\Rpc\\Me\\Controller' => [
+                0 => 'application/json',
+                1 => 'application/vnd.aqilix.bootstrap.v1+json',
+            ],
+            'User\\V1\\Rpc\\UserActivation\\Controller' => [
                 0 => 'application/json',
                 1 => 'application/vnd.aqilix.bootstrap.v1+json',
             ],
@@ -125,6 +150,10 @@ return [
                 0 => 'application/json',
                 1 => 'application/vnd.aqilix.bootstrap.v1+json',
             ],
+            'User\\V1\\Rpc\\UserActivation\\Controller' => [
+                0 => 'application/json',
+                1 => 'application/vnd.aqilix.bootstrap.v1+json',
+            ],
         ],
     ],
     'zf-content-validation' => [
@@ -133,6 +162,9 @@ return [
         ],
         'User\\V1\\Rest\\Profile\\Controller' => [
             'input_filter' => 'User\\V1\\Rest\\Profile\\Validator',
+        ],
+        'User\\V1\\Rpc\\UserActivation\\Controller' => [
+            'input_filter' => 'User\\V1\\Rpc\\UserActivation\\Validator',
         ],
     ],
     'input_filter_specs' => [
@@ -363,6 +395,16 @@ return [
                 'field_type' => 'File',
                 'type' => \Zend\InputFilter\FileInput::class,
                 'error_message' => 'Photo is not valid',
+            ],
+        ],
+        'User\\V1\\Rpc\\UserActivation\\Validator' => [
+            0 => [
+                'required' => true,
+                'validators' => [],
+                'filters' => [],
+                'name' => 'activationUuid',
+                'description' => 'Activation UUID',
+                'error_message' => 'Activation UUID required',
             ],
         ],
     ],
