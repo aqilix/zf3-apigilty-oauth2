@@ -14,14 +14,8 @@ class Signup
      */
     protected $signupEvent;
 
-    /**
-     * @var \Aqilix\OAuth2\Mapper\OauthUsers
-     */
-    protected $userMapper;
-
-    public function __construct(UserMapper $userMapper)
+    public function __construct()
     {
-        $this->setUserMapper($userMapper);
     }
 
     /**
@@ -42,22 +36,6 @@ class Signup
     public function setSignupEvent(SignupEvent $signupEvent)
     {
         $this->signupEvent = $signupEvent;
-    }
-
-    /**
-     * @return the $userMapper
-     */
-    public function getUserMapper()
-    {
-        return $this->userMapper;
-    }
-
-    /**
-     * @param \Aqilix\OAuth2\Mapper\OauthUsers $userMapper
-     */
-    public function setUserMapper(UserMapper $userMapper)
-    {
-        $this->userMapper = $userMapper;
     }
 
     /**
