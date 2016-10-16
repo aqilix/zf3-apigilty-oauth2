@@ -13,6 +13,7 @@ return [
             'user.signup' => \User\V1\Service\SignupFactory::class,
             'user.activation' => \User\V1\Service\UserActivationFactory::class,
             'user.profile'    => \User\V1\Service\ProfileFactory::class,
+            'user.activation.listener' => \User\V1\Service\Listener\UserActivationEventListenerFactory::class,
             'user.signup.listener' => \User\V1\Service\Listener\SignupEventListenerFactory::class,
             'user.profile.listener' => \User\V1\Service\Listener\ProfileEventListenerFactory::class,
             'user.notification.email.signup.listener' => \User\V1\Notification\Email\Listener\SignupEventListenerFactory::class,
