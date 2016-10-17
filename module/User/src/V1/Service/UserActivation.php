@@ -74,6 +74,11 @@ class UserActivation
         $this->getUserActivationEvent()->setUserActivationData($activationData);
         // retrieve user activation
         $activation  = $this->getUserActivationMapper()->fetchOne($activationData['activationUuid']);
+        // check if activation data exist
+        if (is_null($activation)) {
+            throw new \RuntimeException('Activation UUID not valid');
+        }
+
         // retrieve user
         $user = $activation->getUser();
         // retrieve user profile
