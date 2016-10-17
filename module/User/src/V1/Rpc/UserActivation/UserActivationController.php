@@ -25,8 +25,6 @@ class UserActivationController extends AbstractActionController
         try {
             $this->userActivationService->activate($this->userActivationValidator->getValues());
             return new HalJsonModel([]);
-//             return new HalJsonModel($this->userActivationService->getUserActivationEvent()->getUserActivationEntity());
-//             return new HalJsonModel($this->signupService->getSignupEvent()->getAccessTokenResponse());
         } catch (\Exception $e) {
             return new ApiProblemResponse(new ApiProblem(
                 422,
