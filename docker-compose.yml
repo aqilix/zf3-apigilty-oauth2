@@ -3,6 +3,9 @@ api:
   dockerfile: Dockerfile
   ports:
    - "8080:80"
+   - "9090:9000"
+  environment:
+   XDEBUG_CONFIG: remote_host=172.17.0.1
   volumes:
    - .:/var/www
   links:
@@ -12,6 +15,8 @@ db:
   volumes:
     - ./docker/mysql/db:/var/lib/mysql
   restart: always
+  ports:
+   - "3303:3306"
   environment:
     MYSQL_ROOT_PASSWORD: zf3
     MYSQL_DATABASE: zf3_apigility
