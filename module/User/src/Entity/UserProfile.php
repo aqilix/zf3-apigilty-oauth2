@@ -72,6 +72,16 @@ class UserProfile implements EntityInterface
     private $photo;
 
     /**
+     * @var User\Entity\UserActivation
+     */
+    private $userActivation;
+
+    /**
+     * @var boolean
+     */
+    private $isActive = false;
+
+    /**
      * @return the $uuid
      */
     public function getUuid()
@@ -249,5 +259,37 @@ class UserProfile implements EntityInterface
     public function setPhoto($photo)
     {
         $this->photo = $photo;
+    }
+
+    /**
+     * @return the $userActivation
+     */
+    public function getUserActivation()
+    {
+        return $this->userActivation;
+    }
+
+    /**
+     * @param \User\Entity\UserActivation $userActivation
+     */
+    public function setUserActivation($userActivation)
+    {
+        $this->userActivation = $userActivation;
+    }
+
+    /**
+     * @return the $isActive
+     */
+    public function isActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * @param boolean $isActive
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
     }
 }

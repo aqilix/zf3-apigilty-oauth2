@@ -34,7 +34,7 @@ abstract class AbstractMapper implements MapperInterface
      */
     public function fetchOne($id)
     {
-        return $this->getEntityRepository()->findOneBy(['id' => $id]);
+        return $this->getEntityRepository()->findOneBy(['uuid' => $id]);
     }
 
     /**
