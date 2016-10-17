@@ -4,7 +4,6 @@ namespace User\V1;
 
 use Zend\EventManager\Event;
 use Aqilix\ORM\Entity\EntityInterface;
-use \Exception;
 
 class SignupEvent extends Event
 {
@@ -94,7 +93,7 @@ class SignupEvent extends Event
     /**
      * @param Exception $exception
      */
-    public function setException(Exception $exception)
+    public function setException(\Exception $exception)
     {
         $this->exception = $exception;
     }

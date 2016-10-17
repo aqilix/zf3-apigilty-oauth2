@@ -37,6 +37,11 @@ class UserActivationEvent extends Event
     protected $userActivationUuid;
 
     /**
+     * @var \Exception
+     */
+    protected $exception;
+
+    /**
      * @return the $userProfileEntity
      */
     public function getUserProfileEntity()
@@ -98,5 +103,21 @@ class UserActivationEvent extends Event
     public function setUserActivationData(array $userActivationData)
     {
         $this->userActivationData = $userActivationData;
+    }
+
+    /**
+     * @return the $exception
+     */
+    public function getException()
+    {
+        return $this->exception;
+    }
+
+    /**
+     * @param Exception $exception
+     */
+    public function setException(\Exception $exception)
+    {
+        $this->exception = $exception;
     }
 }
