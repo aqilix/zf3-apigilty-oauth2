@@ -40,9 +40,28 @@ class UserActivationEventListener implements ListenerAggregateInterface
         );
         $this->listeners[] = $events->attach(
             UserActivationEvent::EVENT_ACTIVATE_USER,
-            [$this, 'activate'],
-            498
+            [$this, 'isActivated'],
+            495
         );
+        $this->listeners[] = $events->attach(
+            UserActivationEvent::EVENT_ACTIVATE_USER,
+            [$this, 'activate'],
+            490
+        );
+    }
+
+    /**
+     * Check activated
+     *
+     * @param  $event
+     */
+    public function isActivated($event)
+    {
+        $userActivation = $event->getParams()->getUserActivationEntity();
+        if ($userActivation->getActivated() !== null) {
+            $event->stopPropagation(true);
+            return new \RuntimeException('Activation UUID has been activated');
+        }
     }
 
     /**
