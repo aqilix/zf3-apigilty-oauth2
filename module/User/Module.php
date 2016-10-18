@@ -33,6 +33,9 @@ class Module implements
         // notification email for signup
         $signupNotificationEmailListener = $serviceManager->get('user.notification.email.signup.listener');
         $signupNotificationEmailListener->attach($signupService->getEventManager());
+        // notification email for activation
+        $activationNotificationEmailListener = $serviceManager->get('user.notification.email.activation.listener');
+        $activationNotificationEmailListener->attach($userActivationService->getEventManager());
     }
 
     public function getConfig()

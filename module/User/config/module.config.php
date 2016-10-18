@@ -22,6 +22,8 @@ return [
             'user.profile.listener' => \User\V1\Service\Listener\ProfileEventListenerFactory::class,
             'user.notification.email.signup.listener' =>
                 \User\V1\Notification\Email\Listener\SignupEventListenerFactory::class,
+            'user.notification.email.activation.listener' =>
+                \User\V1\Notification\Email\Listener\ActivationEventListenerFactory::class,
             'user.notification.email.service.welcome' =>
                 \User\V1\Notification\Email\Service\WelcomeFactory::class,
             'user.notification.email.service.activation' =>
