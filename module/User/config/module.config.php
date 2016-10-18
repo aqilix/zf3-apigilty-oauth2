@@ -2,10 +2,14 @@
 return [
     'controllers' => [
         'factories' => [
-            'User\\V1\\Rpc\\Signup\\Controller' => \User\V1\Rpc\Signup\SignupControllerFactory::class,
-            \User\V1\Console\Controller\EmailController::class => \User\V1\Console\Controller\EmailControllerFactory::class,
-            'User\\V1\\Rpc\\Me\\Controller' => \User\V1\Rpc\Me\MeControllerFactory::class,
-            'User\\V1\\Rpc\\UserActivation\\Controller' => \User\V1\Rpc\UserActivation\UserActivationControllerFactory::class,
+            'User\\V1\\Rpc\\Signup\\Controller' =>
+                \User\V1\Rpc\Signup\SignupControllerFactory::class,
+            \User\V1\Console\Controller\EmailController::class =>
+                \User\V1\Console\Controller\EmailControllerFactory::class,
+            'User\\V1\\Rpc\\Me\\Controller' =>
+                \User\V1\Rpc\Me\MeControllerFactory::class,
+            'User\\V1\\Rpc\\UserActivation\\Controller' =>
+                \User\V1\Rpc\UserActivation\UserActivationControllerFactory::class,
         ],
     ],
     'service_manager' => [
@@ -16,10 +20,16 @@ return [
             'user.activation.listener' => \User\V1\Service\Listener\UserActivationEventListenerFactory::class,
             'user.signup.listener' => \User\V1\Service\Listener\SignupEventListenerFactory::class,
             'user.profile.listener' => \User\V1\Service\Listener\ProfileEventListenerFactory::class,
-            'user.notification.email.signup.listener' => \User\V1\Notification\Email\Listener\SignupEventListenerFactory::class,
-            'user.notification.email.service.welcome' => \User\V1\Notification\Email\Service\WelcomeFactory::class,
-            \User\V1\Rest\Profile\ProfileResource::class => \User\V1\Rest\Profile\ProfileResourceFactory::class,
-            \User\V1\Hydrator\Strategy\PhotoStrategy::class => \User\V1\Hydrator\Strategy\PhotoStrategyFactory::class,
+            'user.notification.email.signup.listener' =>
+                \User\V1\Notification\Email\Listener\SignupEventListenerFactory::class,
+            'user.notification.email.service.welcome' =>
+                \User\V1\Notification\Email\Service\WelcomeFactory::class,
+            'user.notification.email.service.activation' =>
+                \User\V1\Notification\Email\Service\ActivationFactory::class,
+            \User\V1\Rest\Profile\ProfileResource::class =>
+                \User\V1\Rest\Profile\ProfileResourceFactory::class,
+            \User\V1\Hydrator\Strategy\PhotoStrategy::class =>
+                \User\V1\Hydrator\Strategy\PhotoStrategyFactory::class,
         ],
         'abstract_factories' => [
             0 => \User\Mapper\AbstractMapperFactory::class,
@@ -488,6 +498,15 @@ return [
                         'defaults' => [
                             'controller' => \User\V1\Console\Controller\EmailController::class,
                             'action' => 'sendWelcomeEmail',
+                        ],
+                    ],
+                ],
+                'v1-send-activation-email' => [
+                    'options' => [
+                        'route' => 'v1 user send-activation-email <emailAddress>',
+                        'defaults' => [
+                            'controller' => \User\V1\Console\Controller\EmailController::class,
+                            'action' => 'sendActivationEmail',
                         ],
                     ],
                 ],

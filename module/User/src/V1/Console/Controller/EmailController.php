@@ -19,6 +19,11 @@ class EmailController extends AbstractActionController
     protected $welcomeMailMessage;
 
     /**
+     * @var MailMessage
+     */
+    protected $activationMailMessage;
+
+    /**
      * @var array
      */
     protected $config;
@@ -82,6 +87,35 @@ class EmailController extends AbstractActionController
     }
 
     /**
+     * Send Activation Email
+     *
+     * @throws RuntimeException
+     */
+    public function sendActivationEmailAction()
+    {
+        $request = $this->getRequest();
+        if (! $request instanceof ConsoleRequest) {
+            throw new RuntimeException('You can only use this action from a console!');
+        }
+
+        // get email address
+        $emailAddress = $request->getParam('emailAddress');
+        // get activation code
+        $view = new ViewModel(['contactUsUrl'  => $this->getConfig()['contact_us']]);
+        $view->setTemplate('user/email/activation.phtml');
+        $html = $this->getViewRenderer()->render($view);
+        $htmlMimePart = new MimePart($html);
+        $htmlMimePart->setType('text/html');
+        $mimeMessage  = new MimeMessage();
+        $mimeMessage->addPart($htmlMimePart);
+        $mailMessage = $this->getActivationMailMessage();
+        $mailMessage->addTo($emailAddress);
+        $mailMessage->setBody($mimeMessage);
+        $mail = $this->getMailTransport();
+        $mail->send($mailMessage);
+    }
+
+    /**
      * @return the $welcomeMailMessage
      */
     public function getWelcomeMailMessage()
@@ -95,6 +129,22 @@ class EmailController extends AbstractActionController
     public function setWelcomeMailMessage(MailMessage $welcomeMailMessage)
     {
         $this->welcomeMailMessage = $welcomeMailMessage;
+    }
+
+    /**
+     * @return the $activationMailMessage
+     */
+    public function getActivationMailMessage()
+    {
+        return $this->activationMailMessage;
+    }
+
+    /**
+     * @param \Zend\Mail\Message $activationMailMessage
+     */
+    public function setActivationMailMessage($activationMailMessage)
+    {
+        $this->activationMailMessage = $activationMailMessage;
     }
 
     /**
