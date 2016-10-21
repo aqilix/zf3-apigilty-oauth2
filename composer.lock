@@ -4,27 +4,26 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ba571e8113b55bc097aa6d5fc6b25498",
-    "content-hash": "bc1899b8df47294167b39d3e51e8a58a",
+    "hash": "c5c5f485a05bcf0dad38a05d39b56342",
+    "content-hash": "7596ef2b5958cd4f65043259c7b40869",
     "packages": [
         {
             "name": "aqilix/doctrine-data-fixture-module",
-            "version": "0.0.5",
+            "version": "0.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aqilix/DoctrineDataFixtureModule.git",
-                "reference": "2495dc545ecf2d8a283da80cf5faded6a6223555"
+                "reference": "d1eca670be425235520e7607c73785ef452e14ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aqilix/DoctrineDataFixtureModule/zipball/2495dc545ecf2d8a283da80cf5faded6a6223555",
-                "reference": "2495dc545ecf2d8a283da80cf5faded6a6223555",
+                "url": "https://api.github.com/repos/aqilix/DoctrineDataFixtureModule/zipball/d1eca670be425235520e7607c73785ef452e14ec",
+                "reference": "d1eca670be425235520e7607c73785ef452e14ec",
                 "shasum": ""
             },
             "require": {
                 "doctrine/data-fixtures": "^1.2.1",
-                "doctrine/doctrine-module": "dev-feature/zf3-support",
-                "doctrine/doctrine-orm-module": "dev-feature/zf3-support",
+                "doctrine/doctrine-orm-module": "^1.1",
                 "php": "^5.6 || ^7.0",
                 "zendframework/zend-eventmanager": "^2.6.3 || ^3.0.1",
                 "zendframework/zend-modulemanager": "^2.7.1",
@@ -38,8 +37,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.0.5-dev",
-                    "dev-develop": "0.0.6-dev"
+                    "dev-master": "0.0.6-dev",
+                    "dev-develop": "0.0.7-dev"
                 }
             },
             "autoload": {
@@ -61,7 +60,7 @@
                     "email": "dolly.aswin@gmail.com"
                 }
             ],
-            "description": "Zend Framework 2 Module that provides Doctrine Data-Fixture functionality",
+            "description": "Zend Framework 3 Module that provides Doctrine Data-Fixture functionality",
             "homepage": "http://www.doctrine-project.org/",
             "keywords": [
                 "PHP7",
@@ -71,7 +70,47 @@
                 "zf2",
                 "zf3"
             ],
-            "time": "2016-10-07 07:53:01"
+            "time": "2016-10-21 08:14:44"
+        },
+        {
+            "name": "behat/transliterator",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Behat/Transliterator.git",
+                "reference": "868e05be3a9f25ba6424c2dd4849567f50715003"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Behat/Transliterator/zipball/868e05be3a9f25ba6424c2dd4849567f50715003",
+                "reference": "868e05be3a9f25ba6424c2dd4849567f50715003",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Behat\\Transliterator": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Artistic-1.0"
+            ],
+            "description": "String transliterator",
+            "keywords": [
+                "i18n",
+                "slug",
+                "transliterator"
+            ],
+            "time": "2015-09-28 16:26:35"
         },
         {
             "name": "bshaffer/oauth2-server-php",
@@ -558,43 +597,47 @@
         },
         {
             "name": "doctrine/doctrine-module",
-            "version": "dev-feature/zf3-support",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/webimpress/DoctrineModule.git",
-                "reference": "4389c6d2aeb886f9368c30a3292c991268392980"
+                "url": "https://github.com/doctrine/DoctrineModule.git",
+                "reference": "9407d04d0b08e7071dab05c9d068cefda9dc5a6f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webimpress/DoctrineModule/zipball/4389c6d2aeb886f9368c30a3292c991268392980",
-                "reference": "4389c6d2aeb886f9368c30a3292c991268392980",
+                "url": "https://api.github.com/repos/doctrine/DoctrineModule/zipball/9407d04d0b08e7071dab05c9d068cefda9dc5a6f",
+                "reference": "9407d04d0b08e7071dab05c9d068cefda9dc5a6f",
                 "shasum": ""
             },
             "require": {
                 "doctrine/cache": "^1.6",
-                "doctrine/common": "^2.6",
+                "doctrine/common": "^2.6.1",
                 "php": "^5.6 || ^7.0",
                 "symfony/console": "^2.3 || ^3.0",
                 "zendframework/zend-authentication": "^2.5.3",
                 "zendframework/zend-cache": "^2.7.1",
                 "zendframework/zend-form": "^2.9",
-                "zendframework/zend-hydrator": "^2.2.1",
-                "zendframework/zend-mvc": "^3.0.2",
-                "zendframework/zend-mvc-console": "^1.1.10",
+                "zendframework/zend-hydrator": "^1.1 || ^2.2.1",
+                "zendframework/zend-mvc": "^2.7.10 || ^3.0.1",
                 "zendframework/zend-paginator": "^2.7",
-                "zendframework/zend-servicemanager": "^3.1.0",
-                "zendframework/zend-stdlib": "^3.0.1",
+                "zendframework/zend-servicemanager": "^2.7.6 || ^3.1",
+                "zendframework/zend-stdlib": "^2.7.7 || ^3.0.1",
                 "zendframework/zend-validator": "^2.8.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^5.4",
+                "phpunit/phpunit": "^4.8",
                 "squizlabs/php_codesniffer": "^2.6.2",
+                "zendframework/zend-i18n": "^2.7.3",
+                "zendframework/zend-log": "^2.9",
                 "zendframework/zend-modulemanager": "^2.7.2",
+                "zendframework/zend-serializer": "^2.8",
                 "zendframework/zend-session": "^2.7.3",
-                "zendframework/zend-test": "^3.0.1"
+                "zendframework/zend-test": "^2.6.1 || ^3.0.1",
+                "zendframework/zend-version": "^2.5.1"
             },
             "suggest": {
-                "doctrine/data-fixtures": "Data Fixtures if you want to generate test data or bootstrap data for your deployments"
+                "doctrine/data-fixtures": "Data Fixtures if you want to generate test data or bootstrap data for your deployments",
+                "zendframework/zend-mvc-console": "^1.1.10 if you are using ZF3"
             },
             "bin": [
                 "bin/doctrine-module"
@@ -602,38 +645,15 @@
             "type": "library",
             "extra": {
                 "zf": {
-                    "component": "DoctrineModule",
-                    "config-provider": "DoctrineModule\\ConfigProvider"
+                    "module": "DoctrineModule"
                 }
             },
             "autoload": {
-                "psr-4": {
+                "psr-0": {
                     "DoctrineModule\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "DoctrineModuleTest\\": "tests/"
-                }
-            },
-            "scripts": {
-                "check": [
-                    "@cs",
-                    "@test"
-                ],
-                "cs": [
-                    "phpcs"
-                ],
-                "cs-fix": [
-                    "phpcbf"
-                ],
-                "test": [
-                    "phpunit"
-                ],
-                "test-coverage": [
-                    "phpunit --coverage-clover clover.xml"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -642,11 +662,6 @@
                     "name": "Kyle Spraggs",
                     "email": "theman@spiffyjr.me",
                     "homepage": "http://www.spiffyjr.me/"
-                },
-                {
-                    "name": "Marco Pivetta",
-                    "email": "ocramius@gmail.com",
-                    "homepage": "http://marco-pivetta.com/"
                 },
                 {
                     "name": "Guilherme Blanco",
@@ -656,52 +671,58 @@
                     "name": "Michaël Gallego",
                     "email": "mic.gallego@gmail.com",
                     "homepage": "http://www.michaelgallego.fr"
+                },
+                {
+                    "name": "Marco Pivetta",
+                    "email": "ocramius@gmail.com",
+                    "homepage": "http://marco-pivetta.com/"
                 }
             ],
-            "description": "Zend Framework 3 Module that provides Doctrine basic functionality required for ORM and ODM modules",
+            "description": "Zend Framework Module that provides Doctrine basic functionality required for ORM and ODM modules",
             "homepage": "http://www.doctrine-project.org/",
             "keywords": [
                 "doctrine",
                 "module",
-                "zf3"
+                "zf"
             ],
-            "support": {
-                "source": "https://github.com/webimpress/DoctrineModule/tree/feature/zf3-support"
-            },
-            "time": "2016-07-14 22:27:39"
+            "time": "2016-10-03 19:40:55"
         },
         {
             "name": "doctrine/doctrine-orm-module",
-            "version": "dev-feature/zf3-support",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/webimpress/DoctrineORMModule.git",
-                "reference": "99b2e9e5f8f93946fe0a28bf918ada17165aced1"
+                "url": "https://github.com/doctrine/DoctrineORMModule.git",
+                "reference": "fe4615793088d24e7c9789faa595284f818967d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webimpress/DoctrineORMModule/zipball/99b2e9e5f8f93946fe0a28bf918ada17165aced1",
-                "reference": "99b2e9e5f8f93946fe0a28bf918ada17165aced1",
+                "url": "https://api.github.com/repos/doctrine/DoctrineORMModule/zipball/fe4615793088d24e7c9789faa595284f818967d4",
+                "reference": "fe4615793088d24e7c9789faa595284f818967d4",
                 "shasum": ""
             },
             "require": {
                 "doctrine/dbal": ">=2.4,<2.7",
-                "doctrine/doctrine-module": "dev-feature/zf3-support as 2.0",
+                "doctrine/doctrine-module": "^1.2",
                 "doctrine/orm": ">=2.5,<2.7",
                 "php": "^5.6 || ^7.0",
-                "symfony/console": "^2.5 || ^3.0",
-                "zendframework/zend-mvc": "^3.0.2",
-                "zendframework/zend-servicemanager": "^3.1.0",
-                "zendframework/zend-stdlib": "^3.0.1"
+                "symfony/console": "^2.3 || ^3.0",
+                "zendframework/zend-hydrator": "^1.1 || ^2.2.1",
+                "zendframework/zend-mvc": "^2.7.10 || ^3.0.1",
+                "zendframework/zend-servicemanager": "^2.7.6 || ^3.1",
+                "zendframework/zend-stdlib": "^2.7.7 || ^3.0.1"
             },
             "require-dev": {
-                "doctrine/data-fixtures": "^1.2",
-                "doctrine/migrations": "^1.4",
-                "phpunit/phpunit": "^5.4",
+                "doctrine/data-fixtures": "^1.2.1",
+                "doctrine/migrations": "^1.4.1",
+                "phpunit/phpunit": "^4.8",
                 "squizlabs/php_codesniffer": "^2.6.2",
+                "zendframework/zend-console": "^2.6",
                 "zendframework/zend-developer-tools": "^1.1",
                 "zendframework/zend-i18n": "^2.7.3",
-                "zendframework/zend-modulemanager": "^2.7.2"
+                "zendframework/zend-log": "^2.9",
+                "zendframework/zend-modulemanager": "^2.7.2",
+                "zendframework/zend-serializer": "^2.8"
             },
             "suggest": {
                 "doctrine/migrations": "doctrine migrations if you want to keep your schema definitions versioned",
@@ -711,38 +732,15 @@
             "type": "library",
             "extra": {
                 "zf": {
-                    "component": "DoctrineORMModule",
-                    "config-provider": "DoctrineORMModule\\ConfigProvider"
+                    "module": "DoctrineORMModule"
                 }
             },
             "autoload": {
-                "psr-4": {
+                "psr-0": {
                     "DoctrineORMModule\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "DoctrineORMModuleTest\\": "tests/"
-                }
-            },
-            "scripts": {
-                "check": [
-                    "@cs",
-                    "@test"
-                ],
-                "cs": [
-                    "phpcs"
-                ],
-                "cs-fix": [
-                    "phpcbf"
-                ],
-                "test": [
-                    "phpunit"
-                ],
-                "test-coverage": [
-                    "phpunit --coverage-clover clover.xml"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -753,11 +751,6 @@
                     "homepage": "http://www.spiffyjr.me/"
                 },
                 {
-                    "name": "Marco Pivetta",
-                    "email": "ocramius@gmail.com",
-                    "homepage": "http://marco-pivetta.com/"
-                },
-                {
                     "name": "Evan Coury",
                     "email": "me@evancoury.com",
                     "homepage": "http://blog.evan.pro/"
@@ -765,20 +758,22 @@
                 {
                     "name": "Guilherme Blanco",
                     "email": "guilhermeblanco@hotmail.com"
+                },
+                {
+                    "name": "Marco Pivetta",
+                    "email": "ocramius@gmail.com",
+                    "homepage": "http://marco-pivetta.com/"
                 }
             ],
-            "description": "Zend Framework 3 Module that provides Doctrine ORM functionality",
+            "description": "Zend Framework Module that provides Doctrine ORM functionality",
             "homepage": "http://www.doctrine-project.org/",
             "keywords": [
                 "doctrine",
                 "module",
                 "orm",
-                "zf3"
+                "zf"
             ],
-            "support": {
-                "source": "https://github.com/webimpress/DoctrineORMModule/tree/feature/zf3-support"
-            },
-            "time": "2016-07-18 18:34:53"
+            "time": "2016-10-03 20:10:39"
         },
         {
             "name": "doctrine/inflector",
@@ -1032,6 +1027,85 @@
             "time": "2016-09-10 18:51:13"
         },
         {
+            "name": "gedmo/doctrine-extensions",
+            "version": "v2.4.24",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Atlantic18/DoctrineExtensions.git",
+                "reference": "a7f7243a19f79a99ac83a3570444d8795f665eef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Atlantic18/DoctrineExtensions/zipball/a7f7243a19f79a99ac83a3570444d8795f665eef",
+                "reference": "a7f7243a19f79a99ac83a3570444d8795f665eef",
+                "shasum": ""
+            },
+            "require": {
+                "behat/transliterator": "~1.0",
+                "doctrine/common": "~2.4",
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "doctrine/common": ">=2.5.0",
+                "doctrine/mongodb-odm": ">=1.0.2",
+                "doctrine/orm": ">=2.5.0",
+                "phpunit/phpunit": "~4.4",
+                "phpunit/phpunit-mock-objects": "~2.3",
+                "symfony/yaml": "~2.6"
+            },
+            "suggest": {
+                "doctrine/mongodb-odm": "to use the extensions with the MongoDB ODM",
+                "doctrine/orm": "to use the extensions with the ORM"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.4.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Gedmo\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Buchmann",
+                    "email": "david@liip.ch"
+                },
+                {
+                    "name": "Gediminas Morkevicius",
+                    "email": "gediminas.morkevicius@gmail.com"
+                },
+                {
+                    "name": "Gustavo Falco",
+                    "email": "comfortablynumb84@gmail.com"
+                }
+            ],
+            "description": "Doctrine2 behavioral extensions",
+            "homepage": "http://gediminasm.org/",
+            "keywords": [
+                "Blameable",
+                "behaviors",
+                "doctrine2",
+                "extensions",
+                "gedmo",
+                "loggable",
+                "nestedset",
+                "sluggable",
+                "sortable",
+                "timestampable",
+                "translatable",
+                "tree",
+                "uploadable"
+            ],
+            "time": "2016-10-11 18:03:37"
+        },
+        {
             "name": "michelf/php-markdown",
             "version": "1.6.0",
             "source": {
@@ -1084,16 +1158,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "v2.0.2",
+            "version": "v2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "088c04e2f261c33bed6ca5245491cfca69195ccf"
+                "reference": "c0125896dbb151380ab47e96c621741e79623beb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/088c04e2f261c33bed6ca5245491cfca69195ccf",
-                "reference": "088c04e2f261c33bed6ca5245491cfca69195ccf",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/c0125896dbb151380ab47e96c621741e79623beb",
+                "reference": "c0125896dbb151380ab47e96c621741e79623beb",
                 "shasum": ""
             },
             "require": {
@@ -1128,20 +1202,20 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2016-04-03 06:00:07"
+            "time": "2016-10-17 15:23:22"
         },
         {
             "name": "psr/log",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "5277094ed527a1c4477177d102fe4c53551953e0"
+                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/5277094ed527a1c4477177d102fe4c53551953e0",
-                "reference": "5277094ed527a1c4477177d102fe4c53551953e0",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
                 "shasum": ""
             },
             "require": {
@@ -1175,7 +1249,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2016-09-19 16:02:08"
+            "time": "2016-10-10 12:19:37"
         },
         {
             "name": "symfony/console",
@@ -1540,12 +1614,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-component-installer.git",
-                "reference": "9b6b18afc4178a3b9437ee433317cb8695057d21"
+                "reference": "ffe57bf273970ed2b903b8495dad7bd642cf6f34"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-component-installer/zipball/9b6b18afc4178a3b9437ee433317cb8695057d21",
-                "reference": "9b6b18afc4178a3b9437ee433317cb8695057d21",
+                "url": "https://api.github.com/repos/zendframework/zend-component-installer/zipball/ffe57bf273970ed2b903b8495dad7bd642cf6f34",
+                "reference": "ffe57bf273970ed2b903b8495dad7bd642cf6f34",
                 "shasum": ""
             },
             "require": {
@@ -1557,7 +1631,7 @@
                 "mikey179/vfsstream": "^1.6",
                 "phpunit/phpunit": "^4.7",
                 "roave/security-advisories": "dev-master",
-                "squizlabs/php_codesniffer": "^2.5"
+                "squizlabs/php_codesniffer": "^2.7"
             },
             "type": "composer-plugin",
             "extra": {
@@ -1576,7 +1650,7 @@
                 "BSD-3-Clause"
             ],
             "description": "Composer plugin for automating component registration in zend-mvc and Expressive applications",
-            "time": "2016-09-12 21:30:26"
+            "time": "2016-10-17 13:35:46"
         },
         {
             "name": "zendframework/zend-config",
@@ -3411,16 +3485,16 @@
         },
         {
             "name": "zfcampus/zf-api-problem",
-            "version": "1.2.1",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zfcampus/zf-api-problem.git",
-                "reference": "3d2cb9f91aace74d4ca00d865d1ed95b593c6187"
+                "reference": "783067e20328a82d35eb20a3fb876121da80c89d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zfcampus/zf-api-problem/zipball/3d2cb9f91aace74d4ca00d865d1ed95b593c6187",
-                "reference": "3d2cb9f91aace74d4ca00d865d1ed95b593c6187",
+                "url": "https://api.github.com/repos/zfcampus/zf-api-problem/zipball/783067e20328a82d35eb20a3fb876121da80c89d",
+                "reference": "783067e20328a82d35eb20a3fb876121da80c89d",
                 "shasum": ""
             },
             "require": {
@@ -3434,7 +3508,7 @@
             },
             "require-dev": {
                 "phpunit/phpunit": "^4.8",
-                "squizlabs/php_codesniffer": "^2.3.1"
+                "squizlabs/php_codesniffer": "^2.7"
             },
             "type": "library",
             "extra": {
@@ -3464,7 +3538,7 @@
                 "zend",
                 "zf2"
             ],
-            "time": "2016-07-07 13:52:00"
+            "time": "2016-10-11 20:38:29"
         },
         {
             "name": "zfcampus/zf-apigility",
@@ -3541,16 +3615,16 @@
         },
         {
             "name": "zfcampus/zf-apigility-documentation",
-            "version": "1.2.2",
+            "version": "1.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zfcampus/zf-apigility-documentation.git",
-                "reference": "e5140afdc5cb3d22d28de6061ccc1309cb3b317f"
+                "reference": "9a4216dd35013af3f94662058b21de6244580476"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zfcampus/zf-apigility-documentation/zipball/e5140afdc5cb3d22d28de6061ccc1309cb3b317f",
-                "reference": "e5140afdc5cb3d22d28de6061ccc1309cb3b317f",
+                "url": "https://api.github.com/repos/zfcampus/zf-apigility-documentation/zipball/9a4216dd35013af3f94662058b21de6244580476",
+                "reference": "9a4216dd35013af3f94662058b21de6244580476",
                 "shasum": ""
             },
             "require": {
@@ -3598,7 +3672,7 @@
                 "zend",
                 "zf2"
             ],
-            "time": "2016-08-10 19:10:23"
+            "time": "2016-10-11 18:32:18"
         },
         {
             "name": "zfcampus/zf-apigility-provider",
@@ -3703,16 +3777,16 @@
         },
         {
             "name": "zfcampus/zf-content-negotiation",
-            "version": "1.2.2",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zfcampus/zf-content-negotiation.git",
-                "reference": "8543f610b66a78e8d9821fd1425844e7fab26d43"
+                "reference": "0f4e9a74157e92376c7f2349058ca1a9c286994e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zfcampus/zf-content-negotiation/zipball/8543f610b66a78e8d9821fd1425844e7fab26d43",
-                "reference": "8543f610b66a78e8d9821fd1425844e7fab26d43",
+                "url": "https://api.github.com/repos/zfcampus/zf-content-negotiation/zipball/0f4e9a74157e92376c7f2349058ca1a9c286994e",
+                "reference": "0f4e9a74157e92376c7f2349058ca1a9c286994e",
                 "shasum": ""
             },
             "require": {
@@ -3730,7 +3804,7 @@
             },
             "require-dev": {
                 "phpunit/phpunit": "^4.8",
-                "squizlabs/php_codesniffer": "^2.3.1",
+                "squizlabs/php_codesniffer": "^2.7",
                 "zfcampus/zf-hal": "^1.4"
             },
             "suggest": {
@@ -3739,8 +3813,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2-dev",
-                    "dev-develop": "1.3-dev"
+                    "dev-master": "1.3-dev",
+                    "dev-develop": "1.4-dev"
                 },
                 "zf": {
                     "module": "ZF\\ContentNegotiation"
@@ -3763,7 +3837,7 @@
                 "zend",
                 "zf2"
             ],
-            "time": "2016-07-27 20:13:12"
+            "time": "2016-10-11 21:39:26"
         },
         {
             "name": "zfcampus/zf-content-validation",
@@ -4128,16 +4202,16 @@
         },
         {
             "name": "zfcampus/zf-rest",
-            "version": "1.3.1",
+            "version": "1.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zfcampus/zf-rest.git",
-                "reference": "8af3606cd2b8cc3a0204cbe5a4bf8f983f742f44"
+                "reference": "1ff0b85c93699958908c90e48e1c2887266d2cd3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zfcampus/zf-rest/zipball/8af3606cd2b8cc3a0204cbe5a4bf8f983f742f44",
-                "reference": "8af3606cd2b8cc3a0204cbe5a4bf8f983f742f44",
+                "url": "https://api.github.com/repos/zfcampus/zf-rest/zipball/1ff0b85c93699958908c90e48e1c2887266d2cd3",
+                "reference": "1ff0b85c93699958908c90e48e1c2887266d2cd3",
                 "shasum": ""
             },
             "require": {
@@ -4146,14 +4220,14 @@
                 "zendframework/zend-mvc": "^2.7.9 || ^3.0.2",
                 "zendframework/zend-paginator": "^2.7",
                 "zendframework/zend-stdlib": "^2.7.7 || ^3.0.1",
-                "zfcampus/zf-api-problem": "^1.2.1",
+                "zfcampus/zf-api-problem": "^1.2.2",
                 "zfcampus/zf-content-negotiation": "^1.2.1",
                 "zfcampus/zf-hal": "^1.4",
                 "zfcampus/zf-mvc-auth": "^1.4"
             },
             "require-dev": {
                 "phpunit/phpunit": "^4.8 || ^5.0",
-                "squizlabs/php_codesniffer": "^2.3.1",
+                "squizlabs/php_codesniffer": "^2.7",
                 "zendframework/zend-escaper": "^2.5.2",
                 "zendframework/zend-http": "^2.5.4",
                 "zendframework/zend-inputfilter": "^2.7.2",
@@ -4190,20 +4264,20 @@
                 "zf2",
                 "zf3"
             ],
-            "time": "2016-07-12 21:08:39"
+            "time": "2016-10-11 21:16:15"
         },
         {
             "name": "zfcampus/zf-rpc",
-            "version": "1.3.0",
+            "version": "1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zfcampus/zf-rpc.git",
-                "reference": "aec741a2d8aad7e75710e27fd0770e1f7577c796"
+                "reference": "f08db1e50d49eefbe908b50d38d3cf3d0dd181f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zfcampus/zf-rpc/zipball/aec741a2d8aad7e75710e27fd0770e1f7577c796",
-                "reference": "aec741a2d8aad7e75710e27fd0770e1f7577c796",
+                "url": "https://api.github.com/repos/zfcampus/zf-rpc/zipball/f08db1e50d49eefbe908b50d38d3cf3d0dd181f6",
+                "reference": "f08db1e50d49eefbe908b50d38d3cf3d0dd181f6",
                 "shasum": ""
             },
             "require": {
@@ -4248,7 +4322,7 @@
                 "zend",
                 "zf2"
             ],
-            "time": "2016-07-12 22:18:34"
+            "time": "2016-10-11 19:47:59"
         },
         {
             "name": "zfcampus/zf-versioning",
@@ -5097,16 +5171,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.6.0",
+            "version": "5.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "a7f2db56518e50ab92f28f739810dfad2f223b6b"
+                "reference": "60c32c5b5e79c2248001efa2560f831da11cc2d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a7f2db56518e50ab92f28f739810dfad2f223b6b",
-                "reference": "a7f2db56518e50ab92f28f739810dfad2f223b6b",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/60c32c5b5e79c2248001efa2560f831da11cc2d7",
+                "reference": "60c32c5b5e79c2248001efa2560f831da11cc2d7",
                 "shasum": ""
             },
             "require": {
@@ -5175,20 +5249,20 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-10-06 15:20:39"
+            "time": "2016-10-07 13:03:26"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
-            "version": "3.3.1",
+            "version": "3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "03500345483e1e17b52e2e4d34a89c9408ab2902"
+                "reference": "238d7a2723bce689c79eeac9c7d5e1d623bb9dc2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/03500345483e1e17b52e2e4d34a89c9408ab2902",
-                "reference": "03500345483e1e17b52e2e4d34a89c9408ab2902",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/238d7a2723bce689c79eeac9c7d5e1d623bb9dc2",
+                "reference": "238d7a2723bce689c79eeac9c7d5e1d623bb9dc2",
                 "shasum": ""
             },
             "require": {
@@ -5234,7 +5308,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2016-10-04 11:03:26"
+            "time": "2016-10-09 07:01:45"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -6265,16 +6339,16 @@
         },
         {
             "name": "zfcampus/zf-apigility-admin",
-            "version": "1.5.7",
+            "version": "1.5.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zfcampus/zf-apigility-admin.git",
-                "reference": "d26cef39db78a529c8a7380d981691a388543957"
+                "reference": "c4f48c44aecaac5a8fa5ff38086d710367f2c4e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zfcampus/zf-apigility-admin/zipball/d26cef39db78a529c8a7380d981691a388543957",
-                "reference": "d26cef39db78a529c8a7380d981691a388543957",
+                "url": "https://api.github.com/repos/zfcampus/zf-apigility-admin/zipball/c4f48c44aecaac5a8fa5ff38086d710367f2c4e6",
+                "reference": "c4f48c44aecaac5a8fa5ff38086d710367f2c4e6",
                 "shasum": ""
             },
             "require": {
@@ -6342,7 +6416,7 @@
                 "framework",
                 "zf2"
             ],
-            "time": "2016-08-14 20:07:27"
+            "time": "2016-10-12 15:48:48"
         },
         {
             "name": "zfcampus/zf-apigility-admin-ui",
@@ -6595,9 +6669,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "zendframework/zend-component-installer": 20,
-        "doctrine/doctrine-module": 20,
-        "doctrine/doctrine-orm-module": 20
+        "zendframework/zend-component-installer": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
