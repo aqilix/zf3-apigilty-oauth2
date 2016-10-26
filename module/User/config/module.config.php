@@ -18,7 +18,7 @@ return [
             'user.activation' => \User\V1\Service\UserActivationFactory::class,
             'user.profile'    => \User\V1\Service\ProfileFactory::class,
             'user.activation.listener' => \User\V1\Service\Listener\UserActivationEventListenerFactory::class,
-            'user.signup.listener' => \User\V1\Service\Listener\SignupEventListenerFactory::class,
+            'user.signup.listener'  => \User\V1\Service\Listener\SignupEventListenerFactory::class,
             'user.profile.listener' => \User\V1\Service\Listener\ProfileEventListenerFactory::class,
             'user.notification.email.signup.listener' =>
                 \User\V1\Notification\Email\Listener\SignupEventListenerFactory::class,
@@ -28,10 +28,13 @@ return [
                 \User\V1\Notification\Email\Service\WelcomeFactory::class,
             'user.notification.email.service.activation' =>
                 \User\V1\Notification\Email\Service\ActivationFactory::class,
+            \User\Service\Listener\AuthActiveUserListener::class =>
+                User\Service\Listener\AuthActiveUserListenerFactory::class,
             \User\V1\Rest\Profile\ProfileResource::class =>
                 \User\V1\Rest\Profile\ProfileResourceFactory::class,
             \User\V1\Hydrator\Strategy\PhotoStrategy::class =>
                 \User\V1\Hydrator\Strategy\PhotoStrategyFactory::class,
+            \User\OAuth2\Adapter\PdoAdapter::class => \User\OAuth2\Factory\PdoAdapterFactory::class
         ],
         'abstract_factories' => [
             0 => \User\Mapper\AbstractMapperFactory::class,

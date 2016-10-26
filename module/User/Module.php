@@ -6,8 +6,8 @@ use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\ModuleManager\Feature\ConsoleUsageProviderInterface;
 use Zend\Console\Adapter\AdapterInterface as Console;
-
 use Zend\Mvc\MvcEvent;
+use ZF\MvcAuth\MvcAuthEvent;
 
 class Module implements
     ApigilityProviderInterface,
@@ -36,6 +36,21 @@ class Module implements
         // notification email for activation
         $activationNotificationEmailListener = $serviceManager->get('user.notification.email.activation.listener');
         $activationNotificationEmailListener->attach($userActivationService->getEventManager());
+        // AuthActiveUserListener
+        $app    = $mvcEvent->getApplication();
+        $events = $app->getEventManager();
+        $mvcAuthEvent = new MvcAuthEvent(
+            $mvcEvent,
+            $serviceManager->get('authentication'),
+            $serviceManager->get('authorization')
+        );
+        $pdoAdapter = $serviceManager->get(\User\OAuth2\Adapter\PdoAdapter::class);
+        $pdoAdapter->setEventManager($events);
+        $pdoAdapter->setMvcAuthEvent($mvcAuthEvent);
+        $events->attach(
+            MvcAuthEvent::EVENT_AUTHENTICATION_POST,
+            $serviceManager->get(\User\Service\Listener\AuthActiveUserListener::class)
+        );
     }
 
     public function getConfig()
