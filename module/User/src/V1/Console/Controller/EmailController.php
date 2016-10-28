@@ -24,6 +24,11 @@ class EmailController extends AbstractActionController
     protected $activationMailMessage;
 
     /**
+     * @var MailMessage
+     */
+    protected $resetPasswordMailMessage;
+
+    /**
      * @var array
      */
     protected $config;
@@ -116,6 +121,39 @@ class EmailController extends AbstractActionController
     }
 
     /**
+     * Send Activation Email
+     *
+     * @throws RuntimeException
+     */
+    public function sendResetPasswordEmailAction()
+    {
+        $request = $this->getRequest();
+        if (! $request instanceof ConsoleRequest) {
+            throw new RuntimeException('You can only use this action from a console!');
+        }
+
+        // get email address
+        $emailAddress = $request->getParam('emailAddress');
+        // get resetPassword code
+        $resetPasswordKey = $request->getParam('resetPasswordKey');
+        $view = new ViewModel([
+            'contactUsUrl' => $this->getConfig()['contact_us'],
+            'resetPasswordUrl' => str_replace(':code', $resetPasswordKey, $this->getConfig()['reset_password_url'])
+        ]);
+        $view->setTemplate('user/email/resetpassword.phtml');
+        $html = $this->getViewRenderer()->render($view);
+        $htmlMimePart = new MimePart($html);
+        $htmlMimePart->setType('text/html');
+        $mimeMessage  = new MimeMessage();
+        $mimeMessage->addPart($htmlMimePart);
+        $mailMessage = $this->getResetPasswordMailMessage();
+        $mailMessage->addTo($emailAddress);
+        $mailMessage->setBody($mimeMessage);
+        $mail = $this->getMailTransport();
+        $mail->send($mailMessage);
+    }
+
+    /**
      * @return the $welcomeMailMessage
      */
     public function getWelcomeMailMessage()
@@ -145,6 +183,22 @@ class EmailController extends AbstractActionController
     public function setActivationMailMessage($activationMailMessage)
     {
         $this->activationMailMessage = $activationMailMessage;
+    }
+
+    /**
+     * @return the $resetPasswordMailMessage
+     */
+    public function getResetPasswordMailMessage()
+    {
+        return $this->resetPasswordMailMessage;
+    }
+
+    /**
+     * @param \Zend\Mail\Message $resetPasswordMailMessage
+     */
+    public function setResetPasswordMailMessage($resetPasswordMailMessage)
+    {
+        $this->resetPasswordMailMessage = $resetPasswordMailMessage;
     }
 
     /**
