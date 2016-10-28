@@ -8,6 +8,8 @@
 
 namespace User\V1\Notification\Email\Listener;
 
+use Symfony\Component\Process\ProcessBuilder;
+
 class AbstractListener
 {
     protected $config;
@@ -15,6 +17,18 @@ class AbstractListener
     protected $viewRenderer;
 
     protected $mailTransport;
+
+    protected $phpProcessBuilder;
+
+    /**
+     * Construct Event
+     *
+     * @param ProcessBuilder $phpProcessBuilder
+     */
+    public function __construct(ProcessBuilder $phpProcessBuilder)
+    {
+        $this->setPhpProcessBuilder($phpProcessBuilder);
+    }
 
     /**
      * @return the $viewRenderer
@@ -62,5 +76,23 @@ class AbstractListener
     public function setConfig($config)
     {
         $this->config = $config;
+    }
+
+    /**
+     * Get ProcessBuilder
+     *
+     * @return ProcessBuilder $phpProcessBuilder
+     */
+    public function getPhpProcessBuilder()
+    {
+        return $this->phpProcessBuilder;
+    }
+
+    /**
+     * @param ProcessBuilder $phpProcessBuilder
+     */
+    public function setPhpProcessBuilder(ProcessBuilder $phpProcessBuilder)
+    {
+        $this->phpProcessBuilder = $phpProcessBuilder;
     }
 }

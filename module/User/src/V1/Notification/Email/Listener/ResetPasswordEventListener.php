@@ -4,9 +4,9 @@ namespace User\V1\Notification\Email\Listener;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateTrait;
-use User\V1\SignupEvent;
+use User\V1\ResetPasswordEvent;
 
-class SignupEventListener extends AbstractListener implements ListenerAggregateInterface
+class ResetPasswordEventListener extends AbstractListener implements ListenerAggregateInterface
 {
     use ListenerAggregateTrait;
 
@@ -17,9 +17,9 @@ class SignupEventListener extends AbstractListener implements ListenerAggregateI
     public function attach(EventManagerInterface $events, $priority = 1)
     {
         $this->listeners[] = $events->attach(
-            SignupEvent::EVENT_INSERT_USER_SUCCESS,
-            [$this, 'sendWelcomeEmail'],
-            499
+            ResetPasswordEvent::EVENT_RESET_PASSWORD_CONFIRM_EMAIL_SUCCESS,
+            [$this, 'sendResetPasswordKey'],
+            400
         );
     }
 
@@ -28,13 +28,13 @@ class SignupEventListener extends AbstractListener implements ListenerAggregateI
      *
      * @param EventInterface $event
      */
-    public function sendWelcomeEmail($event)
+    public function sendResetPasswordKey(ResetPasswordEvent $event)
     {
-        $emailAddress = $event->getParams()->getUserEntity()->getUsername();
-        $userActivationKey = $event->getParams()->getUserActivationKey();
-        // command: v1 user send-welcome-email <emailAddress> <activationCode>
+        $emailAddress = $event->getUserEntity()->getUsername();
+        $resetPasswordKey = $event->getResetPasswordKey();
+        // command: v1 user send-resetpassword-email <emailAddress> <resetPaswordKey>
         $cli = $this->phpProcessBuilder
-                ->setArguments(['v1', 'user', 'send-welcome-email', $emailAddress, $userActivationKey])
+                ->setArguments(['v1', 'user', 'send-resetpassword-email', $emailAddress, $resetPasswordKey])
                 ->getProcess();
         $cli->start();
         $pid = $cli->getPid();

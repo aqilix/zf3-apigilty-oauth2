@@ -4,24 +4,11 @@ namespace User\V1\Notification\Email\Listener;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateTrait;
-use Symfony\Component\Process\ProcessBuilder;
 use User\V1\UserActivationEvent;
 
 class ActivationEventListener extends AbstractListener implements ListenerAggregateInterface
 {
     use ListenerAggregateTrait;
-
-    protected $phpProcessBuilder;
-
-    /**
-     * Construct Event
-     *
-     * @param ProcessBuilder $phpProcessBuilder
-     */
-    public function __construct(ProcessBuilder $phpProcessBuilder)
-    {
-        $this->setPhpProcessBuilder($phpProcessBuilder);
-    }
 
     /**
      * (non-PHPdoc)
@@ -50,23 +37,5 @@ class ActivationEventListener extends AbstractListener implements ListenerAggreg
                 ->getProcess();
         $cli->start();
         $pid = $cli->getPid();
-    }
-
-    /**
-     * Get ProcessBuilder
-     *
-     * @return ProcessBuilder $phpProcessBuilder
-     */
-    public function getPhpProcessBuilder()
-    {
-        return $this->phpProcessBuilder;
-    }
-
-    /**
-     * @param ProcessBuilder $phpProcessBuilder
-     */
-    public function setPhpProcessBuilder(ProcessBuilder $phpProcessBuilder)
-    {
-        $this->phpProcessBuilder = $phpProcessBuilder;
     }
 }
