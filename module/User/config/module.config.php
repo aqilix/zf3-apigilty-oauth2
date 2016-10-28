@@ -22,11 +22,18 @@ return [
             'user.notification.email.activation.listener' => \User\V1\Notification\Email\Listener\ActivationEventListenerFactory::class,
             'user.notification.email.service.welcome' => \User\V1\Notification\Email\Service\WelcomeFactory::class,
             'user.notification.email.service.activation'  => \User\V1\Notification\Email\Service\ActivationFactory::class,
-            \User\Service\Listener\AuthActiveUserListener::class => \User\Service\Listener\AuthActiveUserListenerFactory::class,
-            \User\V1\Rest\Profile\ProfileResource::class  => \User\V1\Rest\Profile\ProfileResourceFactory::class,
-            \User\V1\Hydrator\Strategy\PhotoStrategy::class => \User\V1\Hydrator\Strategy\PhotoStrategyFactory::class,
-            \User\OAuth2\Adapter\PdoAdapter::class => \User\OAuth2\Factory\PdoAdapterFactory::class,
-            \User\V1\Service\ResetPassword::class  => \User\V1\Service\ResetPasswordFactory::class
+            \User\Service\Listener\AuthActiveUserListener::class =>
+                \User\Service\Listener\AuthActiveUserListenerFactory::class,
+            \User\V1\Hydrator\Strategy\PhotoStrategy::class =>
+                \User\V1\Hydrator\Strategy\PhotoStrategyFactory::class,
+            \User\V1\Rest\Profile\ProfileResource::class    =>
+                \User\V1\Rest\Profile\ProfileResourceFactory::class,
+            \User\OAuth2\Adapter\PdoAdapter::class =>
+                \User\OAuth2\Factory\PdoAdapterFactory::class,
+            \User\V1\Service\ResetPassword::class  =>
+                \User\V1\Service\ResetPasswordFactory::class,
+            \User\V1\Service\Listener\ResetPasswordEventListener::class =>
+                \User\V1\Service\Listener\ResetPasswordEventListenerFactory::class,
         ],
         'abstract_factories' => [
             0 => \User\Mapper\AbstractMapperFactory::class,

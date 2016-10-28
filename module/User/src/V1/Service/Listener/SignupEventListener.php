@@ -129,6 +129,7 @@ class SignupEventListener implements ListenerAggregateInterface
         $now = new \DateTime('now');
         $accessTokensExpires = new \DateTime();
         $accessTokensExpires->setTimestamp($now->getTimestamp() + $this->getConfig()['expires_in']);
+        // @todo retrieve expired from config
         $refreshTokenExpires = new \DateTime('now');
         $refreshTokenExpires->add(new \DateInterval('P14D'));
 
@@ -170,6 +171,7 @@ class SignupEventListener implements ListenerAggregateInterface
         try {
             $expiration = new \DateTime();
             // 14 day expiration
+            // @todo retrieve expired from config
             $expiration->add(new \DateInterval('P14D'));
             $user = $event->getParams()->getUserEntity();
             $userActivation = new \User\Entity\UserActivation;

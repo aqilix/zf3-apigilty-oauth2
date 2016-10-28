@@ -4,6 +4,7 @@ namespace User\V1\Service;
 use User\V1\ResetPasswordEvent;
 use Zend\EventManager\EventManagerAwareTrait;
 use User\Mapper\ResetPassword as ResetPasswordMapper;
+use Aqilix\OAuth2\Mapper\OauthUsers as UserMapper;
 
 class ResetPassword
 {
@@ -19,9 +20,15 @@ class ResetPassword
      */
     protected $resetPasswordMapper;
 
-    public function __construct(ResetPasswordMapper $resetPasswordMapper)
+    /**
+     * @var \Aqilix\OAuth2\Mapper\OauthUsers
+     */
+    protected $userMapper;
+
+    public function __construct(ResetPasswordMapper $resetPasswordMapper, UserMapper $userMapper)
     {
         $this->setResetPasswordMapper($resetPasswordMapper);
+        $this->setUserMapper($userMapper);
     }
 
     /**
@@ -41,77 +48,57 @@ class ResetPassword
     }
 
     /**
+     * @return the $userMapper
+     */
+    public function getUserMapper()
+    {
+        return $this->userMapper;
+    }
+
+    /**
+     * @param \Aqilix\OAuth2\Mapper\OauthUsers $userMapper
+     */
+    public function setUserMapper(UserMapper $userMapper)
+    {
+        $this->userMapper = $userMapper;
+    }
+
+    /**
      * Create Reset Password
      *
      * @param  \Aqilix\OAuth2\Entity\OauthUsers $user
      * @return \User\Entity\ResetPassword
      */
-    public function create($user)
+    public function create(array $confirmEmailData)
     {
-        $mapper = $this->getResetPasswordMapper();
-        // 14 days expiration
-        $expiration = new \DateTime();
-        $expiration->add(new \DateInterval('P14D'));
-        $this->getResetPasswordEvent()->setName(ResetPasswordEvent::EVENT_RESET_PASSWORD_CONFIRM_EMAIL);
-        $this->getEventManager()->triggerEvent($this->getResetPasswordEvent());
-        try {
-            $resetPassword = new \User\Entity\ResetPassword;
-            $resetPassword->setUser($user);
-            $resetPassword->setExpiration($expiration);
-            $this->getResetPasswordMapper()->save($resetPassword);
-            $this->getResetPasswordEvent()->setName(ResetPasswordEvent::EVENT_RESET_PASSWORD_CONFIRM_EMAIL_SUCCESS);
-            $this->getResetPasswordEvent()->setResetPasswordEntity($resetPassword);
-            $this->getEventManager()->triggerEvent($this->getResetPasswordEvent());
-        } catch (\Exception $e) {
-            $this->getResetPasswordEvent()->setName(ResetPasswordEvent::EVENT_RESET_PASSWORD_CONFIRM_EMAIL_ERROR);
-            $this->getResetPasswordEvent()->setUserEntity($user);
-            $this->getEventManager()->triggerEvent($this->getResetPasswordEvent());
-            throw $e;
+        $emailAddress = $confirmEmailData['emailAddress'];
+        $user = $this->getUserMapper()->fetchOneBy(['username' => $emailAddress]);
+        if (is_null($user)) {
+            throw new \RuntimeException('Email Address not found');
+        }
+
+        $event = $this->getResetPasswordEvent();
+        $event->setName(ResetPasswordEvent::EVENT_RESET_PASSWORD_CONFIRM_EMAIL);
+        $event->setUserEntity($user);
+        $confirmEmail = $this->getEventManager()->triggerEvent($event);
+        if ($confirmEmail->stopped()) {
+            $event->setException($confirmEmail->last());
+            $event->setName(ResetPasswordEvent::EVENT_RESET_PASSWORD_CONFIRM_EMAIL_ERROR);
+            $confirmEmail = $this->getEventManager()->triggerEvent($event);
+            throw $event->getException();
+        } else {
+            $event->setName(ResetPasswordEvent::EVENT_RESET_PASSWORD_CONFIRM_EMAIL_SUCCESS);
+            $confirmEmail = $this->getEventManager()->triggerEvent($event);
         }
     }
 
     /**
-     * Activate user
+     * Reset Password User
      *
-     * @param array $activationData
+     * @param array $resetData
      */
-    public function reset(array $activationData)
+    public function reset(array $resetData)
     {
-        $this->getResetPasswordEvent()->setResetPasswordData($activationData);
-        // retrieve user activation
-        $activation  = $this->getResetPasswordMapper()->fetchOne($activationData['activationUuid']);
-        // check if activation data exist
-        if (is_null($activation)) {
-            throw new \RuntimeException('Activation UUID not valid');
-        }
-
-        // retrieve user
-        $user = $activation->getUser();
-        // retrieve user profile
-        $userProfile = $this->getUserProfileMapper()->fetchOneBy(['user' => $user->getUsername()]);
-        $this->getResetPasswordEvent()->setUserProfileEntity($userProfile);
-        $this->getResetPasswordEvent()->setResetPasswordEntity($activation);
-
-        $activate = $this->getEventManager()->trigger(
-            ResetPasswordEvent::EVENT_ACTIVATE_USER,
-            $this,
-            $this->getResetPasswordEvent()
-        );
-        if ($activate->stopped()) {
-            $this->getResetPasswordEvent()->setException($activate->last());
-            $activate = $this->getEventManager()->trigger(
-                ResetPasswordEvent::EVENT_ACTIVATE_USER_ERROR,
-                $this,
-                $this->getResetPasswordEvent()
-            );
-            throw $this->getResetPasswordEvent()->getException();
-        } else {
-            $this->getEventManager()->trigger(
-                ResetPasswordEvent::EVENT_ACTIVATE_USER_SUCCESS,
-                $this,
-                $this->getResetPasswordEvent()
-            );
-        }
     }
 
     /**

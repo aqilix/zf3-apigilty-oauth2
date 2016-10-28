@@ -26,6 +26,12 @@ class Module implements
         $userActivationService = $serviceManager->get('user.activation');
         $userActivationEventListener = $serviceManager->get('user.activation.listener');
         $userActivationEventListener->attach($userActivationService->getEventManager());
+        // reset password
+        $resetPasswordService = $serviceManager->get(\User\V1\Service\ResetPassword::class);
+        $resetPasswordEventListener = $serviceManager->get(
+            \User\V1\Service\Listener\ResetPasswordEventListener::class
+        );
+        $resetPasswordEventListener->attach($resetPasswordService->getEventManager());
         // profile
         $profileEventListener = $serviceManager->get('user.profile.listener');
         $profileService = $serviceManager->get('user.profile');
