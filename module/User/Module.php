@@ -26,22 +26,16 @@ class Module implements
         $userActivationService = $serviceManager->get('user.activation');
         $userActivationEventListener = $serviceManager->get('user.activation.listener');
         $userActivationEventListener->attach($userActivationService->getEventManager());
+        // profile
+        $profileEventListener = $serviceManager->get('user.profile.listener');
+        $profileService = $serviceManager->get('user.profile');
+        $profileEventListener->attach($profileService->getEventManager());
         // reset password
         $resetPasswordService = $serviceManager->get(\User\V1\Service\ResetPassword::class);
         $resetPasswordEventListener = $serviceManager->get(
             \User\V1\Service\Listener\ResetPasswordEventListener::class
         );
         $resetPasswordEventListener->attach($resetPasswordService->getEventManager());
-        // profile
-        $profileEventListener = $serviceManager->get('user.profile.listener');
-        $profileService = $serviceManager->get('user.profile');
-        $profileEventListener->attach($profileService->getEventManager());
-        // notification email for signup
-        $signupNotificationEmailListener = $serviceManager->get('user.notification.email.signup.listener');
-        $signupNotificationEmailListener->attach($signupService->getEventManager());
-        // notification email for activation
-        $activationNotificationEmailListener = $serviceManager->get('user.notification.email.activation.listener');
-        $activationNotificationEmailListener->attach($userActivationService->getEventManager());
         // AuthActiveUserListener
         $app    = $mvcEvent->getApplication();
         $events = $app->getEventManager();
@@ -57,6 +51,17 @@ class Module implements
             MvcAuthEvent::EVENT_AUTHENTICATION_POST,
             $serviceManager->get(\User\Service\Listener\AuthActiveUserListener::class)
         );
+        // notification email for signup
+        $signupNotificationEmailListener = $serviceManager->get('user.notification.email.signup.listener');
+        $signupNotificationEmailListener->attach($signupService->getEventManager());
+        // notification email for activation
+        $activationNotificationEmailListener = $serviceManager->get('user.notification.email.activation.listener');
+        $activationNotificationEmailListener->attach($userActivationService->getEventManager());
+        // notification email for reset password
+        $resetPasswordNotificationEmailListener = $serviceManager->get(
+            \User\V1\Notification\Email\Listener\ResetPasswordEventListener::class
+        );
+        $resetPasswordNotificationEmailListener->attach($resetPasswordService->getEventManager());
     }
 
     public function getConfig()

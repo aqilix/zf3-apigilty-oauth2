@@ -88,7 +88,7 @@ class ResetPassword
             throw $event->getException();
         } else {
             $event->setName(ResetPasswordEvent::EVENT_RESET_PASSWORD_CONFIRM_EMAIL_SUCCESS);
-            $confirmEmail = $this->getEventManager()->triggerEvent($event);
+            $this->getEventManager()->triggerEvent($event);
         }
     }
 

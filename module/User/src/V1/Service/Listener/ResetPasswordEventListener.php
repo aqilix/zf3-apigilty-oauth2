@@ -31,14 +31,19 @@ class ResetPasswordEventListener implements ListenerAggregateInterface
             [$this, 'create'],
             499
         );
+        $this->listeners[] = $events->attach(
+            ResetPasswordEvent::EVENT_RESET_PASSWORD_CONFIRM_EMAIL_SUCCESS,
+            [$this, 'setResetPasswordKey'],
+            500
+        );
     }
 
     /**
-     *  Ne
+     * Create Reset Password
      *
-     * @param  $event
+     * @param ResetPasswordEvent $event
      */
-    public function create($event)
+    public function create(ResetPasswordEvent $event)
     {
         $mapper = $this->getResetPasswordMapper();
         // @todo retrieve expired from config
@@ -50,9 +55,24 @@ class ResetPasswordEventListener implements ListenerAggregateInterface
             $resetPassword->setExpiration($expiration);
             $this->getResetPasswordMapper()->save($resetPassword);
             $event->setResetPasswordEntity($resetPassword);
+            // set reset password key
+            $event->setResetPasswordKey($resetPassword->getUuid());
         } catch (\Exception $e) {
             $event->stopPropagation(true);
             return $e;
+        }
+    }
+
+    /**
+     * Set Reset Password Key
+     *
+     * @param ResetPasswordEvent $event
+     */
+    public function setResetPasswordKey(ResetPasswordEvent $event)
+    {
+        $resetPassword = $event->getResetPasswordEntity();
+        if (! is_null($resetPassword)) {
+            $event->setResetPasswordKey($resetPassword->getUuid());
         }
     }
 

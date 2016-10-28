@@ -32,7 +32,7 @@ class ResetPasswordEvent extends Event
     /**
      * @var string
      */
-    protected $resetPasswordUuid;
+    protected $resetPasswordKey;
 
     /**
      * @var \Exception
@@ -72,19 +72,19 @@ class ResetPasswordEvent extends Event
     }
 
     /**
-     * @return the $resetPasswordUuid
+     * @return the $resetPasswordKey
      */
-    public function getResetPasswordUuid()
+    public function getResetPasswordKey()
     {
-        return $this->resetPasswordUuid;
+        return $this->resetPasswordKey;
     }
 
     /**
-     * @param string $resetPasswordUuid
+     * @param string $resetPasswordKey
      */
-    public function setResetPasswordUuid($resetPasswordUuid)
+    public function setResetPasswordKey($resetPasswordKey)
     {
-        $this->resetPasswordUuid = $resetPasswordUuid;
+        $this->resetPasswordKey = $resetPasswordKey;
     }
 
     /**

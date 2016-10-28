@@ -30,6 +30,8 @@ return [
                 \User\V1\Notification\Email\Service\ActivationFactory::class,
             'user.notification.email.service.resetpassword' =>
                 \User\V1\Notification\Email\Service\ResetPasswordFactory::class,
+            \User\V1\Notification\Email\Listener\ResetPasswordEventListener::class =>
+                \User\V1\Notification\Email\Listener\ResetPasswordEventListenerFactory::class,
             \User\Service\Listener\AuthActiveUserListener::class =>
                 \User\Service\Listener\AuthActiveUserListenerFactory::class,
             \User\V1\Hydrator\Strategy\PhotoStrategy::class =>
