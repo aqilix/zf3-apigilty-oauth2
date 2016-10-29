@@ -35,6 +35,11 @@ class ResetPassword implements EntityInterface
      * @var DateTime
      */
     private $reseted;
+    
+    /**
+     * @var string
+     */
+    private $password;
 
     /**
      * @return the $uuid
@@ -94,5 +99,21 @@ class ResetPassword implements EntityInterface
     public function setReseted($reseted)
     {
         $this->reseted = $reseted;
+    }
+    
+    /**
+     * @return the $password
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * @param \User\Entity\string $password
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
     }
 }
