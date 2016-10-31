@@ -97,10 +97,12 @@ class Module implements
             // available command
             'v1 user send-welcome-email <emailAddress> <activationCode>' => 'Send Welcome Email to New User',
             'v1 user send-activation-email <emailAddress>' => 'Send Notification Account Activated to New User',
+            'v1 user send-resetpassword-email <emailAddress> <resetPaswordKey>' => 'Send Reset Password Link to Email',
 
             // describe expected parameters
             [ 'emailAddress',   'Email Address of New User'],
             [ 'activationCode', 'Activation Code for New user'],
+            [ 'resetPaswordKey', 'Reset Password Key']
         ];
     }
 }
