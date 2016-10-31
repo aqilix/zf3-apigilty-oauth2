@@ -5,7 +5,6 @@ use User\V1\UserActivationEvent;
 use Zend\EventManager\EventManagerAwareTrait;
 use User\Mapper\UserActivation as UserActivationMapper;
 use User\Mapper\UserProfile as UserProfileMapper;
-use User\Entity\UserProfile;
 
 class UserActivation
 {
@@ -26,6 +25,12 @@ class UserActivation
      */
     protected $userProfileMapper;
 
+    /**
+     * Construct
+     *
+     * @param \User\Mapper\UserActivation $userActivationMapper
+     * @param \User\Mapper\UserProfile    $userProfileMapper
+     */
     public function __construct(UserActivationMapper $userActivationMapper, UserProfileMapper $userProfileMapper)
     {
         $this->setUserActivationMapper($userActivationMapper);
@@ -43,7 +48,7 @@ class UserActivation
     /**
      * @param \User\Mapper\UserActivation $userActivationMapper
      */
-    public function setUserActivationMapper($userActivationMapper)
+    public function setUserActivationMapper(UserActivationMapper $userActivationMapper)
     {
         $this->userActivationMapper = $userActivationMapper;
     }
@@ -59,7 +64,7 @@ class UserActivation
     /**
      * @param \User\Mapper\UserProfile $userProfileMapper
      */
-    public function setUserProfileMapper($userProfileMapper)
+    public function setUserProfileMapper(UserProfileMapper $userProfileMapper)
     {
         $this->userProfileMapper = $userProfileMapper;
     }
@@ -67,11 +72,14 @@ class UserActivation
     /**
      * Activate user
      *
-     * @param array $activationData
+     * @param  array $activationData
+     * @throw  \RuntimeException
+     * @return void
      */
     public function activate(array $activationData)
     {
-        $this->getUserActivationEvent()->setUserActivationData($activationData);
+        $userActivationEvent = $this->getUserActivationEvent();
+        $userActivationEvent->setUserActivationData($activationData);
         // retrieve user activation
         $activation  = $this->getUserActivationMapper()->fetchOne($activationData['activationUuid']);
         // check if activation data exist
@@ -83,28 +91,18 @@ class UserActivation
         $user = $activation->getUser();
         // retrieve user profile
         $userProfile = $this->getUserProfileMapper()->fetchOneBy(['user' => $user->getUsername()]);
-        $this->getUserActivationEvent()->setUserProfileEntity($userProfile);
-        $this->getUserActivationEvent()->setUserActivationEntity($activation);
-
-        $activate = $this->getEventManager()->trigger(
-            UserActivationEvent::EVENT_ACTIVATE_USER,
-            $this,
-            $this->getUserActivationEvent()
-        );
+        $userActivationEvent->setUserProfileEntity($userProfile);
+        $userActivationEvent->setUserActivationEntity($activation);
+        $userActivationEvent->setName(UserActivationEvent::EVENT_ACTIVATE_USER);
+        $activate = $this->getEventManager()->triggerEvent($userActivationEvent);
         if ($activate->stopped()) {
-            $this->getUserActivationEvent()->setException($activate->last());
-            $activate = $this->getEventManager()->trigger(
-                UserActivationEvent::EVENT_ACTIVATE_USER_ERROR,
-                $this,
-                $this->getUserActivationEvent()
-            );
+            $userActivationEvent->setException($activate->last());
+            $userActivationEvent->setName(UserActivationEvent::EVENT_ACTIVATE_USER_ERROR);
+            $this->getEventManager()->triggerEvent($userActivationEvent);
             throw $this->getUserActivationEvent()->getException();
         } else {
-            $this->getEventManager()->trigger(
-                UserActivationEvent::EVENT_ACTIVATE_USER_SUCCESS,
-                $this,
-                $this->getUserActivationEvent()
-            );
+            $userActivationEvent->setName(UserActivationEvent::EVENT_ACTIVATE_USER_SUCCESS);
+            $this->getEventManager()->triggerEvent($userActivationEvent);
         }
     }
 

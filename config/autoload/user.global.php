@@ -26,7 +26,17 @@ return [
                 'from' => '',
                 'name' => '',
                 'subject' => ''
-            ]
+            ],
+            'user_activation' => [
+                'from' => '',
+                'name' => '',
+                'subject' => ''
+            ],
+            'reset_password' => [
+                'from' => '',
+                'name' => '',
+                'subject' => ''
+            ],
         ]
     ]
 ];

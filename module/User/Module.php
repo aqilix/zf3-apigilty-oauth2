@@ -96,6 +96,7 @@ class Module implements
         return [
             // available command
             'v1 user send-welcome-email <emailAddress> <activationCode>' => 'Send Welcome Email to New User',
+            'v1 user send-activation-email <emailAddress>' => 'Send Notification Account Activated to New User',
 
             // describe expected parameters
             [ 'emailAddress',   'Email Address of New User'],
