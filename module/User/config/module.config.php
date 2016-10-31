@@ -4,12 +4,10 @@ return [
         'factories' => [
             'User\\V1\\Rpc\\Signup\\Controller' => \User\V1\Rpc\Signup\SignupControllerFactory::class,
             'User\\V1\\Rpc\\Me\\Controller' => \User\V1\Rpc\Me\MeControllerFactory::class,
-            'User\\V1\\Rpc\\UserActivation\\Controller' =>
-                \User\V1\Rpc\UserActivation\UserActivationControllerFactory::class,
-            \User\V1\Console\Controller\EmailController::class =>
-                \User\V1\Console\Controller\EmailControllerFactory::class,
-            'User\\V1\\Rpc\\ResetPasswordConfirmEmail\\Controller' =>
-                \User\V1\Rpc\ResetPasswordConfirmEmail\ResetPasswordConfirmEmailControllerFactory::class,
+            'User\\V1\\Rpc\\UserActivation\\Controller' => \User\V1\Rpc\UserActivation\UserActivationControllerFactory::class,
+            \User\V1\Console\Controller\EmailController::class => \User\V1\Console\Controller\EmailControllerFactory::class,
+            'User\\V1\\Rpc\\ResetPasswordConfirmEmail\\Controller' => \User\V1\Rpc\ResetPasswordConfirmEmail\ResetPasswordConfirmEmailControllerFactory::class,
+            'User\\V1\\Rpc\\ResetPasswordNewPassword\\Controller' => \User\V1\Rpc\ResetPasswordNewPassword\ResetPasswordNewPasswordControllerFactory::class,
         ],
     ],
     'service_manager' => [
@@ -20,30 +18,18 @@ return [
             'user.activation.listener' => \User\V1\Service\Listener\UserActivationEventListenerFactory::class,
             'user.signup.listener' => \User\V1\Service\Listener\SignupEventListenerFactory::class,
             'user.profile.listener' => \User\V1\Service\Listener\ProfileEventListenerFactory::class,
-            'user.notification.email.signup.listener' =>
-                \User\V1\Notification\Email\Listener\SignupEventListenerFactory::class,
-            'user.notification.email.activation.listener' =>
-                \User\V1\Notification\Email\Listener\ActivationEventListenerFactory::class,
-            'user.notification.email.service.welcome' =>
-                \User\V1\Notification\Email\Service\WelcomeFactory::class,
-            'user.notification.email.service.activation'  =>
-                \User\V1\Notification\Email\Service\ActivationFactory::class,
-            'user.notification.email.service.resetpassword' =>
-                \User\V1\Notification\Email\Service\ResetPasswordFactory::class,
-            \User\V1\Notification\Email\Listener\ResetPasswordEventListener::class =>
-                \User\V1\Notification\Email\Listener\ResetPasswordEventListenerFactory::class,
-            \User\Service\Listener\AuthActiveUserListener::class =>
-                \User\Service\Listener\AuthActiveUserListenerFactory::class,
-            \User\V1\Hydrator\Strategy\PhotoStrategy::class =>
-                \User\V1\Hydrator\Strategy\PhotoStrategyFactory::class,
-            \User\V1\Rest\Profile\ProfileResource::class    =>
-                \User\V1\Rest\Profile\ProfileResourceFactory::class,
-            \User\OAuth2\Adapter\PdoAdapter::class =>
-                \User\OAuth2\Factory\PdoAdapterFactory::class,
-            \User\V1\Service\ResetPassword::class  =>
-                \User\V1\Service\ResetPasswordFactory::class,
-            \User\V1\Service\Listener\ResetPasswordEventListener::class =>
-                \User\V1\Service\Listener\ResetPasswordEventListenerFactory::class,
+            'user.notification.email.signup.listener' => \User\V1\Notification\Email\Listener\SignupEventListenerFactory::class,
+            'user.notification.email.activation.listener' => \User\V1\Notification\Email\Listener\ActivationEventListenerFactory::class,
+            'user.notification.email.service.welcome' => \User\V1\Notification\Email\Service\WelcomeFactory::class,
+            'user.notification.email.service.activation' => \User\V1\Notification\Email\Service\ActivationFactory::class,
+            'user.notification.email.service.resetpassword' => \User\V1\Notification\Email\Service\ResetPasswordFactory::class,
+            \User\V1\Notification\Email\Listener\ResetPasswordEventListener::class => \User\V1\Notification\Email\Listener\ResetPasswordEventListenerFactory::class,
+            \User\Service\Listener\AuthActiveUserListener::class => \User\Service\Listener\AuthActiveUserListenerFactory::class,
+            \User\V1\Hydrator\Strategy\PhotoStrategy::class => \User\V1\Hydrator\Strategy\PhotoStrategyFactory::class,
+            \User\V1\Rest\Profile\ProfileResource::class => \User\V1\Rest\Profile\ProfileResourceFactory::class,
+            \User\OAuth2\Adapter\PdoAdapter::class => \User\OAuth2\Factory\PdoAdapterFactory::class,
+            \User\V1\Service\ResetPassword::class => \User\V1\Service\ResetPasswordFactory::class,
+            \User\V1\Service\Listener\ResetPasswordEventListener::class => \User\V1\Service\Listener\ResetPasswordEventListenerFactory::class,
         ],
         'abstract_factories' => [
             0 => \User\Mapper\AbstractMapperFactory::class,
@@ -110,6 +96,16 @@ return [
                     ],
                 ],
             ],
+            'user.rpc.reset-password-new-password' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/api/resetpassword/newpassword',
+                    'defaults' => [
+                        'controller' => 'User\\V1\\Rpc\\ResetPasswordNewPassword\\Controller',
+                        'action' => 'resetPasswordNewPassword',
+                    ],
+                ],
+            ],
         ],
     ],
     'zf-versioning' => [
@@ -120,6 +116,7 @@ return [
             3 => 'user.rpc.me',
             4 => 'user.rpc.user-activation',
             5 => 'user.rpc.reset-password-confirm-email',
+            6 => 'user.rpc.reset-password-new-password',
         ],
     ],
     'zf-rpc' => [
@@ -151,6 +148,13 @@ return [
             ],
             'route_name' => 'user.rpc.reset-password-confirm-email',
         ],
+        'User\\V1\\Rpc\\ResetPasswordNewPassword\\Controller' => [
+            'service_name' => 'ResetPasswordNewPassword',
+            'http_methods' => [
+                0 => 'POST',
+            ],
+            'route_name' => 'user.rpc.reset-password-new-password',
+        ],
     ],
     'zf-content-negotiation' => [
         'controllers' => [
@@ -159,6 +163,7 @@ return [
             'User\\V1\\Rpc\\Me\\Controller' => 'Json',
             'User\\V1\\Rpc\\UserActivation\\Controller' => 'Json',
             'User\\V1\\Rpc\\ResetPasswordConfirmEmail\\Controller' => 'Json',
+            'User\\V1\\Rpc\\ResetPasswordNewPassword\\Controller' => 'Json',
         ],
         'accept_whitelist' => [
             'User\\V1\\Rpc\\Signup\\Controller' => [
@@ -182,6 +187,10 @@ return [
                 0 => 'application/vnd.user.v1+json',
                 1 => 'application/json',
                 2 => 'application/*+json',
+            ],
+            'User\\V1\\Rpc\\ResetPasswordNewPassword\\Controller' => [
+                0 => 'application/json',
+                1 => 'application/vnd.aqilix.bootstrap.v1+json',
             ],
         ],
         'content_type_whitelist' => [
@@ -207,6 +216,10 @@ return [
                 0 => 'application/vnd.user.v1+json',
                 1 => 'application/json',
             ],
+            'User\\V1\\Rpc\\ResetPasswordNewPassword\\Controller' => [
+                0 => 'application/json',
+                1 => 'application/vnd.aqilix.bootstrap.v1+json',
+            ],
         ],
     ],
     'zf-content-validation' => [
@@ -221,6 +234,9 @@ return [
         ],
         'User\\V1\\Rpc\\ResetPasswordConfirmEmail\\Controller' => [
             'input_filter' => 'User\\V1\\Rpc\\ResetPasswordConfirmEmail\\Validator',
+        ],
+        'User\\V1\\Rpc\\ResetPasswordNewPassword\\Controller' => [
+            'input_filter' => 'User\\V1\\Rpc\\ResetPasswordNewPassword\\Validator',
         ],
     ],
     'input_filter_specs' => [
@@ -257,7 +273,9 @@ return [
                     ],
                     1 => [
                         'name' => \Zend\Validator\StringLength::class,
-                        'options' => [],
+                        'options' => [
+                            'min' => '8',
+                        ],
                     ],
                 ],
                 'filters' => [],
@@ -484,6 +502,65 @@ return [
                 'description' => 'Email Address',
                 'field_type' => 'EmailAddress',
                 'error_message' => 'Email Address Required',
+            ],
+        ],
+        'User\\V1\\Rpc\\ResetPasswordNewPassword\\Validator' => [
+            0 => [
+                'required' => true,
+                'validators' => [],
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                        'options' => [],
+                    ],
+                ],
+                'name' => 'resetPasswordKey',
+                'description' => 'Reset Password Key',
+                'error_message' => 'Reset Password Key Not Valid',
+            ],
+            1 => [
+                'required' => true,
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\I18n\Validator\Alnum::class,
+                        'options' => [],
+                    ],
+                    1 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => '8',
+                        ],
+                    ],
+                ],
+                'filters' => [],
+                'name' => 'newPassword',
+                'description' => 'New Password',
+                'error_message' => 'New Password Not Valid',
+            ],
+            2 => [
+                'required' => true,
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\I18n\Validator\Alnum::class,
+                        'options' => [],
+                    ],
+                    1 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => '8',
+                        ],
+                    ],
+                    2 => [
+                        'name' => \Zend\Validator\Identical::class,
+                        'options' => [
+                            'token' => 'newPassword',
+                        ],
+                    ],
+                ],
+                'filters' => [],
+                'name' => 'confirmNewPassword',
+                'description' => 'Confirm New Password',
+                'error_message' => 'Confirm New Password not valid',
             ],
         ],
     ],

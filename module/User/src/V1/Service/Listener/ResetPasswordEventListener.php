@@ -6,6 +6,7 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateTrait;
 use User\V1\ResetPasswordEvent;
 use User\Mapper\ResetPassword as ResetPasswordMapper;
+use Aqilix\OAuth2\Mapper\OauthUsers as UserMapper;
 
 class ResetPasswordEventListener implements ListenerAggregateInterface
 {
@@ -17,11 +18,20 @@ class ResetPasswordEventListener implements ListenerAggregateInterface
     protected $resetPasswordMapper;
 
     /**
+     * @var \Aqilix\OAuth2\Mapper\OauthUsers
+     */
+    protected $userMapper;
+
+    /**
      * Constructor
      */
-    public function __construct(ResetPasswordMapper $resetPasswordMapper)
-    {
+    public function __construct(
+        ResetPasswordMapper $resetPasswordMapper,
+        UserMapper $userMapper
+    ) {
+
         $this->setResetPasswordMapper($resetPasswordMapper);
+        $this->setUserMapper($userMapper);
     }
 
     public function attach(EventManagerInterface $events, $priority = 1)
@@ -35,6 +45,11 @@ class ResetPasswordEventListener implements ListenerAggregateInterface
             ResetPasswordEvent::EVENT_RESET_PASSWORD_CONFIRM_EMAIL_SUCCESS,
             [$this, 'setResetPasswordKey'],
             500
+        );
+        $this->listeners[] = $events->attach(
+            ResetPasswordEvent::EVENT_RESET_PASSWORD_RESET,
+            [$this, 'resetPassword'],
+            499
         );
     }
 
@@ -77,6 +92,27 @@ class ResetPasswordEventListener implements ListenerAggregateInterface
     }
 
     /**
+     * Reset Password
+     *
+     * @param ResetPasswordEvent $event
+     */
+    public function resetPassword(ResetPasswordEvent $event)
+    {
+        $resetPasswordData = $event->getResetPasswordData();
+        $resetPassword = $event->getResetPasswordEntity();
+        $user = $event->getUserEntity();
+        $password = $this->getUserMapper()
+                         ->getPasswordHash($resetPasswordData['newPassword']);
+        $user->setPassword($password);
+        $resetPassword->setPassword($password);
+        $resetPassword->setReseted(new \DateTime());
+        $this->getUserMapper()->save($user);
+        $this->getresetPasswordMapper()->save($resetPassword);
+        $event->setUserEntity($user);
+        $event->setResetPasswordEntity($resetPassword);
+    }
+
+    /**
      * @return the $resetPasswordMapper
      */
     public function getresetPasswordMapper()
@@ -90,5 +126,21 @@ class ResetPasswordEventListener implements ListenerAggregateInterface
     public function setresetPasswordMapper(ResetPasswordMapper $resetPasswordMapper)
     {
         $this->resetPasswordMapper = $resetPasswordMapper;
+    }
+
+    /**
+     * @return the $userMapper
+     */
+    public function getUserMapper()
+    {
+        return $this->userMapper;
+    }
+
+    /**
+     * @param \Aqilix\OAuth2\Mapper\OauthUsers $userMapper
+     */
+    public function setUserMapper(UserMapper $userMapper)
+    {
+        $this->userMapper = $userMapper;
     }
 }

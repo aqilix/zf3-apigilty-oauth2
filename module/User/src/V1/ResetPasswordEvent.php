@@ -35,16 +35,29 @@ class ResetPasswordEvent extends Event
     protected $resetPasswordKey;
 
     /**
+     * @var array
+     */
+    protected $resetPasswordData;
+
+    /**
      * @var \Exception
      */
     protected $exception;
 
     /**
-     * @return the $exception
+     * @return the $resetPasswordData
      */
-    public function getException()
+    public function getResetPasswordData()
     {
-        return $this->exception;
+        return $this->resetPasswordData;
+    }
+
+    /**
+     * @param array $resetPasswordData
+     */
+    public function setResetPasswordData($resetPasswordData)
+    {
+        $this->resetPasswordData = $resetPasswordData;
     }
 
     /**
@@ -101,5 +114,13 @@ class ResetPasswordEvent extends Event
     public function setUserEntity(User $userEntity)
     {
         $this->userEntity = $userEntity;
+    }
+
+    /**
+     * @return the $exception
+     */
+    public function getException()
+    {
+        return $this->exception;
     }
 }

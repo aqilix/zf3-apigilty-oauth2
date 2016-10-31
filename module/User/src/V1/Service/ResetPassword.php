@@ -5,6 +5,7 @@ use User\V1\ResetPasswordEvent;
 use Zend\EventManager\EventManagerAwareTrait;
 use User\Mapper\ResetPassword as ResetPasswordMapper;
 use Aqilix\OAuth2\Mapper\OauthUsers as UserMapper;
+use Gedmo\Exception\RuntimeException;
 
 class ResetPassword
 {
@@ -99,9 +100,33 @@ class ResetPassword
      */
     public function reset(array $resetData)
     {
+        $resetPasswordKey = $resetData['resetPasswordKey'];
+        try {
+            $resetPasswordEntity = $this->getResetPassword($resetPasswordKey);
+        } catch (\RuntimeException $e) {
+            throw $e;
+        }
+
+        $event = $this->getResetPasswordEvent();
+        $event->setName(ResetPasswordEvent::EVENT_RESET_PASSWORD_RESET);
+        $event->setUserEntity($resetPasswordEntity->getUser());
+        $event->setResetPasswordEntity($resetPasswordEntity);
+        $event->setResetPasswordData($resetData);
+        $resetPassword = $this->getEventManager()->triggerEvent($event);
+        if ($resetPassword->stopped()) {
+            $event->setException($resetPassword->last());
+            $event->setName(ResetPasswordEvent::EVENT_RESET_PASSWORD_RESET_ERROR);
+            $resetPassword = $this->getEventManager()->triggerEvent($event);
+            throw $event->getException();
+        } else {
+            $event->setName(ResetPasswordEvent::EVENT_RESET_PASSWORD_RESET_SUCCESS);
+            $this->getEventManager()->triggerEvent($event);
+        }
     }
 
     /**
+     * Get ResetPasswordEvent
+     *
      * @return the $resetPasswordEvent
      */
     public function getResetPasswordEvent()
@@ -111,5 +136,22 @@ class ResetPassword
         }
 
         return $this->resetPasswordEvent;
+    }
+
+    /**
+     * Get Reset Password Object
+     *
+     * @param  string $resetPasswordPasswordKey
+     * @return ResetPassword
+     * @throws RuntimeException
+     */
+    public function getResetPassword($resetPasswordKey)
+    {
+        $resetPassword = $this->getResetPasswordMapper()->fetchOneBy(['uuid' => $resetPasswordKey]);
+        if (is_null($resetPassword)) {
+            throw new \RuntimeException('Invalid Reset Password Key');
+        }
+
+        return $resetPassword;
     }
 }

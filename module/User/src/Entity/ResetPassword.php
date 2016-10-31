@@ -35,7 +35,7 @@ class ResetPassword implements EntityInterface
      * @var DateTime
      */
     private $reseted;
-    
+
     /**
      * @var string
      */
@@ -100,7 +100,7 @@ class ResetPassword implements EntityInterface
     {
         $this->reseted = $reseted;
     }
-    
+
     /**
      * @return the $password
      */
