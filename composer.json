@@ -6,7 +6,6 @@
     "keywords": [
         "api",
         "apigility",
-        "framework",
         "zf3",
         "oauth2",
         "php5.6",
@@ -23,8 +22,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.09-dev",
-            "dev-develop": "0.10-dev"
+            "dev-master": "1.0.0-dev",
+            "dev-develop": "1.0.1-dev"
         }
     },
     "require": {
@@ -80,6 +79,9 @@
     "scripts": {
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
+        "development-db-create": "doctrine-module orm:schema-tool:create",
+        "development-db-drop": "doctrine-module orm:schema-tool:drop --force",
+        "development-db-data-fixture-import": "doctrine-module data-fixture:import",
         "development-disable": "zf-development-mode disable",
         "development-enable": "zf-development-mode enable",
         "development-status": "zf-development-mode status",

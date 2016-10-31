@@ -15,10 +15,6 @@
 #   docker-compose run api composer development-disable
 #   docker-compose run api composer development-status
 #
-# Importing database
-#
-#   docker exec -i zf3apigilityoauth2_db_1 mysql -h localhost -u zf3 -pzf3 zf3_apigility < vendor/zfcampus/zf-oauth2/data/db_oauth2.sql
-# 
 
 FROM ubuntu:xenial
 MAINTAINER Dolly Aswin <dolly.aswin@aqilix.com>
