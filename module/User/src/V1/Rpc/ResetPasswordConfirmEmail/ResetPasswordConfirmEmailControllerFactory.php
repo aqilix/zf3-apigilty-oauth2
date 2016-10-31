@@ -7,7 +7,7 @@ class ResetPasswordConfirmEmailControllerFactory
     {
         $confirmEmailValidator = $controllers->get('InputFilterManager')
                                     ->get('User\\V1\\Rpc\\ResetPasswordConfirmEmail\\Validator');
-        $resetPasswordService  = $controllers->get(\User\V1\Service\ResetPassword::class);
+        $resetPasswordService  = $controllers->get('user.resetpassword');
         return new ResetPasswordConfirmEmailController(
             $confirmEmailValidator,
             $resetPasswordService

@@ -31,10 +31,8 @@ class Module implements
         $profileService = $serviceManager->get('user.profile');
         $profileEventListener->attach($profileService->getEventManager());
         // reset password
-        $resetPasswordService = $serviceManager->get(\User\V1\Service\ResetPassword::class);
-        $resetPasswordEventListener = $serviceManager->get(
-            \User\V1\Service\Listener\ResetPasswordEventListener::class
-        );
+        $resetPasswordService = $serviceManager->get('user.resetpassword');
+        $resetPasswordEventListener = $serviceManager->get('user.resetpassword.listener');
         $resetPasswordEventListener->attach($resetPasswordService->getEventManager());
         // AuthActiveUserListener
         $app    = $mvcEvent->getApplication();
@@ -44,12 +42,12 @@ class Module implements
             $serviceManager->get('authentication'),
             $serviceManager->get('authorization')
         );
-        $pdoAdapter = $serviceManager->get(\User\OAuth2\Adapter\PdoAdapter::class);
+        $pdoAdapter = $serviceManager->get('user.auth.pdo.adapter');
         $pdoAdapter->setEventManager($events);
         $pdoAdapter->setMvcAuthEvent($mvcAuthEvent);
         $events->attach(
             MvcAuthEvent::EVENT_AUTHENTICATION_POST,
-            $serviceManager->get(\User\Service\Listener\AuthActiveUserListener::class)
+            $serviceManager->get('user.auth.activeuser.listener')
         );
         // notification email for signup
         $signupNotificationEmailListener = $serviceManager->get('user.notification.email.signup.listener');
@@ -59,7 +57,7 @@ class Module implements
         $activationNotificationEmailListener->attach($userActivationService->getEventManager());
         // notification email for reset password
         $resetPasswordNotificationEmailListener = $serviceManager->get(
-            \User\V1\Notification\Email\Listener\ResetPasswordEventListener::class
+            'user.notification.email.resetpassword.listener'
         );
         $resetPasswordNotificationEmailListener->attach($resetPasswordService->getEventManager());
     }

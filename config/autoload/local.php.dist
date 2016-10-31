@@ -19,7 +19,7 @@ return [
                 'oauth2_pdo' => [
                     'adapter' => \ZF\MvcAuth\Authentication\OAuth2Adapter::class,
                     'storage' => [
-                        'storage' => 'User\\OAuth2\\Adapter\\PdoAdapter',
+                        'storage' => 'user.auth.pdo.adapter',
                     ],
                 ],
             ],

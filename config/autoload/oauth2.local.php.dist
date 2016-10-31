@@ -1,7 +1,7 @@
 <?php
 return [
     'zf-oauth2' => [
-    	'storage' => 'User\\OAuth2\\Adapter\\PdoAdapter',
+    	'storage' => 'user.auth.pdo.adapter',
         'db' => [
            	'dsn' => 'mysql:dbname=zf3_apigility;host=db',
            	'route' => '/oauth',

@@ -7,7 +7,7 @@ class ResetPasswordNewPasswordControllerFactory
     {
         $newPasswordValidator = $controllers->get('InputFilterManager')
                                         ->get('User\\V1\\Rpc\\ResetPasswordNewPassword\\Validator');
-        $resetPasswordService  = $controllers->get(\User\V1\Service\ResetPassword::class);
+        $resetPasswordService  = $controllers->get('user.resetpassword');
         return new ResetPasswordNewPasswordController(
             $newPasswordValidator,
             $resetPasswordService
