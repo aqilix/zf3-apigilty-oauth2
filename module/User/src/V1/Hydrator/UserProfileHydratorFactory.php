@@ -5,6 +5,7 @@ use Zend\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use Zend\Hydrator\Strategy\DateTimeFormatterStrategy;
+use Zend\Hydrator\Filter\FilterComposite;
 
 /**
  * Hydrator for Doctrine Entity
@@ -27,6 +28,13 @@ class UserProfileHydratorFactory implements FactoryInterface
         $hydrator->addStrategy('createdAt', new DateTimeFormatterStrategy('c'));
         $hydrator->addStrategy('updatedAt', new DateTimeFormatterStrategy('c'));
         $hydrator->addStrategy('photo', $container->get(\User\V1\Hydrator\Strategy\PhotoStrategy::class));
+        $hydrator->addFilter('exclude', function ($property) {
+            if (in_array($property, ['deletedAt', 'userActivation'])) {
+                return false;
+            }
+
+            return true;
+        }, FilterComposite::CONDITION_AND);
         return $hydrator;
     }
 }
