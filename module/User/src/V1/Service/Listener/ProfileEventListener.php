@@ -37,6 +37,10 @@ class ProfileEventListener implements ListenerAggregateInterface
         $this->setConfig($config);
     }
 
+    /**
+     * (non-PHPdoc)
+     * @see \Zend\EventManager\ListenerAggregateInterface::attach()
+     */
     public function attach(EventManagerInterface $events, $priority = 1)
     {
         $this->listeners[] = $events->attach(
@@ -49,20 +53,21 @@ class ProfileEventListener implements ListenerAggregateInterface
     /**
      * Update Profile
      *
-     * @param  $event
+     * @param  SignupEvent $event
+     * @return void|\Exception
      */
-    public function updateProfile($event)
+    public function updateProfile(ProfileEvent $event)
     {
         try {
-            $userProfileEntity = $event->getParams()->getUserProfileEntity();
-            $updateData  = $event->getParams()->getUpdateData();
+            $userProfileEntity = $event->getUserProfileEntity();
+            $updateData  = $event->getUpdateData();
             // add file input filter here
-            if (! $event->getParams()->getInputFilter() instanceof InputFilterInterface) {
+            if (! $event->getInputFilter() instanceof InputFilterInterface) {
                 throw new InvalidArgumentException('Input Filter not set');
             }
 
             // adding filter for photo
-            $inputPhoto  = $event->getParams()->getInputFilter()->get('photo');
+            $inputPhoto  = $event->getInputFilter()->get('photo');
             $inputPhoto->getFilterChain()
                     ->attach(new \Zend\Filter\File\RenameUpload([
                         'target' => $this->getConfig()['backup_dir'],
@@ -71,7 +76,7 @@ class ProfileEventListener implements ListenerAggregateInterface
                     ]));
             $userProfile = $this->getUserProfileHydrator()->hydrate($updateData, $userProfileEntity);
             $this->getUserProfileMapper()->save($userProfile);
-            $event->getParams()->setUserProfileEntity($userProfile);
+            $event->setUserProfileEntity($userProfile);
         } catch (\Exception $e) {
             $event->stopPropagation(true);
             return $e;

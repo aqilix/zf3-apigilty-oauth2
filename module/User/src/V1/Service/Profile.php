@@ -68,28 +68,20 @@ class Profile
      */
     public function update($userProfile, $inputFilter)
     {
-        $this->getProfileEvent()->setUserProfileEntity($userProfile);
-        $this->getProfileEvent()->setUpdateData($inputFilter->getValues());
-        $this->getProfileEvent()->setInputFilter($inputFilter);
-        $update = $this->getEventManager()->trigger(
-            ProfileEvent::EVENT_UPDATE_PROFILE,
-            $this,
-            $this->getProfileEvent()
-        );
+        $profileEvent = $this->getProfileEvent();
+        $profileEvent->setUserProfileEntity($userProfile);
+        $profileEvent->setUpdateData($inputFilter->getValues());
+        $profileEvent->setInputFilter($inputFilter);
+        $profileEvent->setName(ProfileEvent::EVENT_UPDATE_PROFILE);
+        $update = $this->getEventManager()->triggerEvent($profileEvent);
         if ($update->stopped()) {
-            $update->getProfileEvent()->setException($update->last());
-            $insert = $this->getEventManager()->trigger(
-                ProfileEvent::EVENT_UPDATE_PROFILE_ERROR,
-                $this,
-                $this->getProfileEvent()
-            );
-            throw $this->getProfileEvent()->getException();
+            $profileEvent->setName(ProfileEvent::EVENT_UPDATE_PROFILE_ERROR);
+            $profileEvent->setException($update->last());
+            $this->getEventManager()->triggerEvent($profileEvent);
+            throw $profileEvent->getException();
         } else {
-            $this->getEventManager()->trigger(
-                ProfileEvent::EVENT_UPDATE_PROFILE_SUCCESS,
-                $this,
-                $this->getProfileEvent()
-            );
+            $profileEvent->setName(ProfileEvent::EVENT_UPDATE_PROFILE_SUCCESS);
+            $this->getEventManager()->triggerEvent($profileEvent);
         }
     }
 }
