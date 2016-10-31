@@ -24,13 +24,14 @@ class ActivationEventListener extends AbstractListener implements ListenerAggreg
     }
 
     /**
-     * Rund Console to Send Activation Email
+     * Run Console to Send Activation Email
      *
-     * @param EventInterface $event
+     * @param  UserActivationEvent $event
+     * @return int
      */
-    public function sendActivationEmail($event)
+    public function sendActivationEmail(UserActivationEvent $event)
     {
-        $emailAddress = $event->getParams()->getUserActivationEntity()->getUser()->getUsername();
+        $emailAddress = $event->getUserActivationEntity()->getUser()->getUsername();
         // command: v1 user send-activation-email <emailAddress>
         $cli = $this->phpProcessBuilder
                 ->setArguments(['v1', 'user', 'send-activation-email', $emailAddress])

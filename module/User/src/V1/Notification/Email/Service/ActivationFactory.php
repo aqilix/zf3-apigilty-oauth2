@@ -14,7 +14,7 @@ class ActivationFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $config  = $container->get('Config')['user']['email']['welcome'];
+        $config  = $container->get('Config')['user']['email']['user_activation'];
         $message = new Message();
         $message->addFrom($config['from'], $config['name'])
             ->setSubject($config['subject']);

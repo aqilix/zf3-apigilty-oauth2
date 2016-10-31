@@ -23,7 +23,10 @@ class UserActivationEventListener implements ListenerAggregateInterface
     protected $userActivationMapper;
 
     /**
-     * Constructor
+     * Construct
+     *
+     * @param \User\Mapper\UserProfile $userProfileMapper
+     * @param \User\Mapper\UserActivation $userActivationMapper
      */
     public function __construct(UserProfileMapper $userProfileMapper, UserActivationMapper $userActivationMapper)
     {
@@ -31,6 +34,10 @@ class UserActivationEventListener implements ListenerAggregateInterface
         $this->setUserActivationMapper($userActivationMapper);
     }
 
+    /**
+     * (non-PHPdoc)
+     * @see \Zend\EventManager\ListenerAggregateInterface::attach()
+     */
     public function attach(EventManagerInterface $events, $priority = 1)
     {
         $this->listeners[] = $events->attach(
@@ -53,11 +60,12 @@ class UserActivationEventListener implements ListenerAggregateInterface
     /**
      * Check activated
      *
-     * @param  $event
+     * @param  UserActivationEvent $event
+     * @return void|\Exception
      */
-    public function isActivated($event)
+    public function isActivated(UserActivationEvent $event)
     {
-        $userActivation = $event->getParams()->getUserActivationEntity();
+        $userActivation = $event->getUserActivationEntity();
         if ($userActivation->getActivated() !== null) {
             $event->stopPropagation(true);
             return new \RuntimeException('Activation UUID has been activated');
@@ -67,12 +75,13 @@ class UserActivationEventListener implements ListenerAggregateInterface
     /**
      * Check expiration
      *
-     * @param  $event
+     * @param  UserActivationEvent $event
+     * @return void|\Exception
      */
-    public function isExpired($event)
+    public function isExpired(UserActivationEvent $event)
     {
         $now = new \DateTime();
-        $userActivation = $event->getParams()->getUserActivationEntity();
+        $userActivation = $event->getUserActivationEntity();
         if ($userActivation->getExpiration() < $now) {
             $event->stopPropagation(true);
             return new \RuntimeException('User Activation UUID has expired');
@@ -82,12 +91,13 @@ class UserActivationEventListener implements ListenerAggregateInterface
     /**
      * Activate New User
      *
-     * @param  $event
+     * @param  UserActivationEvent $event
+     * @return void|\Exception
      */
-    public function activate($event)
+    public function activate(UserActivationEvent $event)
     {
-        $userActivation = $event->getParams()->getUserActivationEntity();
-        $userProfile = $event->getParams()->getUserProfileEntity();
+        $userActivation = $event->getUserActivationEntity();
+        $userProfile = $event->getUserProfileEntity();
         try {
             $userProfile->setIsActive(true);
             $userProfile->setUserActivation($userActivation);
