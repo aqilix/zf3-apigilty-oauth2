@@ -24,19 +24,19 @@ class SignupEventListener extends AbstractListener implements ListenerAggregateI
     }
 
     /**
-     * Rund Console to Send Activation Email
+     * Run Console to Send Activation Email
      *
      * @param EventInterface $event
      */
-    public function sendWelcomeEmail($event)
+    public function sendWelcomeEmail(SignupEvent $event)
     {
-        $emailAddress = $event->getParams()->getUserEntity()->getUsername();
-        $userActivationKey = $event->getParams()->getUserActivationKey();
+        $emailAddress = $event->getUserEntity()->getUsername();
+        $userActivationKey = $event->getUserActivationKey();
         // command: v1 user send-welcome-email <emailAddress> <activationCode>
         $cli = $this->phpProcessBuilder
                 ->setArguments(['v1', 'user', 'send-welcome-email', $emailAddress, $userActivationKey])
                 ->getProcess();
         $cli->start();
-        $pid = $cli->getPid();
+        return $cli->getPid();
     }
 }

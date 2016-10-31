@@ -46,17 +46,17 @@ class Signup
     public function register(array $signupData)
     {
         $this->getSignupEvent()->setSignupData($signupData);
-        $insert = $this->getEventManager()->trigger(SignupEvent::EVENT_INSERT_USER, $this, $this->getSignupEvent());
+        $signupEvent = $this->getSignupEvent();
+        $signupEvent->setName(SignupEvent::EVENT_INSERT_USER);
+        $insert = $this->getEventManager()->triggerEvent($signupEvent);
         if ($insert->stopped()) {
-            $this->getSignupEvent()->setException($insert->last());
-            $insert = $this->getEventManager()->trigger(
-                SignupEvent::EVENT_INSERT_USER_ERROR,
-                $this,
-                $this->getSignupEvent()
-            );
+            $signupEvent->setException($insert->last());
+            $signupEvent->setName(SignupEvent::EVENT_INSERT_USER_ERROR);
+            $insert = $this->getEventManager()->triggerEvent($signupEvent);
             throw $this->getSignupEvent()->getException();
         } else {
-            $this->getEventManager()->trigger(SignupEvent::EVENT_INSERT_USER_SUCCESS, $this, $this->getSignupEvent());
+            $signupEvent->setName(SignupEvent::EVENT_INSERT_USER_SUCCESS);
+            $this->getEventManager()->triggerEvent($signupEvent);
         }
     }
 }

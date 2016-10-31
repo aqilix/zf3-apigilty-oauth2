@@ -85,19 +85,20 @@ class SignupEventListener implements ListenerAggregateInterface
     /**
      * Create New User
      *
-     * @param  $event
+     * @param  SignupEvent $event
+     * @return void|\Exception
      */
-    public function createUser($event)
+    public function createUser(SignupEvent $event)
     {
         try {
             $user = new \Aqilix\OAuth2\Entity\OauthUsers;
-            $signupData = $event->getParams()->getSignupData();
+            $signupData = $event->getSignupData();
             $password   = $this->getUserMapper()
                                ->getPasswordHash($signupData['password']);
             $user->setUsername($signupData['email']);
             $user->setPassword($password);
             $this->getUserMapper()->save($user);
-            $event->getParams()->setUserEntity($user);
+            $event->setUserEntity($user);
         } catch (\Exception $e) {
             $event->stopPropagation(true);
             return $e;
@@ -105,14 +106,15 @@ class SignupEventListener implements ListenerAggregateInterface
     }
 
     /**
-     * Create New User
+     * Create User Profile
      *
-     * @param  $event
+     * @param  SignupEvent $event
+     * @return void|\Exception
      */
-    public function createUserProfile($event)
+    public function createUserProfile(SignupEvent $event)
     {
         try {
-            $user = $event->getParams()->getUserEntity();
+            $user = $event->getUserEntity();
             $userProfile = new \User\Entity\UserProfile;
             $userProfile->setUser($user);
             $this->getUserMapper()->save($userProfile);
@@ -122,10 +124,16 @@ class SignupEventListener implements ListenerAggregateInterface
         }
     }
 
-    public function createAccessToken($event)
+    /**
+     * Create Access Token
+     *
+     * @param  SignupEvent $event
+     * @return void|\Exception
+     */
+    public function createAccessToken(SignupEvent $event)
     {
         $clientId = $this->getConfig()['client_id'];
-        $userId   = $event->getParams()->getUserEntity()->getUsername();
+        $userId   = $event->getUserEntity()->getUsername();
         $now = new \DateTime('now');
         $accessTokensExpires = new \DateTime();
         $accessTokensExpires->setTimestamp($now->getTimestamp() + $this->getConfig()['expires_in']);
@@ -163,22 +171,28 @@ class SignupEventListener implements ListenerAggregateInterface
             'refresh_token' => $refreshTokens->getRefreshToken()
         ];
 
-        $event->getParams()->setAccessTokenResponse($accessTokensResponse);
+        $event->setAccessTokenResponse($accessTokensResponse);
     }
 
-    public function createActivation($event)
+    /**
+     * Create Activation
+     *
+     * @param  SignupEvent $event
+     * @return void|\Exception
+     */
+    public function createActivation(SignupEvent $event)
     {
         try {
             $expiration = new \DateTime();
             // 14 day expiration
             // @todo retrieve expired from config
             $expiration->add(new \DateInterval('P14D'));
-            $user = $event->getParams()->getUserEntity();
+            $user = $event->getUserEntity();
             $userActivation = new \User\Entity\UserActivation;
             $userActivation->setUser($user);
             $userActivation->setExpiration($expiration);
             $this->getUserActivationMapper()->save($userActivation);
-            $event->getParams()->setUserActivationKey($userActivation->getUuid());
+            $event->setUserActivationKey($userActivation->getUuid());
         } catch (\Exception $e) {
             $event->stopPropagation(true);
             return $e;
