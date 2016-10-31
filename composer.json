@@ -48,6 +48,7 @@
     },
     "require-dev": {
         "zendframework/zend-developer-tools": "^1.1",
+        "zfcampus/zf-apigility-documentation-swagger": "^1.2",
         "zfcampus/zf-apigility-admin": "^1.5.6",
         "zfcampus/zf-asset-manager": "^1.0",
         "zfcampus/zf-composer-autoloading": "^1.0",

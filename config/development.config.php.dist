@@ -11,6 +11,7 @@ return [
         'ZendDeveloperTools',
         'ZF\\Apigility\\Admin',
         'DoctrineDataFixtureModule',
+        'ZF\Apigility\Documentation\Swagger',
     ],
     'module_listener_options' => [
         'config_glob_paths' => [
