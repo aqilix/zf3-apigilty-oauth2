@@ -19,15 +19,25 @@
 return [
     'user' => [
         'photo' => [
-            'base_url' => 'http://s3.amazonaws.xyz',
+            'base_url' => 'http://photo.aqilix.xyz',
             'bucket'   => 'photo',
         ],
         'email'  => [
             'welcome' => [
                 'from' => 'no-reply@',
-                'name' => '',
-                'subject' => ''
-            ]
+                'name' => 'Aqilix',
+                'subject' => 'Aqilix - Welcome to Aqilix'
+            ],
+            'user_activation' => [
+                'from' => 'no-reply@',
+                'name' => 'Aqilix',
+                'subject' => 'Aqilix - Account Activated'
+            ],
+            'reset_password' => [
+                'from' => 'no-reply@',
+                'name' => 'Aqilix',
+                'subject' => 'Aqilix - Reset Password'
+            ],
         ]
     ]
 ];
