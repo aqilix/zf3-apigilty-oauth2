@@ -58,6 +58,10 @@ class SignupEventListener implements ListenerAggregateInterface
         $this->config = $config;
     }
 
+    /**
+     * (non-PHPdoc)
+     * @see \Zend\EventManager\ListenerAggregateInterface::attach()
+     */
     public function attach(EventManagerInterface $events, $priority = 1)
     {
         $this->listeners[] = $events->attach(

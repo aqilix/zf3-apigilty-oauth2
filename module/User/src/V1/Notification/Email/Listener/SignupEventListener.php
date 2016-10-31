@@ -26,7 +26,8 @@ class SignupEventListener extends AbstractListener implements ListenerAggregateI
     /**
      * Run Console to Send Activation Email
      *
-     * @param EventInterface $event
+     * @param  EventInterface $event
+     * @return int
      */
     public function sendWelcomeEmail(SignupEvent $event)
     {

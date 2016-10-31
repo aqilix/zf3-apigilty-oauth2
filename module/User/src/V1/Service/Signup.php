@@ -41,7 +41,9 @@ class Signup
     /**
      * Register new user
      *
-     * @param array $signupData
+     * @param  array $signupData
+     * @throw  \RuntimeException
+     * @return void
      */
     public function register(array $signupData)
     {
