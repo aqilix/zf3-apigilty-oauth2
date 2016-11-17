@@ -49,6 +49,12 @@ class Module implements
             MvcAuthEvent::EVENT_AUTHENTICATION_POST,
             $serviceManager->get('user.auth.activeuser.listener')
         );
+        // add header if get http status 401
+        $events->attach(
+            \Zend\Mvc\MvcEvent::EVENT_FINISH,
+            $serviceManager->get('user.auth.unauthorized.listener'),
+            -100
+        );
         // notification email for signup
         $signupNotificationEmailListener = $serviceManager->get('user.notification.email.signup.listener');
         $signupNotificationEmailListener->attach($signupService->getEventManager());

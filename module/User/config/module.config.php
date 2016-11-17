@@ -29,6 +29,7 @@ return [
             'user.auth.pdo.adapter' => \User\OAuth2\Factory\PdoAdapterFactory::class,
             'user.auth.activeuser.listener' => \User\Service\Listener\AuthActiveUserListenerFactory::class,
             'user.hydrator.photo.strategy'  => \User\V1\Hydrator\Strategy\PhotoStrategyFactory::class,
+            'user.auth.unauthorized.listener' => \User\Service\Listener\UnauthorizedUserListenerFactory::class,
             \User\V1\Rest\Profile\ProfileResource::class => \User\V1\Rest\Profile\ProfileResourceFactory::class
         ],
         'abstract_factories' => [
