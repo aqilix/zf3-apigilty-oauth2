@@ -8,12 +8,16 @@ return [
         ],
         "factories"  => [
             "Aqilix\Service\Mail" => \Aqilix\Service\Mail\MailgunAppFactory::class,
-            "Aqilix\Service\PhpProcessBuilder" => \Aqilix\Service\PhpProcessFactory::class,
-            "Aqilix\Service\PsrLogger" => \Aqilix\Service\PsrLoggerFactory::class
+            "Aqilix\Service\PhpProcessBuilder" => \Aqilix\Service\PhpProcessFactory::class
         ],
         "abstract_factories" => [
             "Aqilix\OAuth2\Mapper\AbstractMapperFactory",
             "Zend\Log\LoggerAbstractServiceFactory",
+        ],
+        "delegators" => [
+            "logger_default" => [
+                Aqilix\Service\PsrLoggerDelegator::class
+            ]
         ]
     ],
     "log" => [
