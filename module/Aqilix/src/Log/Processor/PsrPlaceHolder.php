@@ -1,5 +1,5 @@
 <?php
-namespace Aqilix\Service;
+namespace Aqilix\Log\Processor;
 
 /**
  * Overwrite Zend\Log\Processor\PsrPlaceholder
