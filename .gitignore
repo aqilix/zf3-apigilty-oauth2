@@ -6,6 +6,7 @@ data/photo/*
 data/DoctrineORMModule
 !data/cache/.gitkeep
 !data/photo/.gitkeep
+!data/log/.gitkeep
 docker/mysql/db/*
 !docker/mysql/db/.gitkeep
 composer.phar
