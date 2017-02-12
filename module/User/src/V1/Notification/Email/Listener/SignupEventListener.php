@@ -4,11 +4,14 @@ namespace User\V1\Notification\Email\Listener;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateTrait;
+use Psr\Log\LoggerAwareTrait;
 use User\V1\SignupEvent;
 
 class SignupEventListener extends AbstractListener implements ListenerAggregateInterface
 {
     use ListenerAggregateTrait;
+
+    use LoggerAwareTrait;
 
     /**
      * (non-PHPdoc)
@@ -38,6 +41,16 @@ class SignupEventListener extends AbstractListener implements ListenerAggregateI
                 ->setArguments(['v1', 'user', 'send-welcome-email', $emailAddress, $userActivationKey])
                 ->getProcess();
         $cli->start();
-        return $cli->getPid();
+        $pid = $cli->getPid();
+        $this->logger->log(
+            \Psr\Log\LogLevel::DEBUG,
+            "{function} {pid} {commandline}",
+            [
+                "function" => __FUNCTION__,
+                "commandline" => $cli->getCommandLine(),
+                "pid" => $pid
+            ]
+        );
+        return $pid;
     }
 }

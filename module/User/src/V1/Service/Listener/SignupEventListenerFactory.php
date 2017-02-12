@@ -21,7 +21,7 @@ class SignupEventListenerFactory implements FactoryInterface
             'token_type' => 'Bearer',
             'scope' => null
         ];
-        return new SignupEventListener(
+        $signupEventListener = new SignupEventListener(
             $oauth2AccessToken,
             $userMapper,
             $userProfileMapper,
@@ -30,5 +30,7 @@ class SignupEventListenerFactory implements FactoryInterface
             $refreshTokensMapper,
             $signupEventConfig
         );
+        $signupEventListener->setLogger($container->get("logger_default"));
+        return $signupEventListener;
     }
 }

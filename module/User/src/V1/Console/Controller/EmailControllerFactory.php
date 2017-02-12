@@ -12,6 +12,7 @@ class EmailControllerFactory implements FactoryInterface
         $viewRenderer  = $container->get('ViewRenderer');
         $config = $container->get('Config')['project']['sites'];
         $emailController = new EmailController($viewRenderer, $mailTransport, $config);
+        $emailController->setLogger($container->get("logger_default"));
         $emailController->setWelcomeMailMessage($container->get('user.notification.email.service.welcome'));
         $emailController->setActivationMailMessage($container->get('user.notification.email.service.activation'));
         $emailController->setResetPasswordMailMessage(

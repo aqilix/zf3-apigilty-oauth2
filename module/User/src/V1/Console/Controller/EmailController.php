@@ -10,9 +10,12 @@ use Zend\Mime\Message as MimeMessage;
 use Zend\Mime\Part as MimePart;
 use Zend\Mail\Message as MailMessage;
 use Zend\View\Renderer\RendererInterface as RendererInterface;
+use Psr\Log\LoggerAwareTrait;
 
 class EmailController extends AbstractActionController
 {
+    use LoggerAwareTrait;
+
     /**
      * @var MailMessage
      */
@@ -89,6 +92,14 @@ class EmailController extends AbstractActionController
         $mailMessage->setBody($mimeMessage);
         $mail = $this->getMailTransport();
         $mail->send($mailMessage);
+        $this->logger->log(
+            \Psr\Log\LogLevel::DEBUG,
+            "{function} {emailAddress}",
+            [
+                "function" => __FUNCTION__,
+                "emailAddress" => $emailAddress,
+            ]
+        );
     }
 
     /**

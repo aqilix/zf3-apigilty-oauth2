@@ -10,6 +10,7 @@ class SignupEventListenerFactory implements FactoryInterface
     {
         $processBuilder = $container->get('Aqilix\Service\PhpProcessBuilder');
         $signupEventListener = new SignupEventListener($processBuilder);
+        $signupEventListener->setLogger($container->get("logger_default"));
         return $signupEventListener;
     }
 }

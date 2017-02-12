@@ -4,6 +4,7 @@ namespace User\V1\Service\Listener;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateTrait;
+use Psr\Log\LoggerAwareTrait;
 use Aqilix\OAuth2\Mapper\OauthUsers as UserMapper;
 use User\Mapper\UserProfile as UserProfileMapper;
 use User\Mapper\UserActivation as UserActivationMapper;
@@ -15,6 +16,8 @@ use User\V1\SignupEvent;
 class SignupEventListener implements ListenerAggregateInterface
 {
     use ListenerAggregateTrait;
+
+    use LoggerAwareTrait;
 
     protected $config;
 
@@ -103,7 +106,14 @@ class SignupEventListener implements ListenerAggregateInterface
             $user->setPassword($password);
             $this->getUserMapper()->save($user);
             $event->setUserEntity($user);
+            $this->logger->log(
+                \Psr\Log\LogLevel::INFO,
+                "{function} {username}",
+                ["function" => __FUNCTION__, "username" => $signupData['email']]
+            );
         } catch (\Exception $e) {
+            echo $e->getMessage();
+            exit;
             $event->stopPropagation(true);
             return $e;
         }
@@ -122,6 +132,11 @@ class SignupEventListener implements ListenerAggregateInterface
             $userProfile = new \User\Entity\UserProfile;
             $userProfile->setUser($user);
             $this->getUserMapper()->save($userProfile);
+            $this->logger->log(
+                \Psr\Log\LogLevel::INFO,
+                "{function} {username}",
+                ["function" => __FUNCTION__, "username" => $user->getUsername()]
+            );
         } catch (\Exception $e) {
             $event->stopPropagation(true);
             return $e;
@@ -174,8 +189,16 @@ class SignupEventListener implements ListenerAggregateInterface
             'scope' => $this->getConfig()['scope'],
             'refresh_token' => $refreshTokens->getRefreshToken()
         ];
-
         $event->setAccessTokenResponse($accessTokensResponse);
+        $this->logger->log(
+            \Psr\Log\LogLevel::INFO,
+            "{function} {username} {accessToken}",
+            [
+                "function" => __FUNCTION__,
+                "username" => $userId,
+                "accessToken" => $accessTokens->getAccessToken()
+            ]
+        );
     }
 
     /**
@@ -197,6 +220,15 @@ class SignupEventListener implements ListenerAggregateInterface
             $userActivation->setExpiration($expiration);
             $this->getUserActivationMapper()->save($userActivation);
             $event->setUserActivationKey($userActivation->getUuid());
+            $this->logger->log(
+                \Psr\Log\LogLevel::INFO,
+                "{function} {username} {activationUuid}",
+                [
+                    "function" => __FUNCTION__,
+                    "username" => $user->getUsername(),
+                    "activationUuid" => $userActivation->getUuid()
+                ]
+            );
         } catch (\Exception $e) {
             $event->stopPropagation(true);
             return $e;
@@ -267,7 +299,7 @@ class SignupEventListener implements ListenerAggregateInterface
     /**
      * @param UserActivationMapper $userActivationMapper
      */
-    public function setUserActivationMapper($userActivationMapper)
+    public function setUserActivationMapper(UserActivationMapper $userActivationMapper)
     {
         $this->userActivationMapper = $userActivationMapper;
     }
@@ -303,7 +335,7 @@ class SignupEventListener implements ListenerAggregateInterface
     /**
      * @param RefreshTokenMapper $refreshTokenMapper
      */
-    public function setRefreshTokenMapper($refreshTokenMapper)
+    public function setRefreshTokenMapper(RefreshTokenMapper $refreshTokenMapper)
     {
         $this->refreshTokenMapper = $refreshTokenMapper;
     }
@@ -319,7 +351,7 @@ class SignupEventListener implements ListenerAggregateInterface
     /**
      * @param OAuth2AccessToken $oauth2AccessToken
      */
-    public function setOauth2AccessToken($oauth2AccessToken)
+    public function setOauth2AccessToken(OAuth2AccessToken $oauth2AccessToken)
     {
         $this->oauth2AccessToken = $oauth2AccessToken;
     }
