@@ -10,6 +10,7 @@ class ResetPasswordEventListenerFactory implements FactoryInterface
     {
         $processBuilder = $container->get('Aqilix\Service\PhpProcessBuilder');
         $resetPasswordEventListener = new ResetPasswordEventListener($processBuilder);
+        $resetPasswordEventListener->setLogger($container->get("logger_default"));
         return $resetPasswordEventListener;
     }
 }

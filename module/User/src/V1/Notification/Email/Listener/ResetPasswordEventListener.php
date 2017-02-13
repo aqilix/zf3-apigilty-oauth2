@@ -4,11 +4,14 @@ namespace User\V1\Notification\Email\Listener;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateTrait;
+use Psr\Log\LoggerAwareTrait;
 use User\V1\ResetPasswordEvent;
 
 class ResetPasswordEventListener extends AbstractListener implements ListenerAggregateInterface
 {
     use ListenerAggregateTrait;
+
+    use LoggerAwareTrait;
 
     /**
      * (non-PHPdoc)
@@ -38,5 +41,14 @@ class ResetPasswordEventListener extends AbstractListener implements ListenerAgg
                 ->getProcess();
         $cli->start();
         $pid = $cli->getPid();
+        $this->logger->log(
+            \Psr\Log\LogLevel::DEBUG,
+            "{function} {pid} {commandline}",
+            [
+                "function" => __FUNCTION__,
+                "commandline" => $cli->getCommandLine(),
+                "pid" => $pid
+            ]
+        );
     }
 }

@@ -4,6 +4,7 @@ namespace User\V1\Service\Listener;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateTrait;
+use Psr\Log\LoggerAwareTrait;
 use User\V1\ResetPasswordEvent;
 use User\Mapper\ResetPassword as ResetPasswordMapper;
 use Aqilix\OAuth2\Mapper\OauthUsers as UserMapper;
@@ -11,6 +12,8 @@ use Aqilix\OAuth2\Mapper\OauthUsers as UserMapper;
 class ResetPasswordEventListener implements ListenerAggregateInterface
 {
     use ListenerAggregateTrait;
+
+    use LoggerAwareTrait;
 
     /**
      * @var \User\Mapper\ResetPassword
@@ -60,7 +63,6 @@ class ResetPasswordEventListener implements ListenerAggregateInterface
      */
     public function create(ResetPasswordEvent $event)
     {
-        $mapper = $this->getResetPasswordMapper();
         // @todo retrieve expired from config
         $expiration = new \DateTime();
         $expiration->add(new \DateInterval('P14D'));
@@ -72,6 +74,15 @@ class ResetPasswordEventListener implements ListenerAggregateInterface
             $event->setResetPasswordEntity($resetPassword);
             // set reset password key
             $event->setResetPasswordKey($resetPassword->getUuid());
+            $this->logger->log(
+                \Psr\Log\LogLevel::INFO,
+                "{function} {username} {key}",
+                [
+                    "function" => ResetPasswordEvent::EVENT_RESET_PASSWORD_CONFIRM_EMAIL,
+                    "username" => $event->getUserEntity()->getUsername(),
+                    "key" => $resetPassword->getUuid()
+                ]
+            );
         } catch (\Exception $e) {
             $event->stopPropagation(true);
             return $e;
@@ -110,6 +121,14 @@ class ResetPasswordEventListener implements ListenerAggregateInterface
         $this->getresetPasswordMapper()->save($resetPassword);
         $event->setUserEntity($user);
         $event->setResetPasswordEntity($resetPassword);
+        $this->logger->log(
+            \Psr\Log\LogLevel::INFO,
+            "{function} {username}",
+            [
+                "function" => __FUNCTION__,
+                "username" => $user->getUsername()
+            ]
+        );
     }
 
     /**

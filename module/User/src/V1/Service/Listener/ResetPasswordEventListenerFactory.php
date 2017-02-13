@@ -10,6 +10,8 @@ class ResetPasswordEventListenerFactory implements FactoryInterface
     {
         $resetPasswordMapper = $container->get('User\Mapper\ResetPassword');
         $userMapper = $container->get('Aqilix\OAuth2\Mapper\OauthUsers');
-        return new ResetPasswordEventListener($resetPasswordMapper, $userMapper);
+        $resetPasswordEventListener = new ResetPasswordEventListener($resetPasswordMapper, $userMapper);
+        $resetPasswordEventListener->setLogger($container->get("logger_default"));
+        return $resetPasswordEventListener;
     }
 }
