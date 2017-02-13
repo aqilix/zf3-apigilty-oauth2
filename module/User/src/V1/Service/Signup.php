@@ -3,7 +3,6 @@ namespace User\V1\Service;
 
 use User\V1\SignupEvent;
 use Zend\EventManager\EventManagerAwareTrait;
-use Aqilix\OAuth2\Mapper\OauthUsers as UserMapper;
 
 class Signup
 {
