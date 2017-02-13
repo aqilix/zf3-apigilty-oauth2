@@ -6,6 +6,7 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateTrait;
 use Zend\InputFilter\InputFilterInterface;
 use Zend\InputFilter\Exception\InvalidArgumentException;
+use Psr\Log\LoggerAwareTrait;
 use User\Mapper\UserProfile as UserProfileMapper;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use User\V1\ProfileEvent;
@@ -13,6 +14,8 @@ use User\V1\ProfileEvent;
 class ProfileEventListener implements ListenerAggregateInterface
 {
     use ListenerAggregateTrait;
+
+    use LoggerAwareTrait;
 
     protected $config;
 
@@ -77,6 +80,14 @@ class ProfileEventListener implements ListenerAggregateInterface
             $userProfile = $this->getUserProfileHydrator()->hydrate($updateData, $userProfileEntity);
             $this->getUserProfileMapper()->save($userProfile);
             $event->setUserProfileEntity($userProfile);
+            $this->logger->log(
+                \Psr\Log\LogLevel::INFO,
+                "{function} {username}",
+                [
+                    "function" => __FUNCTION__,
+                    "username" => $userProfileEntity->getUser()->getUsername()
+                ]
+            );
         } catch (\Exception $e) {
             $event->stopPropagation(true);
             return $e;
