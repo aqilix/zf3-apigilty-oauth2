@@ -10,6 +10,7 @@ class ActivationEventListenerFactory implements FactoryInterface
     {
         $processBuilder = $container->get('Aqilix\Service\PhpProcessBuilder');
         $activationEventListener = new ActivationEventListener($processBuilder);
+        $activationEventListener->setLogger($container->get("logger_default"));
         return $activationEventListener;
     }
 }

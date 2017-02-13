@@ -10,6 +10,11 @@ class UserActivationEventListenerFactory implements FactoryInterface
     {
         $userProfileMapper = $container->get('User\Mapper\UserProfile');
         $userActivationProfileMapper = $container->get('User\Mapper\UserActivation');
-        return new UserActivationEventListener($userProfileMapper, $userActivationProfileMapper);
+        $userActivationEventListener = new UserActivationEventListener(
+            $userProfileMapper,
+            $userActivationProfileMapper
+        );
+        $userActivationEventListener->setLogger($container->get("logger_default"));
+        return $userActivationEventListener;
     }
 }

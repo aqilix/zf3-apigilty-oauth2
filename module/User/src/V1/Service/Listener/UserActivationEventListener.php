@@ -4,6 +4,7 @@ namespace User\V1\Service\Listener;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateTrait;
+use Psr\Log\LoggerAwareTrait;
 use User\V1\UserActivationEvent;
 use User\Mapper\UserProfile as UserProfileMapper;
 use User\Mapper\UserActivation as UserActivationMapper;
@@ -11,6 +12,8 @@ use User\Mapper\UserActivation as UserActivationMapper;
 class UserActivationEventListener implements ListenerAggregateInterface
 {
     use ListenerAggregateTrait;
+
+    use LoggerAwareTrait;
 
     /**
      * @var \User\Mapper\UserProfile
@@ -104,6 +107,15 @@ class UserActivationEventListener implements ListenerAggregateInterface
             $userActivation->setActivated(new \DateTime('now'));
             $this->getUserProfileMapper()->save($userProfile);
             $this->getUserActivationMapper()->save($userActivation);
+            $this->logger->log(
+                \Psr\Log\LogLevel::INFO,
+                "{function} {username} {activationUuid}",
+                [
+                    "function" => __FUNCTION__,
+                    "username" => $userActivation->getUser()->getUsername(),
+                    "activationUuid" => $userActivation->getUuid()
+                ]
+            );
         } catch (\Exception $e) {
             $event->stopPropagation(true);
             return $e;
