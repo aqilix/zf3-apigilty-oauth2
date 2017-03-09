@@ -10,6 +10,7 @@ use Psr\Log\LoggerAwareTrait;
 use User\Mapper\UserProfile as UserProfileMapper;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use User\V1\ProfileEvent;
+use Aqilix;
 
 class ProfileEventListener implements ListenerAggregateInterface
 {
@@ -51,6 +52,45 @@ class ProfileEventListener implements ListenerAggregateInterface
             [$this, 'updateProfile'],
             499
         );
+        $this->listeners[] = $events->attach(
+            ProfileEvent::EVENT_UPDATE_PROFILE,
+            [$this, 'resizeProfilePhoto'],
+            498
+        );
+    }
+
+    /**
+     * Resize Profile Photo
+     *
+     * @param ProfileEvent $event
+     */
+    public function resizeProfilePhoto(ProfileEvent $event)
+    {
+        $userProfileEntity = $event->getUserProfileEntity();
+        $updateData = $event->getUpdateData();
+        if (! Aqilix\Image\Resizer::save($updateData["photo"]["tmp_name"], $updateData["photo"]["tmp_name"])) {
+            $this->logger->log(
+                \Psr\Log\LogLevel::ERROR,
+                "{function} {username} {filename}",
+                [
+                    "function" => __FUNCTION__,
+                    "username" => $userProfileEntity->getUser()->getUsername(),
+                    "filename" => $updateData["photo"]["tmp_name"]
+                ]
+            );
+            $event->stopPropagation(true);
+            return new \RuntimeException("Cannot resize profile photo");
+        }
+
+        $this->logger->log(
+            \Psr\Log\LogLevel::INFO,
+            "{function} {username} {filename}",
+            [
+                "function" => __FUNCTION__,
+                "username" => $userProfileEntity->getUser()->getUsername(),
+                "filename" => $updateData["photo"]["tmp_name"]
+            ]
+        );
     }
 
     /**
@@ -89,6 +129,15 @@ class ProfileEventListener implements ListenerAggregateInterface
                 ]
             );
         } catch (\Exception $e) {
+            $this->logger->log(
+                \Psr\Log\LogLevel::ERROR,
+                "{function} {username} {error}",
+                [
+                    "function" => __FUNCTION__,
+                    "username" => $userProfileEntity->getUser()->getUsername(),
+                    "error" => $e->getMessage()
+                ]
+            );
             $event->stopPropagation(true);
             return $e;
         }
