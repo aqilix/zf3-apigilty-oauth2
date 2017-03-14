@@ -68,6 +68,10 @@ class ProfileEventListener implements ListenerAggregateInterface
     {
         $userProfileEntity = $event->getUserProfileEntity();
         $updateData = $event->getUpdateData();
+        if (is_null($updateData["photo"])) {
+            return;
+        }
+
         if (! Aqilix\Image\Resizer::save($updateData["photo"]["tmp_name"], $updateData["photo"]["tmp_name"])) {
             $this->logger->log(
                 \Psr\Log\LogLevel::ERROR,
