@@ -103,21 +103,29 @@ class ProfileEventListener implements ListenerAggregateInterface
     {
         try {
             $userProfileEntity = $event->getUserProfileEntity();
-            $updateData  = $event->getUpdateData();
+            $currentPhoto = $event->getUserProfileEntity()->getPhoto();
+            $updateData   = $event->getUpdateData();
             // add file input filter here
             if (! $event->getInputFilter() instanceof InputFilterInterface) {
                 throw new InvalidArgumentException('Input Filter not set');
             }
 
-            // adding filter for photo
-            $inputPhoto  = $event->getInputFilter()->get('photo');
-            $inputPhoto->getFilterChain()
-                    ->attach(new \Zend\Filter\File\RenameUpload([
-                        'target' => $this->getConfig()['backup_dir'],
-                        'randomize' => true,
-                        'use_upload_extension' => true
-                    ]));
-            $userProfile = $this->getUserProfileHydrator()->hydrate($updateData, $userProfileEntity);
+            if (! is_null($updateData["photo"])) {
+                // adding filter for photo
+                $inputPhoto  = $event->getInputFilter()->get('photo');
+                $inputPhoto->getFilterChain()
+                        ->attach(new \Zend\Filter\File\RenameUpload([
+                            'target' => $this->getConfig()['backup_dir'],
+                            'randomize' => true,
+                            'use_upload_extension' => true
+                        ]));
+                $userProfile = $this->getUserProfileHydrator()->hydrate($updateData, $userProfileEntity);
+            } else {
+                // avoid empty photo uploaded override existing photo
+                $userProfile = $this->getUserProfileHydrator()->hydrate($updateData, $userProfileEntity);
+                $userProfile->setPhoto($currentPhoto);
+            }
+
             $this->getUserProfileMapper()->save($userProfile);
             $event->setUserProfileEntity($userProfile);
             $this->logger->log(
