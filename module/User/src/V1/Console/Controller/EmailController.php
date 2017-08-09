@@ -2,7 +2,7 @@
 namespace User\V1\Console\Controller;
 
 use RuntimeException;
-use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Mvc\Console\Controller\AbstractConsoleController;
 use Zend\Console\Request as ConsoleRequest;
 use Zend\Mail\Transport\TransportInterface;
 use Zend\View\Model\ViewModel;
@@ -12,7 +12,7 @@ use Zend\Mail\Message as MailMessage;
 use Zend\View\Renderer\RendererInterface as RendererInterface;
 use Psr\Log\LoggerAwareTrait;
 
-class EmailController extends AbstractActionController
+class EmailController extends AbstractConsoleController
 {
     use LoggerAwareTrait;
 
