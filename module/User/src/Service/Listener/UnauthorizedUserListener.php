@@ -13,7 +13,7 @@ class UnauthorizedUserListener
     public function __invoke(MvcEvent $mvcEvent)
     {
         $mvcResponse = $mvcEvent->getResponse();
-        if ($mvcResponse->getStatusCode() === \Zend\Http\Response::STATUS_CODE_401) {
+        if ($mvcResponse instanceof \Zend\Http\Response && $mvcResponse->getStatusCode() === \Zend\Http\Response::STATUS_CODE_401) {
             $mvcResponse->getHeaders()->addHeaderLine('Www-Authenticate', 'Bearer realm="Service"');
         }
 
