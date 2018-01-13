@@ -1,14 +1,6 @@
 <?php
 return [
     'doctrine' => [
-        'eventmanager' => [
-            'orm_default' => [
-                'subscribers' => [
-                    // pick any listeners you need
-                    'Gedmo\Timestampable\TimestampableListener',
-                ],
-            ],
-        ],
         'driver' => [
             'user_entity' => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\XmlDriver',
@@ -23,13 +15,6 @@ return [
                 ]
             ]
         ],
-        'configuration' => [
-            'orm_default' => [
-                'filters' => [
-                    'soft-deleteable' => 'Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter'
-                ]
-            ]
-        ]
     ],
     'data-fixture' => [
         'fixtures' => __DIR__ . '/../src/V1/Fixture'
