@@ -1,6 +1,7 @@
 .vagrant/
 vendor/
 config/development.config.php
+data/log/*
 data/cache/*
 data/photo/*
 data/DoctrineORMModule
