@@ -6,6 +6,7 @@ return [
                 'subscribers' => [
                     // pick any listeners you need
                     'Gedmo\Timestampable\TimestampableListener',
+                    'Gedmo\SoftDeleteable\SoftDeleteableListener'
                 ],
             ],
         ],

@@ -14,6 +14,10 @@ class Module
     {
         $serviceManager = $mvcEvent->getApplication()->getServiceManager();
         $eventManager   = $mvcEvent->getApplication()->getEventManager();
+        $em = $serviceManager->get('doctrine.entitymanager.orm_default');
+        // enable soft-deletable
+        $em->getFilters()
+           ->enable('soft-deleteable');
     }
 
     public function getConfig()
